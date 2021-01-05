@@ -1,0 +1,13 @@
+[workspace]
+
+members = [
+    "unforgettable7_common",
+    "unforgettable7",
+    "unforgettable7_server",
+]
+
+
+# Rust does not have yet 2020-12-28 profiles on workspace members projects.
+# I can put it only on the workspace alone, but that is not really what I want.
+[profile.release]
+panic = "abort"

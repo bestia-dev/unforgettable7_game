@@ -1,0 +1,448 @@
+/*region elements - styles across all the elements */
+
+/* roboto-regular - latin-ext_latin locally hosted*/
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    /*font-weight: 400;*/
+    src: local('Roboto'), local('Roboto-Regular'),
+         url('../fonts/roboto-v20-latin-ext_latin-regular.woff2') format('woff2'), 
+         url('../fonts/roboto-v20-latin-ext_latin-regular.woff') format('woff'); 
+}
+
+html { 
+    /*the font-size is very much dependent on the font-family*/
+    font-family: 'Roboto', sans-serif;
+    /*this is a game. All pages except instructions should be not scrollable*/
+    height: 100%;
+    /*this is mobile only portrait only game. Only between 300 and 600px*/
+    max-width: 600px;
+    min-width:300px;
+    width:100%;
+    /*margin auto means centered horizontally*/
+    margin: auto;
+    padding-right: 0px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    word-wrap: break-word;
+    box-sizing: border-box;
+    background-color: #101010;
+    line-height: 1.5;
+    color: #FBF462;
+    user-select: none;
+    /*This is the base font-size. All other font-size 
+    use rem units that are
+    relative to this font-size.*/
+    /*width greater than 600 px*/
+    font-size: 34px;
+    -webkit-font-smoothing: antialiased;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
+}
+
+/*width between 300 and 600 px*/
+@media screen and (max-width: 600px) {
+    html {
+    /*This is the base font-size. All other font-size 
+    use rem units that are
+    relative to this font-size.*/
+    /*The unit vw IS NOT VERY PRECISE !!????!!!*/
+    /*6vw  min 8,9cpl  max 9,1cpl */
+    /*6w - 2px 9,7cpl  max 9,7cpl ok */
+    font-size: calc(6vw - 2px);
+    }
+}
+/*width less than 300px*/
+@media screen and (max-width: 300px) {
+    html {
+    /*This is the base font-size. All other font-size 
+    use rem units that are
+    relative to this font-size.*/
+    font-size: 16px;
+    }
+}
+
+body{
+    background-color: #000000;
+    /*this is a game. All pages except instructions should be not scrollable*/
+    /*this looks funny when the keyboard appears. That smashes all the elements.*/
+    height: 100%;
+    margin: auto;
+}
+
+/*CSS Reset*/
+div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+ margin: 0;
+ padding: 0;
+ border: 0;
+ border-style: none;
+ outline: 0;
+ font-family: 'Roboto', sans-serif;
+ vertical-align: baseline;
+ background: transparent;
+}
+
+/*region: svg elements*/
+svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    fill:yellow;
+    dominant-baseline:middle;
+    text-anchor:middle;
+    /*nothing is clickable by default. It must have the .clickable class*/
+    pointer-events:none;
+}
+
+rect {
+    stroke:#fff;
+    fill-opacity:50;
+    stroke-opacity:50;
+  }
+
+text{
+    /* this let the click go through the element to the lower element. Usually a rect.*/
+    pointer-events:none;
+    text-anchor:middle;
+}
+
+rect.btn{
+    rx:5; 
+    ry:5;
+    width:80%;
+    height:10%;
+    x:10%;
+    pointer-events:fill;
+    fill:green;
+}
+
+.clickable{
+    pointer-events:fill;
+}
+
+.green{
+    fill:green;
+    color: green;
+}
+
+.red{
+    fill:red;
+    color: red;
+}
+
+.yellow{
+    fill:yellow;
+    color: yellow;
+}
+
+.orange{
+    fill:orange;
+    color: orange;
+}
+
+.blue{
+    fill:blue;
+    color: blue;
+}
+
+.bold{
+    font-weight: bold;
+}
+
+rect.rounded{
+    rx:5; 
+    ry:5;
+}
+
+foreignObject{
+    pointer-events:all;
+}
+
+/*endregion: svg elements*/
+
+#div_for_virtual_dom{
+    height: 100%;
+    padding-top: 0.01%;
+    position: relative;
+}
+
+img { 
+    -ms-interpolation-mode: bicubic; 
+    vertical-align: middle;
+    border-style: none;
+    align-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+*,*:before,*:after {
+    box-sizing: inherit;
+}
+
+h1,h2,h3,h4,h5,h6,p,
+.h1,.h2,.h3,.h4,.h5,.h6
+ {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    text-align: center;
+    width:100%;
+}
+
+h1, .h1 {
+    font-size: 2.4rem ;
+}
+
+h2, .h2 {
+    font-size: 2.0rem ;
+}
+
+h3, .h3 {
+    font-size: 1.6rem ;
+}
+
+h4, .h4 {
+    font-size: 1.2rem ;
+}
+
+h5, .h5 {
+    font-size: 1.0rem ;
+}
+
+h6, .h6 {
+    font-size: 0.8rem ;
+}
+
+/*region classes - can be used for many elements*/
+
+img.center{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.m_container {
+    margin-left: auto;
+    margin-right: auto;
+    color: #FBF462 ;
+    fill: #FBF462 ;
+    background-color: #000000 ;
+    width:100%;
+}
+
+/* using simple css-grid for the layout of the game grid */
+.grid_container {
+    display: grid;
+    grid-row-gap: 5px;
+    grid-column-gap: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    width:100%;
+}
+
+.grid_item {
+    text-align: center;
+}
+
+.grid_item_img{
+    align-content: center;
+    vertical-align: middle;
+    width: 100%;
+    height: 100%;
+}
+
+.grid_container_header {
+    display: grid;
+    font-size: 3.6rem ;
+    width:100%;
+}
+
+.grid_container_players {
+    display: grid;
+    font-size: 2.0rem ;
+    width:100%;
+}
+
+.div_clickable {
+    background-color: rgb(0, 0, 0);
+    cursor: pointer;
+}
+
+/*user must click this to continue. It blinks.*/
+.h2_user_must_click{
+    color:green;
+    animation: blinker 1s linear infinite;
+}
+
+/*user can click this, but is not required.*/
+.h2_user_can_click{
+    color:green;
+}
+
+/*user must wait. Cannot click anything.*/
+.h2_user_must_wait{
+    color:red;
+}
+
+/*user must do something*/
+.h2_must_do_something{
+    color:green;
+}
+
+.blink{
+    animation: blinker 1s linear infinite;
+}
+
+/*region css for elements by id - because they are used only one time*/
+
+#card_moniker_left #card_moniker_right #card_moniker_center{
+    white-space:nowrap;
+}
+
+#card_moniker_left{
+    text-align: left;
+    padding-left: 5%;
+}
+
+#card_moniker_right{
+    text-align: right;
+    padding-right: 5%;
+}
+
+#card_moniker_center{
+    text-align: center;
+}
+
+#input_nickname, #input_group_id {
+    width:100%;
+    border: none;
+    margin:auto;
+    display:inline-block;
+    text-align: center;
+    background-color: #212121;
+    color: rgb(252, 255, 77);
+    font-size: 2.0rem ;
+}
+
+#div_fullscreen{
+    background-color: rgb(0, 0, 0);
+    cursor: pointer;
+    background-color: yellow;
+}
+
+#h2_fullscreen{
+    color:#013d01;
+    animation: blinker 1s linear infinite;
+}
+
+/*special instructions*/
+@keyframes blinker {
+    50% {
+      opacity: 0.2;
+    }
+  }
+
+  
+  #big_img {
+    display: none;
+    width: 100%;
+    height: auto;
+    position: absolute;
+    z-index:999;
+    top:0%;
+    left:0%;
+    border: none;
+    animation-name: enlarge;
+    animation-duration: 1.5s; 
+  }
+
+@keyframes enlarge {
+    0% {
+      transform: scale(.20);
+    }
+      100% {
+      transform: scale(1.00);
+    }
+  }
+
+/*web rtc experimental*/
+.small_button {
+        background-color:green;
+        border-radius:8px;
+        border:2px solid yellow;
+        display:inline-block;
+        cursor:pointer;
+        color:white;
+        font-size:0.9rem;
+        padding:10% 20%;
+        margin-top: 10%;
+  }
+
+.input_small{
+    border:none;
+    background-color: darkslategrey ;
+    width:100%;
+    margin:auto;
+    display:inline-block;    
+    color: white;
+    font-size: 0.8rem ;
+    padding-top:5px;
+    padding-bottom:5px;
+    padding-left:20px;
+    padding-right:20px;
+    border-radius: 8px;
+}
+textarea:focus, input:focus{
+    outline: none;
+}
+.center{
+    text-align: center;
+}
+.left{
+    text-align: left;
+}
+.grid-container {
+    display: grid;
+  }
+.grid-item {
+    padding: 1%;
+    text-align: center;
+    justify-items: center;
+    margin-left:10px;
+    margin-right:10px;
+  }
+  .for_button{
+    padding-top: 32%;
+  }
+.messages{
+    display: flex;
+    flex-direction:column;
+    flex-grow: 1;
+    font-size: 0.8rem ;
+  }
+.message{
+    display: flex;
+    width: 80%;
+    flex-direction: column;
+    margin-top: 2%;
+    border-radius: 8px;
+    padding-left: 2%;
+    padding-right: 2%;
+  }
+  .sender1{
+    align-self: flex-end;
+    background: darkslategrey;
+    color: white;
+  }
+  .sender2{
+    align-self: flex-start;
+    background: purple;
+    color: white;
+}
+/* end of webrtc*/

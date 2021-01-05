@@ -1,0 +1,44 @@
+<html>
+
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>template</title>
+  <link rel="stylesheet" href="css/unforgettable7.css">
+</head>
+
+<body>
+  <svg height="100%" width="100%">
+    <template name="grid_item">
+      <div class="grid_item">
+        <!-- experimental: add to vector of templates-->
+        <img class="grid_item_img" src="replace_in_code" id="replace_in_code"
+             style="src:replace_in_code" data-on-click="" />
+      </div>
+    </template>
+    <text x="50%" y="15%" class="h1 clickable orange bold"
+          data-on-click="open_youtube">unForGetTable7</text>
+    <text x="50%" y="30%" class="h2">a drinking game</text>
+    <text x="50%" y="40%" class="h2">to lose memory</text>
+    <text x="50%" y="48%" class="h6">Write your nickname</text>
+
+    <foreignObject x="0%" y="50%" width="100%" height="17%">
+      <input data-t-class="blink_or_not_nickname" class="blink"
+             id="input_nickname" placeholder="nickname"
+             data-t-value="my_nickname" value=""
+             data-on-keyup="nickname_onkeyup" />
+    </foreignObject>
+
+    <rect class="btn" y="68%" data-on-click="start_a_group_onclick" />
+    <text x="50%" y="73.5%" class="h3">Start a group </text>
+
+    <text x="50%" y="80.5%" class="h6">or</text>
+
+    <rect class="btn" y="83%" data-on-click="join_a_group_onclick" />
+    <text x="50%" y="88.5%" class="h3">Join a group</text>
+    <image class="clickable" x="0%" y="95%" height="5%" width="10%"
+           data-on-click="open_menu" href="images/hamburger.png" />
+  </svg>
+</body>
+
+</html>
