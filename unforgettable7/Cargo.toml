@@ -1,6 +1,6 @@
 [package]
 name = "unforgettable7"
-version = "2021.105.1220"
+version = "2021.105.2123"
 authors = ["Luciano Bestia <Luciano.Bestia@gmail.com>"]
 edition = "2018"
 description = "don't forget to drinking game"
@@ -41,7 +41,7 @@ js-sys = "0.3.39"
 serde = "1.0.107"
 serde_derive ="1.0.107"
 serde_json = "1.0.52"
-#udep futures = "0.3.1"
+futures = "0.3.8"
 # newer futures have unstable .await
 wasm-bindgen-futures = "0.4.12"
 #log = "0.4.8"

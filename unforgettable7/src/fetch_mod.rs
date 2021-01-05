@@ -3,6 +3,8 @@
 
 // region: use
 use crate::*;
+use crate::call_on_next_tick_mod::*;
+use futures::Future;
 use unwrap::unwrap;
 use wasm_bindgen_futures::spawn_local;
 use dodrio::VdomWeak;
@@ -10,103 +12,146 @@ use dodrio::VdomWeak;
 
 /// async fetch for gameconfig.json and update rrc
 pub fn async_fetch_game_config_and_update(rrc: &mut RootRenderingComponent, vdom: VdomWeak) {
-    let url_config = format!(
+    let url = format!(
         "{}/content/{}/game_config.json",
         rrc.web_data.href, rrc.game_data.game_name
     );
-    spawn_local({
-        let vdom_on_next_tick = vdom.clone();
-        async move {
-            let respbody = websysmod::fetch_response(url_config).await;
-            let json = unwrap!(serde_json::from_str(respbody.as_str()));
-            // websysmod::debug_write(format!("respbody: {}", respbody).as_str());
-            unwrap!(
-                vdom_on_next_tick
-                    .with_component({
-                        move |root| {
-                            let rrc = root.unwrap_mut::<RootRenderingComponent>();
-                            rrc.game_data.game_config = json;
-                        }
-                    })
-                    .await
-            );
-        }
-    });
+
+    /// boilerplate: futures must be pinned and boxed
+    fn fetch_response_pinned_future(
+        url: String,
+    ) -> std::pin::Pin<Box<dyn Future<Output = String>>> {
+        Box::pin(fetch_response_future(url))
+    }
+
+    /// async fn returns impl Future<Output = String>
+    async fn fetch_response_future(url: String) -> String {
+        let respbody = websysmod::fetch_response(url).await;
+        // return
+        respbody
+    }
+
+    /// set rrc game data game config
+    fn set_rrc_game_data_game_config(rrc: &mut RootRenderingComponent, respbody: String) {
+        let json = unwrap!(serde_json::from_str(respbody.as_str()));
+        rrc.game_data.game_config = json;
+    }
+
+    call_on_next_tick_5(
+        vdom.clone(),
+        &fetch_response_pinned_future,
+        &set_rrc_game_data_game_config,
+        url,
+    );
 }
+
 
 /// async fetch for gamesmetadata.json and update rrc
 pub fn fetch_games_metadata_and_update(href: &str, vdom: VdomWeak) {
-    let url_config = format!("{}/content/gamesmetadata.json", href);
-    spawn_local({
-        let vdom_on_next_tick = vdom.clone();
-        async move {
-            // websysmod::debug_write(format!("respbody: {}", respbody).as_str());
-            let respbody = websysmod::fetch_response(url_config).await;
-            let v: game_data_mod::GamesMetadata = unwrap!(serde_json::from_str(&respbody));
-            unwrap!(
-                vdom_on_next_tick
-                    .with_component({
-                        move |root| {
-                            let rrc = root.unwrap_mut::<RootRenderingComponent>();
-                            // fill the vector
-                            rrc.game_data.content_folders.clear();
-                            for x in &v.vec_game_metadata {
-                                rrc.game_data.content_folders.push(x.folder.clone());
-                            }
-                            rrc.game_data.games_metadata = Some(v);
-                        }
-                    })
-                    .await
-            );
+    let url = format!("{}/content/gamesmetadata.json", href);
+
+    /// boilerplate: futures must be pinned and boxed
+    fn fetch_metadata_pinned_future(
+        url: String,
+    ) -> std::pin::Pin<Box<dyn Future<Output = crate::game_data_mod::GamesMetadata>>> {
+        Box::pin(fetch_metadata_future(url))
+    }
+
+    /// async fn returns impl Future<Output = crate::game_data_mod::GamesMetadata>
+    pub async fn fetch_metadata_future(url: String) -> crate::game_data_mod::GamesMetadata {
+        let respbody = websysmod::fetch_response(url).await;
+        let v: game_data_mod::GamesMetadata = unwrap!(serde_json::from_str(&respbody));
+        // return
+        v
+    }
+
+    /// set rrc game data games_metadata
+    pub fn set_rrc_game_data_games_metadata(rrc: &mut RootRenderingComponent, v: game_data_mod::GamesMetadata) {
+        // fill the vector
+        rrc.game_data.content_folders.clear();
+        for x in &v.vec_game_metadata {
+            rrc.game_data.content_folders.push(x.folder.clone());
         }
-    });
+        rrc.game_data.games_metadata = Some(v);
+    }
+
+    call_on_next_tick_6(
+        vdom.clone(),
+        &fetch_metadata_pinned_future,
+        &set_rrc_game_data_games_metadata,
+        url,
+    );
 }
+
+
 
 /// async fetch for videos.json and update rrc
 pub fn fetch_videos_and_update(href: &str, vdom: VdomWeak) {
     let url = format!("{}/content/videos.json", href);
-    spawn_local({
-        let vdom_on_next_tick = vdom.clone();
-        async move {
-            let respbody = websysmod::fetch_response(url).await;
-            let vid_json: game_data_mod::Videos = unwrap!(serde_json::from_str(&respbody));
-            unwrap!(
-                vdom_on_next_tick
-                    .with_component({
-                        move |root| {
-                            let rrc = root.unwrap_mut::<RootRenderingComponent>();
-                            // fill the vector
-                            rrc.game_data.videos = vid_json.videos;
-                        }
-                    })
-                    .await
-            );
-        }
-    });
+
+    /// boilerplate: futures must be pinned and boxed
+    fn fetch_videos_pinned_future(
+        url: String,
+    ) -> std::pin::Pin<Box<dyn Future<Output = crate::game_data_mod::Videos>>> {
+        Box::pin(fetch_videos_future(url))
+    }
+
+    /// async fn returns impl Future<Output = crate::game_data_mod::Videos>
+    pub async fn fetch_videos_future(url: String) -> crate::game_data_mod::Videos {
+        let respbody = websysmod::fetch_response(url).await;
+        let vid_json: crate::game_data_mod::Videos = unwrap!(serde_json::from_str(&respbody));
+        // return
+        vid_json
+    }
+
+    /// set rrc game data videos
+    pub fn set_rrc_game_data_games_videos(rrc: &mut RootRenderingComponent, vid_json: crate::game_data_mod::Videos) {
+        // fill the vector
+        rrc.game_data.videos = vid_json.videos;
+    }
+
+    call_on_next_tick_7(
+        vdom.clone(),
+        &fetch_videos_pinned_future,
+        &set_rrc_game_data_games_videos,
+        url,
+    );
 }
+
 
 /// async fetch for audio.json and update rrc
 pub fn fetch_audio_and_update(href: &str, vdom: VdomWeak) {
     let url = format!("{}/content/audio.json", href);
-    spawn_local({
-        let vdom_on_next_tick = vdom.clone();
-        async move {
-            let respbody = websysmod::fetch_response(url).await;
-            let aud_json: game_data_mod::Audio = unwrap!(serde_json::from_str(&respbody));
-            unwrap!(
-                vdom_on_next_tick
-                    .with_component({
-                        move |root| {
-                            let rrc = root.unwrap_mut::<RootRenderingComponent>();
-                            // fill the vector
-                            rrc.game_data.audio = aud_json.audio;
-                        }
-                    })
-                    .await
-            );
-        }
-    });
+
+    /// boilerplate: futures must be pinned and boxed
+    fn fetch_audio_pinned_future(
+        url: String,
+    ) -> std::pin::Pin<Box<dyn Future<Output = crate::game_data_mod::Audio>>> {
+        Box::pin(fetch_audio_future(url))
+    }
+
+    /// async fn returns impl Future<Output = crate::game_data_mod::Audio>
+    pub async fn fetch_audio_future(url: String) -> crate::game_data_mod::Audio {
+        let respbody = websysmod::fetch_response(url).await;
+        let aud_json: game_data_mod::Audio = unwrap!(serde_json::from_str(&respbody));
+        // return
+        aud_json
+    }
+
+    /// set rrc game data audio
+    pub fn set_rrc_game_data_games_audio(rrc: &mut RootRenderingComponent, aud_json: crate::game_data_mod::Audio) {
+        // fill the vector
+        rrc.game_data.audio = aud_json.audio;
+    }
+
+    call_on_next_tick_8(
+        vdom.clone(),
+        &fetch_audio_pinned_future,
+        &set_rrc_game_data_games_audio,
+        url,
+    );
 }
+
 
 /// fetch all imgs for the cache
 #[allow(clippy::needless_pass_by_value)]

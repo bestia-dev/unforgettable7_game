@@ -10,6 +10,7 @@
     "cSpell.words": [
         "Fugget",
         "ackmsgmod",
+        "bumpalo",
         "cardfacedown",
         "columnsdelimiter",
         "conv",
@@ -46,6 +47,7 @@
         "nicknamemod",
         "onicecandidate",
         "playingcards",
+        "respbody",
         "rootrenderingcomponentmod",
         "routerimplmod",
         "routermod",

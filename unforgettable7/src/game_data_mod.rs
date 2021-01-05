@@ -511,5 +511,3 @@ impl GameData {
         unwrap!(self.card_grid_data.get_mut(self.card_index_of_2nd_click))
     }
 }
-
-

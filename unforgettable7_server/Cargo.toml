@@ -1,6 +1,6 @@
 [package]
 name = "unforgettable7_server"
-version = "2021.105.1136" #no need for semver if it is not a library
+version = "2021.105.1341" #no need for semver if it is not a library
 description = "server for the game unforgettable7 http + WebSocket on the same port"
 authors = ["Luciano Bestia"]
 edition = "2018"

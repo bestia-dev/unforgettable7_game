@@ -5,7 +5,7 @@
     html_logo_url = "https://github.com/LucianoBestia/unforgettable7_game/raw/master/webfolder/unforgettable7/images/icons-192.png"
 )]
 // region: lmake_readme include "readme.md" //! A
-//! # unForGetTable7  (development name: unforgettable7)
+//! # unForGetTable7
 //!
 //! version: 2020.225.1404  
 //!
@@ -291,13 +291,11 @@ mod webrtc_impl_mod;
 use crate::root_rendering_component_mod::RootRenderingComponent;
 use crate::game_data_mod::*;
 
-use rust_wasm_dodrio_templating::*;
 use rust_wasm_websys_utils::*;
 //use rust_wasm_websocket::*;
 
 // use unwrap::unwrap;
 use wasm_bindgen::prelude::*;
-use dodrio::VdomWeak;
 
 #[wasm_bindgen(start)]
 #[allow(clippy::shadow_same)]
@@ -322,20 +320,14 @@ pub fn wasm_bindgen_start() -> Result<(), JsValue> {
     let vdom_object = dodrio::Vdom::new(&div_for_virtual_dom, rrc);
     let vdom = vdom_object.weak();
 
-    /*
-    // experimenting with function wrappers because of async
-    crate::call_on_next_tick_mod::debug_1_todo();
-    // parameter passed is a function
-    crate::call_on_next_tick_mod::call_on_next_tick_1(vdom.clone(),& crate::call_on_next_tick_mod::debug_1_todo);
-    */
-
     // async fetch_response() for gamesmetadata.json
     fetch_mod::fetch_games_metadata_and_update(&location_href, vdom.clone());
     fetch_mod::fetch_videos_and_update(&location_href, vdom.clone());
     fetch_mod::fetch_audio_and_update(&location_href, vdom.clone());
     // Start the URL router.
+    let router = crate::router_impl_mod::Router::new();
+    // import the trait in scope to make methods available
     use rust_wasm_dodrio_router::router_mod::RouterTrait;
-    let router = router_impl_mod::Router::new();
     router.start_router(vdom.clone());
 
     // Run the component forever. Forget to drop the memory.
@@ -343,4 +335,3 @@ pub fn wasm_bindgen_start() -> Result<(), JsValue> {
 
     Ok(())
 }
-

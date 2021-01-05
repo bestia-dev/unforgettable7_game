@@ -5,7 +5,7 @@
 use crate::*;
 use wasm_bindgen::JsCast; // don't remove this. It is needed for dyn_into.
 use unwrap::unwrap;
-use web_sys::{Event,KeyboardEvent};
+use web_sys::{Event, KeyboardEvent};
 
 // region: my_ws_uid
 /// save my_ws_uid to session storage so we can restart the game and preserve the ws_uid

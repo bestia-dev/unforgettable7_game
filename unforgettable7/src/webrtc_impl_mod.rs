@@ -5,15 +5,13 @@
 use crate::*;
 //for trait rrc.render_template
 use rust_wasm_dodrio_templating::html_template_mod::HtmlTemplating;
-use rust_wasm_webrtc::webrtcmod::{WebRtcTrait,ChatMessage};
+use rust_wasm_webrtc::webrtcmod::{WebRtcTrait, ChatMessage};
 
 use unwrap::unwrap;
 use wasm_bindgen::{JsCast};
 //use wasm_bindgen_futures::spawn_local;
 use dodrio::{RenderContext, Node, VdomWeak, RootRender};
-use web_sys::{Event,WebSocket,KeyboardEvent,
-    RtcPeerConnection, RtcDataChannel, 
-};
+use web_sys::{Event, WebSocket, KeyboardEvent, RtcPeerConnection, RtcDataChannel};
 // endregion
 
 /// game data
@@ -59,58 +57,64 @@ impl WebRtcData {
         }
     }
     /// send msg over ws
-    pub fn send_ws_msg_from_webrtc(&self, ws_message: &websocket_boiler_mod::WsMessageForReceivers) {
-        let json_message=unwrap!(serde_json::to_string(ws_message));
+    pub fn send_ws_msg_from_webrtc(
+        &self,
+        ws_message: &websocket_boiler_mod::WsMessageForReceivers,
+    ) {
+        let json_message = unwrap!(serde_json::to_string(ws_message));
         use rust_wasm_websocket::websocketmod::{WebSocketTrait};
-        websocket_boiler_mod::WebSocketData::ws_send_msg_with_retry(unwrap!(self.rtc_ws.as_ref()), json_message);
+        websocket_boiler_mod::WebSocketData::ws_send_msg_with_retry(
+            unwrap!(self.rtc_ws.as_ref()),
+            json_message,
+        );
     }
 }
 
 impl WebRtcTrait for WebRtcData {
     // region: getter setter
-    fn get_rtc_ws(&self)->&WebSocket{
+    fn get_rtc_ws(&self) -> &WebSocket {
         unwrap!(self.rtc_ws.as_ref())
     }
-    fn set_rtc_ws(&mut self,ws:WebSocket){
-        self.rtc_ws=Some(ws);
+    fn set_rtc_ws(&mut self, ws: WebSocket) {
+        self.rtc_ws = Some(ws);
     }
-    fn get_rtc_my_ws_uid(&self)->usize{
+    fn get_rtc_my_ws_uid(&self) -> usize {
         self.rtc_my_ws_uid
     }
-    fn get_rtc_receiver_ws_uid(&self)->usize{
+    fn get_rtc_receiver_ws_uid(&self) -> usize {
         self.rtc_receiver_ws_uid
     }
-    fn set_rtc_receiver_ws_uid(&mut self, ws_uid:usize){
-        self.rtc_receiver_ws_uid=ws_uid;
+    fn set_rtc_receiver_ws_uid(&mut self, ws_uid: usize) {
+        self.rtc_receiver_ws_uid = ws_uid;
     }
-    fn get_rtc_peer_connection(&self)->RtcPeerConnection{
+    fn get_rtc_peer_connection(&self) -> RtcPeerConnection {
         self.rtc_peer_connection.as_ref().unwrap().clone()
     }
-    fn set_rtc_peer_connection(&mut self,rpc:RtcPeerConnection){
-        self.rtc_peer_connection=Some(rpc);
+    fn set_rtc_peer_connection(&mut self, rpc: RtcPeerConnection) {
+        self.rtc_peer_connection = Some(rpc);
     }
-    fn set_rtc_data_channel(&mut self, channel:RtcDataChannel){
-        self.rtc_data_channel=Some(channel);
+    fn set_rtc_data_channel(&mut self, channel: RtcDataChannel) {
+        self.rtc_data_channel = Some(channel);
     }
-    fn set_rtc_is_data_channel_open(&mut self,is_open:bool){
-        self.rtc_is_data_channel_open=is_open;
+    fn set_rtc_is_data_channel_open(&mut self, is_open: bool) {
+        self.rtc_is_data_channel_open = is_open;
     }
-    fn get_rtc_accepted_call(&self)->bool{
+    fn get_rtc_accepted_call(&self) -> bool {
         self.rtc_accepted_call
     }
-    fn set_rtc_accepted_call(&mut self,accepted:bool){
-        self.rtc_accepted_call=accepted;
+    fn set_rtc_accepted_call(&mut self, accepted: bool) {
+        self.rtc_accepted_call = accepted;
     }
-    fn get_mut_rtc_chat(&mut self)->&mut Vec<ChatMessage>{
+    fn get_mut_rtc_chat(&mut self) -> &mut Vec<ChatMessage> {
         &mut self.rtc_chat
     }
-    fn get_rtc_ice_queue(&self)->&Vec<String>{
+    fn get_rtc_ice_queue(&self) -> &Vec<String> {
         &self.rtc_ice_queue
     }
-    fn get_mut_rtc_ice_queue(&mut self)->&mut Vec<String>{
+    fn get_mut_rtc_ice_queue(&mut self) -> &mut Vec<String> {
         &mut self.rtc_ice_queue
     }
-    fn get_rtc_data_channel(&self)->&RtcDataChannel{
+    fn get_rtc_data_channel(&self) -> &RtcDataChannel {
         unwrap!(self.rtc_data_channel.as_ref())
     }
     // endregion: getter setter
@@ -136,7 +140,7 @@ impl WebRtcTrait for WebRtcData {
     fn web_rtc_send_answer(&self, sdp: String) {
         //websysmod::debug_write("web_rtc_send_answer()");
         let msg_receivers_json =
-        websysmod::prepare_json_msg_receivers_for_one(self.get_rtc_receiver_ws_uid());
+            websysmod::prepare_json_msg_receivers_for_one(self.get_rtc_receiver_ws_uid());
 
         let msg = websocket_boiler_mod::WsMessageForReceivers {
             msg_sender_ws_uid: self.get_rtc_my_ws_uid(),
@@ -150,7 +154,7 @@ impl WebRtcTrait for WebRtcData {
         for sdp in self.get_rtc_ice_queue() {
             //websysmod::debug_write("web_rtc_send_ice_candidate()");
             let msg_receivers_json =
-            websysmod::prepare_json_msg_receivers_for_one(self.get_rtc_receiver_ws_uid());
+                websysmod::prepare_json_msg_receivers_for_one(self.get_rtc_receiver_ws_uid());
             let sdp = sdp.to_string();
             let msg = websocket_boiler_mod::WsMessageForReceivers {
                 msg_sender_ws_uid: self.get_rtc_my_ws_uid(),
@@ -175,18 +179,15 @@ pub fn web_rtc_receiver_ws_uid_onkeyup(
         //websysmod::debug_write(&keyboard_event.key());
         if keyboard_event.key() == "Enter" {
             // same as button click
-            rrc.web_data.web_rtc_data
+            rrc.web_data
+                .web_rtc_data
                 .web_rtc_start(vdom, unwrap!(rrc.web_data.websocket_data.ws.clone()));
         }
     }
 }
 
 /// on key up only for Enter
-pub fn web_rtc_chat_text_onkeyup(
-    vdom: VdomWeak,
-    rrc: &mut RootRenderingComponent,
-    event: Event,
-) {
+pub fn web_rtc_chat_text_onkeyup(vdom: VdomWeak, rrc: &mut RootRenderingComponent, event: Event) {
     let keyboard_event = event.dyn_into::<KeyboardEvent>();
     //websysmod::debug_write(&format!("on key up: {:?}",&keyboard_event));
     if let Ok(keyboard_event) = keyboard_event {
@@ -217,8 +218,11 @@ pub fn web_rtc_div_messages<'a>(
             let template_name = format!("message_sender{}", chat_msg.sender);
             let mut html_template = rrc.web_data.get_sub_template(&template_name);
             html_template = html_template.replace("replace_in_code_with_msg", &chat_msg.msg);
-            let node =
-                unwrap!(rrc.render_template(cx, &html_template, rust_wasm_dodrio_templating::html_template_mod::HtmlOrSvg::Html));
+            let node = unwrap!(rrc.render_template(
+                cx,
+                &html_template,
+                rust_wasm_dodrio_templating::html_template_mod::HtmlOrSvg::Html
+            ));
             vec_nodes.push(node);
             if index == 0 {
                 break;

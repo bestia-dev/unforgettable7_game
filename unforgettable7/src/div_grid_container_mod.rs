@@ -57,7 +57,11 @@ pub fn div_grid_container<'a>(
         .replace("src:replace_in_code_container_style", &container_style);
 
     // return grid_container
-    unwrap!(rrc.render_template(cx, &html_template, rust_wasm_dodrio_templating::html_template_mod::HtmlOrSvg::Html))
+    unwrap!(rrc.render_template(
+        cx,
+        &html_template,
+        rust_wasm_dodrio_templating::html_template_mod::HtmlOrSvg::Html
+    ))
 }
 
 /// prepare a vector<Node> for the Virtual Dom for 'css grid' item with <img>
@@ -84,7 +88,7 @@ pub fn div_grid_all_items<'a>(
             let index: usize = x;
             // region: prepare variables and closures for inserting into vdom
             let img_src = match unwrap!(game_data.card_grid_data.get(index)).status {
-                CardStatusCardFace::Down => bumpalo::format!(in bump, 
+                CardStatusCardFace::Down => bumpalo::format!(in bump,
                 "content/{}/{}",
                 game_data.game_name,
                 SRC_FOR_CARD_FACE_DOWN)
@@ -155,7 +159,11 @@ pub fn render_template_grid_item<'a>(
         .replace("src:replace_in_code_img_style", &img_style)
         .replace("on_click_img", on_click_img);
     //websysmod::debug_write(&html_template);
-    unwrap!(rrc.render_template(cx, &html_template, rust_wasm_dodrio_templating::html_template_mod::HtmlOrSvg::Html))
+    unwrap!(rrc.render_template(
+        cx,
+        &html_template,
+        rust_wasm_dodrio_templating::html_template_mod::HtmlOrSvg::Html
+    ))
 }
 
 /// play sound mp3

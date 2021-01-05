@@ -17,5 +17,9 @@ pub fn div_waiting_ack_msg<'a>(
     cx: &mut RenderContext<'a>,
 ) -> Node<'a> {
     let html_template = rrc.web_data.get_sub_template("slow_network");
-    unwrap!(rrc.render_template(cx, &html_template, rust_wasm_dodrio_templating::html_template_mod::HtmlOrSvg::Html))
+    unwrap!(rrc.render_template(
+        cx,
+        &html_template,
+        rust_wasm_dodrio_templating::html_template_mod::HtmlOrSvg::Html
+    ))
 }

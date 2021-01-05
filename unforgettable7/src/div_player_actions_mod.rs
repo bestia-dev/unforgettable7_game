@@ -31,5 +31,9 @@ fn div_unpredicted<'a>(rrc: &RootRenderingComponent, cx: &mut RenderContext<'a>)
     gamestatus: <!--t=game_status--> one, player<!--t=my_player_number--> Nick
     </h2>"#;
     // return
-    unwrap!(rrc.render_template(cx, html_template, rust_wasm_dodrio_templating::html_template_mod::HtmlOrSvg::Html))
+    unwrap!(rrc.render_template(
+        cx,
+        html_template,
+        rust_wasm_dodrio_templating::html_template_mod::HtmlOrSvg::Html
+    ))
 }

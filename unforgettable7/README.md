@@ -1,4 +1,4 @@
-# unForGetTable7  (development name: unforgettable7)
+# unForGetTable7
 
 [comment]: # (lmake_readme cargo.toml data start)
 

@@ -52,11 +52,13 @@ pub fn send_msg_and_write_in_queue(
     for player in &rrc.game_data.players {
         if player.ws_uid != rrc.web_data.my_ws_uid {
             let msg_for_loop = msg.clone();
-            rrc.web_data.msgs_waiting_ack.push(web_data_mod::MsgInQueue {
-                player_ws_uid: player.ws_uid,
-                msg_id,
-                msg: msg_for_loop,
-            });
+            rrc.web_data
+                .msgs_waiting_ack
+                .push(web_data_mod::MsgInQueue {
+                    player_ws_uid: player.ws_uid,
+                    msg_id,
+                    msg: msg_for_loop,
+                });
         }
     }
     rrc.web_data.send_ws_msg_from_web_data(msg);

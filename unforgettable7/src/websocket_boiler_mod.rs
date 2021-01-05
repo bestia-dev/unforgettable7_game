@@ -12,9 +12,9 @@ use rust_wasm_websocket::websocketmod::{WebSocketTrait};
 
 use unwrap::unwrap;
 use wasm_bindgen_futures::spawn_local;
-use web_sys::{ WebSocket};
+use web_sys::{WebSocket};
 use serde_derive::{Serialize, Deserialize};
-use dodrio::{VdomWeak,RootRender};
+use dodrio::{VdomWeak, RootRender};
 // endregion
 
 /// message for receivers
@@ -29,8 +29,8 @@ pub struct WsMessageForReceivers {
     pub msg_data: WsMessageGameData,
 }
 
-#[derive( Clone)]
-pub struct WebSocketData{
+#[derive(Clone)]
+pub struct WebSocketData {
     /// web socket communication between players
     pub ws: Option<WebSocket>,
 }
@@ -39,17 +39,17 @@ impl WebSocketData {
     /// constructor
     pub fn new() -> Self {
         // return from constructor
-        Self {ws:None}
+        Self { ws: None }
     }
 }
 
 impl WebSocketTrait for WebSocketData {
     // region: getter setter
-    fn get_ws_clone(&self)->WebSocket{
+    fn get_ws_clone(&self) -> WebSocket {
         unwrap!(self.ws.clone())
     }
-    fn set_ws(&mut self,ws:WebSocket){
-        self.ws=Some(ws);
+    fn set_ws(&mut self, ws: WebSocket) {
+        self.ws = Some(ws);
     }
     // endregion getter setter
     /// msg response with ws_uid, just to check.
@@ -59,7 +59,7 @@ impl WebSocketTrait for WebSocketData {
             rrc.web_data.error_text = "my_ws_uid is incorrect!".to_string();
         }
     }
-    fn on_msg_recv_for_ws_message_for_receivers( vdom: VdomWeak,data:String) {
+    fn on_msg_recv_for_ws_message_for_receivers(vdom: VdomWeak, data: String) {
         // msg from ws clients (players)
         // serde_json can find out the variant of WsMessage
         // parse json and put data in the enum
@@ -75,7 +75,7 @@ impl WebSocketTrait for WebSocketData {
                             let vdom = vdom_on_next_tick.clone();
                             move |root| {
                                 let rrc = root.unwrap_mut::<RootRenderingComponent>();
-                                websocket_spec_mod::match_msg_and_call_function(vdom,rrc,msg);
+                                websocket_spec_mod::match_msg_and_call_function(vdom, rrc, msg);
                             }
                         })
                         .await;
@@ -85,11 +85,11 @@ impl WebSocketTrait for WebSocketData {
             //unknown message
         }
     }
-    fn update_on_error(root:&mut dyn RootRender,err_text:String){
+    fn update_on_error(root: &mut dyn RootRender, err_text: String) {
         let rrc = root.unwrap_mut::<RootRenderingComponent>();
         rrc.web_data.error_text = err_text;
     }
-    fn update_on_close(root:&mut dyn RootRender){
+    fn update_on_close(root: &mut dyn RootRender) {
         let rrc = root.unwrap_mut::<RootRenderingComponent>();
         // I want to show a reconnect button to the user
         rrc.web_data.is_reconnect = true;

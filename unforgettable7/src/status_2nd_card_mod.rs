@@ -154,7 +154,11 @@ pub fn div_click_2nd_card<'a>(
         "action_1st_2nd_not_turn"
     };
     let html_template = rrc.web_data.get_sub_template(template_name);
-    unwrap!(rrc.render_template(cx, &html_template, rust_wasm_dodrio_templating::html_template_mod::HtmlOrSvg::Html))
+    unwrap!(rrc.render_template(
+        cx,
+        &html_template,
+        rust_wasm_dodrio_templating::html_template_mod::HtmlOrSvg::Html
+    ))
 }
 
 /// on click for img in status 2

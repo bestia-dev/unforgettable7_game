@@ -124,7 +124,7 @@ If JavaScript is disabled, also wasm cannot run.
     router.start_router(vdom.clone());
 #//----------------------- selection end -----------------------
 ```
-### set_file_name_to_fetch_from_dodrio
+### set_file_name_to_fetch
 The location_hash (url hash) `ex. #p04` defines a `file_name_to_fetch`. This is the name of the html template to fetch from the web server. Than it is prepared and saved in html_template sub_templates fields.
 The data in the struct is prepared, finally we call `vdom.schedule_render();`.
 
@@ -134,14 +134,14 @@ The data in the struct is prepared, finally we call `vdom.schedule_render();`.
         &self.file_name_to_fetch
     }
     /// get rrc.file_name_to_fetch
-    fn get_file_name_to_fetch_from_dodrio(root: &mut dyn dodrio::RootRender) -> &str {
+    fn get_file_name_to_fetch(root: &mut dyn dodrio::RootRender) -> &str {
         let rrc = root.unwrap_mut::<RootRenderingComponent>();
         &rrc.router_data.file_name_to_fetch
     }
 
     /// update file_name_to_fetch with filenames dependent on location_hash.
 #//---------------------- selection start ----------------------
-    fn set_file_name_to_fetch_from_dodrio(
+    fn set_file_name_to_fetch(
 #//----------------------- selection end -----------------------
 ```
 ### render()

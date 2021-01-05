@@ -90,13 +90,22 @@ impl WebData {
     pub fn start_websocket(&mut self, vdom: VdomWeak) {
         let (location_href, _href_hash) = websysmod::get_url_and_hash();
         //let websocket_data = websocket_boiler_mod::WebSocketData::new();
-        let ws = self.websocket_data.setup_ws_connection(location_href.clone(), self.my_ws_uid,"unforgettable7_ws");
+        let ws = self.websocket_data.setup_ws_connection(
+            location_href.clone(),
+            self.my_ws_uid,
+            "unforgettable7_ws",
+        );
         websocket_boiler_mod::WebSocketData::setup_all_ws_events(&ws, vdom);
     }
     /// send msg over ws
-    pub fn send_ws_msg_from_web_data(&self, ws_message: &websocket_boiler_mod::WsMessageForReceivers) {
+    pub fn send_ws_msg_from_web_data(
+        &self,
+        ws_message: &websocket_boiler_mod::WsMessageForReceivers,
+    ) {
         let json_message = unwrap!(serde_json::to_string(ws_message));
-        websocket_boiler_mod::WebSocketData::ws_send_msg_with_retry(unwrap!(self.websocket_data.ws.as_ref()), json_message);
+        websocket_boiler_mod::WebSocketData::ws_send_msg_with_retry(
+            unwrap!(self.websocket_data.ws.as_ref()),
+            json_message,
+        );
     }
 }
-    

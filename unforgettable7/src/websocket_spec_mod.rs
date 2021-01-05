@@ -11,16 +11,17 @@ use rust_wasm_webrtc::webrtcmod::{WebRtcTrait};
 use dodrio::{VdomWeak};
 // endregion
 
-pub fn match_msg_and_call_function( vdom: VdomWeak,rrc:&mut RootRenderingComponent,msg: websocket_boiler_mod::WsMessageForReceivers) {
+pub fn match_msg_and_call_function(
+    vdom: VdomWeak,
+    rrc: &mut RootRenderingComponent,
+    msg: websocket_boiler_mod::WsMessageForReceivers,
+) {
     match msg.msg_data {
-        WsMessageGameData::MsgJoin {
-            my_nickname,
-        } => {
+        WsMessageGameData::MsgJoin { my_nickname } => {
             status_joined_mod::on_msg_joined(rrc, msg.msg_sender_ws_uid, my_nickname);
             vdom.schedule_render();
         }
         WsMessageGameData::MsgStartGame {
-            
             card_grid_data,
             game_config,
             players,
@@ -39,7 +40,6 @@ pub fn match_msg_and_call_function( vdom: VdomWeak,rrc:&mut RootRenderingCompone
             vdom.schedule_render();
         }
         WsMessageGameData::MsgClick1stCard {
-            
             card_index_of_1st_click,
             msg_id,
         } => {
@@ -66,70 +66,56 @@ pub fn match_msg_and_call_function( vdom: VdomWeak,rrc:&mut RootRenderingCompone
             );
             vdom.schedule_render();
         }
-        WsMessageGameData::MsgDrinkEnd {
-            
-        } => {
+        WsMessageGameData::MsgDrinkEnd {} => {
             status_drink_mod::on_msg_drink_end(rrc, msg.msg_sender_ws_uid, vdom.clone());
             vdom.schedule_render();
         }
-        WsMessageGameData::MsgTakeTurn {
-            
-            
-            msg_id,
-        } => {
+        WsMessageGameData::MsgTakeTurn { msg_id } => {
             status_take_turn_mod::on_msg_take_turn(rrc, msg.msg_sender_ws_uid, msg_id);
             vdom.schedule_render();
         }
-        WsMessageGameData::MsgGameOver {
-            
-        } => {
+        WsMessageGameData::MsgGameOver {} => {
             status_game_over_mod::on_msg_game_over(rrc);
             vdom.schedule_render();
         }
-        WsMessageGameData::MsgPlayAgain {
-                                                    } => {
+        WsMessageGameData::MsgPlayAgain {} => {
             status_game_over_mod::on_msg_play_again(rrc);
         }
-        WsMessageGameData::MsgSoundsAndLabels {
-            sounds_and_labels,
-        
-            
-        } => {
-            rrc.game_data.sounds_and_labels=sounds_and_labels;
+        WsMessageGameData::MsgSoundsAndLabels { sounds_and_labels } => {
+            rrc.game_data.sounds_and_labels = sounds_and_labels;
             vdom.schedule_render();
         }
         WsMessageGameData::MsgAck {
-            
             msg_id,
             msg_ack_kind,
         } => {
             match msg_ack_kind {
                 MsgAckKind::MsgTakeTurn => {
-                    status_take_turn_mod::on_msg_ack_take_turn(
-                        rrc, msg.msg_sender_ws_uid, msg_id,
-                    );
+                    status_take_turn_mod::on_msg_ack_take_turn(rrc, msg.msg_sender_ws_uid, msg_id);
                 }
                 MsgAckKind::MsgClick1stCard => {
                     status_1st_card_mod::on_msg_ack_click_1st_card(
-                        rrc, msg.msg_sender_ws_uid, msg_id,
+                        rrc,
+                        msg.msg_sender_ws_uid,
+                        msg_id,
                     );
                 }
                 MsgAckKind::MsgClick2ndCard => {
                     status_2nd_card_mod::on_msg_ack_player_click2nd_card(
-                        rrc, msg.msg_sender_ws_uid, msg_id, vdom.clone(),
+                        rrc,
+                        msg.msg_sender_ws_uid,
+                        msg_id,
+                        vdom.clone(),
                     );
                 }
             }
             vdom.schedule_render();
         }
-        WsMessageGameData::MsgAskPlayer1ForResync {
-            
-        } => {
+        WsMessageGameData::MsgAskPlayer1ForResync {} => {
             status_reconnect_mod::send_msg_for_resync(rrc);
             vdom.schedule_render();
         }
         WsMessageGameData::MsgAllGameData {
-            
             players,
             card_grid_data,
             card_index_of_1st_click,
@@ -148,21 +134,22 @@ pub fn match_msg_and_call_function( vdom: VdomWeak,rrc:&mut RootRenderingCompone
             );
             vdom.schedule_render();
         }
-        WsMessageGameData::MsgWebrtcOffer{
-            sdp
-        }=>{
-            rrc.web_data.web_rtc_data.web_rtc_receive_offer(vdom.clone(),sdp, msg.msg_sender_ws_uid);
+        WsMessageGameData::MsgWebrtcOffer { sdp } => {
+            rrc.web_data.web_rtc_data.web_rtc_receive_offer(
+                vdom.clone(),
+                sdp,
+                msg.msg_sender_ws_uid,
+            );
         }
-        WsMessageGameData::MsgWebrtcAnswer{
-            sdp
-        }=>{
-            rrc.web_data.web_rtc_data.web_rtc_receive_answer(vdom.clone(),sdp);
+        WsMessageGameData::MsgWebrtcAnswer { sdp } => {
+            rrc.web_data
+                .web_rtc_data
+                .web_rtc_receive_answer(vdom.clone(), sdp);
         }
-        WsMessageGameData::MsgWebrtcIceCandidate{
-            sdp
-        }=>{
-            rrc.web_data.web_rtc_data.web_rtc_receive_ice_candidate(vdom.clone(),sdp);
+        WsMessageGameData::MsgWebrtcIceCandidate { sdp } => {
+            rrc.web_data
+                .web_rtc_data
+                .web_rtc_receive_ice_candidate(vdom.clone(), sdp);
         }
     }
 }
-    

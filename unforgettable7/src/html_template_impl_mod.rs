@@ -330,11 +330,18 @@ pub fn svg_qrcode_to_node<'a>(
     rrc: &RootRenderingComponent,
     cx: &mut RenderContext<'a>,
 ) -> Node<'a> {
-    let link = format!("https://bestia.dev/unforgettable7/#p03.{}", rrc.web_data.my_ws_uid);
+    let link = format!(
+        "https://bestia.dev/unforgettable7/#p03.{}",
+        rrc.web_data.my_ws_uid
+    );
     let qr = unwrap!(qrcode53bytes::Qr::new(&link));
     let svg_template = qrcode53bytes::SvgDodrioRenderer::new(222, 222).render(&qr);
     // i added use rust_wasm_dodrio_templating::html_template_mod::HtmlTemplating; to make the function render_template in scope.
-    unwrap!(rrc.render_template(cx, &svg_template, rust_wasm_dodrio_templating::html_template_mod::HtmlOrSvg::Svg))
+    unwrap!(rrc.render_template(
+        cx,
+        &svg_template,
+        rust_wasm_dodrio_templating::html_template_mod::HtmlOrSvg::Svg
+    ))
 }
 
 /// the arrow to the right

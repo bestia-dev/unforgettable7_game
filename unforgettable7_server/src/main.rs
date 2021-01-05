@@ -147,9 +147,10 @@ fn main() {
     let local_addr = SocketAddr::new(local_ip, local_port);
 
     info!(
-        "unforgettable7 http server listening on {} and WebSocket on /unforgettable7_ws/",
-        ansi_term::Colour::Red.paint(local_addr.to_string())
+        "unforgettable7 http server listening on {}",
+        ansi_term::Colour::Green.paint(format!("http://{}", local_addr.to_string()))
     );
+    info!(" and WebSocket on /unforgettable7_ws/");
     // endregion
 
     // Keep track of all connected ws_users, key is usize, value

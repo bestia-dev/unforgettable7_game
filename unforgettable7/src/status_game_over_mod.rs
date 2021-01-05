@@ -22,7 +22,11 @@ pub fn div_game_over<'a>(rrc: &RootRenderingComponent, cx: &mut RenderContext<'a
         "game_over"
     };
     let html_template = rrc.web_data.get_sub_template(template_name);
-    unwrap!(rrc.render_template(cx, &html_template, rust_wasm_dodrio_templating::html_template_mod::HtmlOrSvg::Html))
+    unwrap!(rrc.render_template(
+        cx,
+        &html_template,
+        rust_wasm_dodrio_templating::html_template_mod::HtmlOrSvg::Html
+    ))
 }
 
 /// on msg game over
