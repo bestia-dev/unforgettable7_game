@@ -151,7 +151,7 @@ From here we then call functions to render different UI depending on the data st
 
 ##### step 8 of 18 [View code in GitHub](https://github.com/LucianoBestia/unforgettable7_game/blob/master/unforgettable7/src/root_rendering_component_mod.rs#L51)
 ```rust
-    pub fn start_websocket(&mut self, vdom: VdomWeak) {
+    pub fn start_websocket(&mut self, vdom: dodrio::VdomWeak) {
         self.web_data.start_websocket(vdom);
         self.web_data.web_rtc_data.rtc_ws = self.web_data.websocket_data.ws.clone();
     }
@@ -336,7 +336,7 @@ use dodrio::{
     Node, RenderContext, RootRender,
     bumpalo::{self},
     builder::{ElementBuilder, text},
-    VdomWeak,
+    dodrio::VdomWeak,
 };
 use web_sys::{Event};
 

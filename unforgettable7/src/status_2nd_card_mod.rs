@@ -7,7 +7,7 @@
 use crate::*;
 
 use unwrap::unwrap;
-use dodrio::{RenderContext, Node, VdomWeak};
+use dodrio::{RenderContext, Node};
 use wasm_bindgen::JsCast;
 use rust_wasm_dodrio_templating::html_template_mod::HtmlTemplating;
 use web_sys::{Event, HtmlImageElement};
@@ -19,7 +19,7 @@ use web_sys::{Event, HtmlImageElement};
 /// That struct is the only permanent data storage for later render the virtual dom.
 pub fn on_click_2nd_card(
     rrc: &mut RootRenderingComponent,
-    vdom: VdomWeak,
+    vdom: dodrio::VdomWeak,
     this_click_card_index: usize,
 ) {
     rrc.game_data.card_index_of_2nd_click = this_click_card_index;
@@ -95,7 +95,7 @@ pub fn on_msg_ack_player_click2nd_card(
     rrc: &mut RootRenderingComponent,
     player_ws_uid: usize,
     msg_id: usize,
-    vdom: VdomWeak,
+    vdom: dodrio::VdomWeak,
 ) {
     if ack_msg_mod::remove_ack_msg_from_queue(rrc, player_ws_uid, msg_id) {
         let is_point = is_point(rrc);
@@ -163,7 +163,7 @@ pub fn div_click_2nd_card<'a>(
 
 /// on click for img in status 2
 #[allow(clippy::indexing_slicing)]
-pub fn on_click_img_status2nd(root: &mut dyn dodrio::RootRender, vdom: VdomWeak, event: &Event) {
+pub fn on_click_img_status2nd(root: &mut dyn dodrio::RootRender, vdom: dodrio::VdomWeak, event: &Event) {
     let rrc = root.unwrap_mut::<RootRenderingComponent>();
     // If the event's target is our image...
     let img = match event

@@ -1,8 +1,6 @@
 //! html_template_impl_mod  
 
 use crate::*;
-use rust_wasm_dodrio_templating::html_template_mod::HtmlTemplating;
-use rust_wasm_webrtc::webrtcmod::WebRtcTrait;
 
 use unwrap::unwrap;
 //use wasm_bindgen::{JsCast};
@@ -10,25 +8,35 @@ use dodrio::{
     Node, RenderContext, RootRender,
     bumpalo::{self},
     builder::{ElementBuilder, text},
-    VdomWeak,
 };
-use web_sys::{Event};
 
 impl rust_wasm_dodrio_templating::html_template_mod::HtmlTemplating for RootRenderingComponent {
     /// html_templating boolean id the next node is rendered or not
     fn call_fn_boolean(&self, fn_name: &str) -> bool {
         // websysmod::debug_write(&format!("call_fn_boolean: {}", &fn_name));
-        match fn_name {
-            "is_first_player" => self.game_data.my_player_number == 1,
-            "player_joined" => self.game_data.players.len() > 1,
-            "sounds_and_labels" => self.game_data.sounds_and_labels,
-            "rtc_is_data_channel_open" => self.web_data.web_rtc_data.rtc_is_data_channel_open,
-            "is_not_rtc_data_channel_open" => !self.web_data.web_rtc_data.rtc_is_data_channel_open,
-            _ => {
-                let x = format!("Error: Unrecognized call_fn_boolean: \"{}\"", fn_name);
-                websysmod::debug_write(&x);
-                true
+        let mut ret_val: Option<bool> = None;
+        if ret_val.is_none() {
+            ret_val = crate::p02_start_a_group_mod::call_fn_boolean(&self, fn_name);
+        }
+        if ret_val.is_none() {
+            ret_val = crate::p11_gameboard_mod::call_fn_boolean(&self, fn_name);
+        }
+        if ret_val.is_none() {
+            ret_val = crate::p41_webrtc_mod::call_fn_boolean(&self, fn_name);
+        }
+        if ret_val.is_none() {
+            // return from match
+            match fn_name {
+                //example: "sounds_and_labels" => self.game_data.sounds_and_labels,
+                _ => {
+                    let x = format!("Error: Unrecognized call_fn_boolean: \"{}\"", fn_name);
+                    websysmod::debug_write(&x);
+                    true
+                }
             }
+        } else {
+            // return
+            unwrap!(ret_val)
         }
     }
 
@@ -40,53 +48,44 @@ impl rust_wasm_dodrio_templating::html_template_mod::HtmlTemplating for RootRend
     )]
     fn call_fn_string(&self, fn_name: &str) -> String {
         // websysmod::debug_write(&format!("call_fn_string: {}", &fn_name));
-        match fn_name {
-            "my_nickname" => self.game_data.my_nickname.to_owned(),
-            "blink_or_not_nickname" => storage_mod::blink_or_not_nickname(self),
-            "blink_or_not_group_id" => blink_or_not_group_id(self),
-            "my_ws_uid" => format!("{}", self.web_data.my_ws_uid),
-            "receiver_ws_uid" => format!("{}", self.web_data.web_rtc_data.rtc_receiver_ws_uid),
-            "players_count" => format!("{} ", self.game_data.players.len() - 1),
-            "game_name" => self.game_data.game_name.to_string(),
-            "group_id" => self.game_data.group_id.to_string(),
-            "url_to_join" => format!("bestia.dev/unforgettable7/#p03.{}", self.web_data.my_ws_uid),
-            "cargo_pkg_version" => env!("CARGO_PKG_VERSION").to_string(),
-            "debug_text" => websysmod::get_debug_text(),
-            "game_status" => self.game_data.game_status.as_ref().to_string(),
-            "my_player_number" => self.game_data.my_player_number.to_string(),
-            "gameboard_btn" => {
-                // different class depend on status
-                "btn".to_owned()
+        let mut ret_val: Option<String> = None;
+        if ret_val.is_none() {
+            ret_val = crate::p02_start_a_group_mod::call_fn_string(&self, fn_name);
+        }
+        if ret_val.is_none() {
+            ret_val = crate::p03_join_a_group_mod::call_fn_string(&self, fn_name);
+        }
+        if ret_val.is_none() {
+            ret_val = crate::p11_gameboard_mod::call_fn_string(&self, fn_name);
+        }
+        if ret_val.is_none() {
+            ret_val = crate::p41_webrtc_mod::call_fn_string(&self, fn_name);
+        }
+        if ret_val.is_none() {
+            match fn_name {
+                "my_nickname" => self.game_data.my_nickname.to_owned(),
+                "group_id" => self.game_data.group_id.to_string(),
+                "cargo_pkg_version" => env!("CARGO_PKG_VERSION").to_string(),
+                "debug_text" => websysmod::get_debug_text(),
+                "game_status" => self.game_data.game_status.as_ref().to_string(),
+                "my_player_number" => self.game_data.my_player_number.to_string(),
+                "gameboard_btn" => {
+                    // different class depend on status
+                    "btn".to_owned()
+                }
+                "player_turn_nickname" => {
+                    //websysmod::debug_write("player_turn_nickname");
+                    return self.game_data.player_turn_now().nickname.to_string();
+                }
+                _ => {
+                    let err_string = format!("Error: Unrecognized call_fn_string: \"{}\"", fn_name);
+                    websysmod::debug_write(&err_string);
+                    err_string
+                }
             }
-            "card_moniker_first" => {
-                return unwrap!(self.game_data.game_config.as_ref()).card_moniker
-                    [self.game_data.get_1st_card().card_number]
-                    .to_string();
-            }
-            "card_moniker_second" => {
-                return unwrap!(self.game_data.game_config.as_ref()).card_moniker
-                    [self.game_data.get_2nd_card().card_number]
-                    .to_string();
-            }
-            "my_points" => {
-                return format!("{} ", self.game_data.my_player().points,);
-            }
-            "player_turn_nickname" => {
-                //websysmod::debug_write("player_turn_nickname");
-                return self.game_data.player_turn_now().nickname.to_string();
-            }
-            "sounds_and_labels" => {
-                return if self.game_data.sounds_and_labels == true {
-                    "sounds and labels ON".to_string()
-                } else {
-                    "sounds and labels OFF".to_string()
-                };
-            }
-            _ => {
-                let x = format!("Error: Unrecognized call_fn_string: \"{}\"", fn_name);
-                websysmod::debug_write(&x);
-                x
-            }
+        } else {
+            // return
+            unwrap!(ret_val)
         }
     }
 
@@ -95,167 +94,88 @@ impl rust_wasm_dodrio_templating::html_template_mod::HtmlTemplating for RootRend
     fn call_fn_listener(
         &self,
         fn_name: String,
-    ) -> Box<dyn Fn(&mut dyn RootRender, VdomWeak, Event) + 'static> {
+    ) -> Box<dyn Fn(&mut dyn RootRender, dodrio::VdomWeak, web_sys::Event) + 'static> {
         Box::new(move |root, vdom, event| {
             let fn_name = fn_name.clone();
             let fn_name = fn_name.as_str();
             let rrc = root.unwrap_mut::<RootRenderingComponent>();
             //websysmod::debug_write(&format!("call_fn_listener: {}", &fn_name));
-            match fn_name {
-                "nickname_onkeyup" => {
-                    storage_mod::nickname_onkeyup(rrc, event);
-                }
-                "group_id_onkeyup" => {
-                    storage_mod::group_id_onkeyup(rrc, event);
-                }
-                "open_youtube" => {
-                    // randomly choose a link from rrc.videos
-                    let num = websysmod::get_random(0, rrc.game_data.videos.len());
-                    #[allow(clippy::indexing_slicing)]
-                    // cannot panic:the num is 0..video.len
-                    websysmod::open_new_tab(&format!(
-                        "https://www.youtube.com/watch?v={}",
-                        rrc.game_data.videos[num]
-                    ));
-                }
-                "open_menu" => {
-                    websysmod::open_new_local_page_push_to_history("#p21");
-                }
-                "sounds_and_labels" => {
-                    // toggle sound and label on/off
-                    websysmod::debug_write(&format!("on click sounds and labels: {}", ""));
-                    if rrc.game_data.sounds_and_labels == true {
-                        rrc.game_data.sounds_and_labels = false;
-                    } else {
-                        rrc.game_data.sounds_and_labels = true;
+            // first try the specialized modules for a single page event listeners
+            let mut is_matched_fn_name = false;
+            if is_matched_fn_name == false {
+                is_matched_fn_name = crate::p01_start_mod::call_fn_listener(
+                    fn_name,
+                    rrc,
+                    vdom.clone(),
+                    event.clone(),
+                );
+            }
+            if is_matched_fn_name == false {
+                is_matched_fn_name = crate::p02_start_a_group_mod::call_fn_listener(
+                    fn_name,
+                    rrc,
+                    vdom.clone(),
+                    event.clone(),
+                );
+            }
+            if is_matched_fn_name == false {
+                is_matched_fn_name = crate::p03_join_a_group_mod::call_fn_listener(
+                    fn_name,
+                    rrc,
+                    vdom.clone(),
+                    event.clone(),
+                );
+            }
+            if is_matched_fn_name == false {
+                is_matched_fn_name = crate::p05_choose_game_mod::call_fn_listener(
+                    fn_name,
+                    rrc,
+                    vdom.clone(),
+                    event.clone(),
+                );
+            }
+            if is_matched_fn_name == false {
+                is_matched_fn_name = crate::p06_drink_mod::call_fn_listener(
+                    fn_name,
+                    rrc,
+                    vdom.clone(),
+                    event.clone(),
+                );
+            }
+            if is_matched_fn_name == false {
+                is_matched_fn_name = crate::p11_gameboard_mod::call_fn_listener(
+                    fn_name,
+                    rrc,
+                    vdom.clone(),
+                    event.clone(),
+                );
+            }
+            if is_matched_fn_name == false {
+                is_matched_fn_name = crate::p21_menu_mod::call_fn_listener(
+                    fn_name,
+                    rrc,
+                    vdom.clone(),
+                    event.clone(),
+                );
+            }
+            if is_matched_fn_name == false {
+                is_matched_fn_name = crate::p41_webrtc_mod::call_fn_listener(
+                    fn_name,
+                    rrc,
+                    vdom.clone(),
+                    event.clone(),
+                );
+            }
+            // other listeners, that are used on more pages
+            if is_matched_fn_name == false {
+                match fn_name {
+                    "open_menu" => {
+                        websysmod::open_new_local_page_push_to_history("#p21");
                     }
-                    rrc.web_data.send_ws_msg_from_web_data(
-                        &websocket_boiler_mod::WsMessageForReceivers {
-                            msg_sender_ws_uid: rrc.web_data.my_ws_uid,
-                            msg_receivers_json: rrc.web_data.msg_receivers_json.to_string(),
-                            msg_data: game_data_mod::WsMessageGameData::MsgSoundsAndLabels {
-                                sounds_and_labels: rrc.game_data.sounds_and_labels,
-                            },
-                        },
-                    );
-                    vdom.schedule_render();
-                }
-                "back_to_game" => {
-                    let h = unwrap!(websysmod::window().history());
-                    let _x = h.back();
-                }
-                "open_instructions" => {
-                    websysmod::open_new_tab("#p08");
-                }
-                "debug_log" => {
-                    websysmod::open_new_tab("#p31");
-                }
-                "webrtc" => {
-                    open_new_local_page("#p41");
-                }
-                "web_rtc_receiver_ws_uid_onkeyup" => {
-                    webrtc_impl_mod::web_rtc_receiver_ws_uid_onkeyup(vdom, rrc, event);
-                }
-                "web_rtc_start" => {
-                    rrc.web_data
-                        .web_rtc_data
-                        .web_rtc_start(vdom, unwrap!(rrc.web_data.websocket_data.ws.clone()));
-                }
-                "web_rtc_chat_text_onkeyup" => {
-                    webrtc_impl_mod::web_rtc_chat_text_onkeyup(vdom, rrc, event);
-                }
-                "web_rtc_send_chat" => {
-                    rrc.web_data.web_rtc_data.web_rtc_send_chat(vdom);
-                }
-                "start_a_group_onclick" => {
-                    // entry point for the game
-                    rrc.start_websocket(vdom);
-                    open_new_local_page("#p02");
-                }
-                "restart_game" => {
-                    // send a msg to others to open #p04
-                    status_game_over_mod::on_msg_play_again(rrc);
-                    open_new_local_page("#p02");
-                }
-                "join_a_group_onclick" => {
-                    websysmod::open_new_local_page_push_to_history("#p03");
-                }
-                "choose_a_game_onclick" => {
-                    open_new_local_page("#p05");
-                }
-                "start_game_onclick" => {
-                    status_game_data_init_mod::on_click_start_game(rrc);
-                    // async fetch all imgs and put them in service worker cache
-                    fetch_mod::fetch_all_img_for_cache_request(rrc);
-                    // websysmod::debug_write(&format!("start_game_onclick players: {:?}",rrc.game_data.players));
-                    open_new_local_page("#p11");
-                }
-                "game_type_right_onclick" => {
-                    game_type_right_onclick(rrc, vdom);
-                }
-                "game_type_left_onclick" => {
-                    game_type_left_onclick(rrc, vdom);
-                }
-                "join_group_on_click" => {
-                    open_new_local_page("#p04");
-                }
-                "drink_end" => {
-                    // send a msg to end drinking to all players
-
-                    websysmod::debug_write(&format!("MsgDrinkEnd send{}", ""));
-                    rrc.web_data.send_ws_msg_from_web_data(
-                        &websocket_boiler_mod::WsMessageForReceivers {
-                            msg_sender_ws_uid: rrc.web_data.my_ws_uid,
-                            msg_receivers_json: rrc.web_data.msg_receivers_json.to_string(),
-                            msg_data: game_data_mod::WsMessageGameData::MsgDrinkEnd {},
-                        },
-                    );
-                    // if all the cards are permanently up, this is the end of the game
-                    // websysmod::debug_write("if is_all_permanently(rrc)");
-                    if status_2nd_card_mod::is_all_permanently(rrc) {
-                        websysmod::debug_write("yes");
-                        status_game_over_mod::on_msg_game_over(rrc);
-                        // send message
-                        rrc.web_data.send_ws_msg_from_web_data(
-                            &websocket_boiler_mod::WsMessageForReceivers {
-                                msg_sender_ws_uid: rrc.web_data.my_ws_uid,
-                                msg_receivers_json: rrc.web_data.msg_receivers_json.to_string(),
-                                msg_data: game_data_mod::WsMessageGameData::MsgGameOver {},
-                            },
-                        );
-                    } else {
-                        status_take_turn_mod::on_click_take_turn(rrc, vdom.clone());
+                    _ => {
+                        let x = format!("Error: Unrecognized call_fn_listener: \"{}\"", fn_name);
+                        websysmod::debug_write(&x);
                     }
-                    // end the drink page
-                    open_new_local_page("#p11");
-                }
-                "p06_load_image" => {
-                    //websysmod::debug_write("p06_load_image");
-                    status_drink_mod::play_sound_for_drink(rrc);
-                }
-                "play_again" => {
-                    rrc.web_data.send_ws_msg_from_web_data(
-                        &websocket_boiler_mod::WsMessageForReceivers {
-                            msg_sender_ws_uid: rrc.web_data.my_ws_uid,
-                            msg_receivers_json: rrc.web_data.msg_receivers_json.to_string(),
-                            msg_data: game_data_mod::WsMessageGameData::MsgPlayAgain {},
-                        },
-                    );
-                    rrc.game_data.reset_for_play_again();
-                    open_new_local_page("#p05");
-                }
-                "on_click_img_status1st" => {
-                    status_1st_card_mod::on_click_img_status1st(root, vdom.clone(), &event);
-                }
-                "on_click_img_status2nd" => {
-                    status_2nd_card_mod::on_click_img_status2nd(root, vdom.clone(), &event);
-                }
-                "hide_big_img" => {
-                    hide_big_img();
-                }
-                _ => {
-                    let x = format!("Error: Unrecognized call_fn_listener: \"{}\"", fn_name);
-                    websysmod::debug_write(&x);
                 }
             }
         })
@@ -265,34 +185,39 @@ impl rust_wasm_dodrio_templating::html_template_mod::HtmlTemplating for RootRend
     #[allow(clippy::needless_return)]
     fn call_fn_node<'a>(&self, cx: &mut RenderContext<'a>, fn_name: &str) -> Node<'a> {
         let bump = cx.bump;
+        let mut ret_val: Option<Node<'a>> = None;
+        if ret_val.is_none() {
+            ret_val = crate::p02_start_a_group_mod::call_fn_node(&self, cx, fn_name);
+        }
+        if ret_val.is_none() {
+            ret_val = crate::p11_gameboard_mod::call_fn_node(&self, cx, fn_name);
+        }
         // websysmod::debug_write(&format!("call_fn_node: {}", &fn_name));
-        match fn_name {
-            "div_grid_container" => {
-                // what is the game_status now?
-                // websysmod::debug_write(&format!("game status: {}", self.game_data.game_status));
-                let max_grid_size = div_grid_container_mod::max_grid_size(self);
-                return div_grid_container_mod::div_grid_container(self, cx, &max_grid_size);
-            }
-            "div_player_action" => {
-                let node = div_player_actions_mod::div_player_actions_from_game_status(self, cx);
-                return node;
-            }
-            "svg_qrcode" => {
-                return svg_qrcode_to_node(self, cx);
-            }
-            _ => {
-                let node = ElementBuilder::new(bump, "h2")
-                    .children([text(
-                        bumpalo::format!(in bump,
-                            "Error: Unrecognized call_fn_node: \"{}\"",
-                            fn_name
-                        )
-                        .into_bump_str(),
-                    )])
-                    .finish();
+        if ret_val.is_none() {
+            match fn_name {
+                /* 
+                // just an example
+                "svg_qrcode" => {
+                    return svg_qrcode_to_node(self, cx);
+                }
+                */
+                _ => {
+                    let node = ElementBuilder::new(bump, "h2")
+                        .children([text(
+                            bumpalo::format!(in bump,
+                                "Error: Unrecognized call_fn_node: \"{}\"",
+                                fn_name
+                            )
+                            .into_bump_str(),
+                        )])
+                        .finish();
 
-                return node;
+                    return node;
+                }
             }
+        } else {
+            // return
+            unwrap!(ret_val)
         }
     }
 
@@ -300,78 +225,41 @@ impl rust_wasm_dodrio_templating::html_template_mod::HtmlTemplating for RootRend
     #[allow(clippy::needless_return)]
     fn call_fn_vec_nodes<'a>(&self, cx: &mut RenderContext<'a>, fn_name: &str) -> Vec<Node<'a>> {
         let bump = cx.bump;
+        let mut ret_val: Option<Vec<Node<'a>>> = None;
+        if ret_val.is_none() {
+            ret_val = crate::p11_gameboard_mod::call_fn_vec_nodes(&self, cx, fn_name);
+        }
+        if ret_val.is_none() {
+            ret_val = crate::p41_webrtc_mod::call_fn_vec_nodes(&self, cx, fn_name);
+        }
         // websysmod::debug_write(&format!("call_fn_node: {}", &fn_name));
-        match fn_name {
-            "div_grid_all_items" => {
-                return div_grid_container_mod::div_grid_all_items(self, cx);
-            }
-            "web_rtc_div_messages" => {
-                return webrtc_impl_mod::web_rtc_div_messages(self, cx);
-            }
-            _ => {
-                let node = ElementBuilder::new(bump, "h2")
-                    .children([text(
-                        bumpalo::format!(in bump,
-                            "Error: Unrecognized call_fn_node: \"{}\"",
-                            fn_name
-                        )
-                        .into_bump_str(),
-                    )])
-                    .finish();
+        if ret_val.is_none() {
+            match fn_name {
+                /*
+                // example
+                "web_rtc_div_messages" => {
+                    return webrtc_impl_mod::web_rtc_div_messages(self, cx);
+                }
+                */
+                _ => {
+                    let node = ElementBuilder::new(bump, "h2")
+                        .children([text(
+                            bumpalo::format!(in bump,
+                                "Error: Unrecognized call_fn_node: \"{}\"",
+                                fn_name
+                            )
+                            .into_bump_str(),
+                        )])
+                        .finish();
 
-                return vec![node];
+                    return vec![node];
+                }
             }
+        } else {
+            // return
+            unwrap!(ret_val)
         }
     }
-}
-
-/// qrcode svg
-pub fn svg_qrcode_to_node<'a>(
-    rrc: &RootRenderingComponent,
-    cx: &mut RenderContext<'a>,
-) -> Node<'a> {
-    let link = format!(
-        "https://bestia.dev/unforgettable7/#p03.{}",
-        rrc.web_data.my_ws_uid
-    );
-    let qr = unwrap!(qrcode53bytes::Qr::new(&link));
-    let svg_template = qrcode53bytes::SvgDodrioRenderer::new(222, 222).render(&qr);
-    // i added use rust_wasm_dodrio_templating::html_template_mod::HtmlTemplating; to make the function render_template in scope.
-    unwrap!(rrc.render_template(
-        cx,
-        &svg_template,
-        rust_wasm_dodrio_templating::html_template_mod::HtmlOrSvg::Svg
-    ))
-}
-
-/// the arrow to the right
-pub fn game_type_right_onclick(rrc: &mut RootRenderingComponent, vdom: VdomWeak) {
-    let gmd = &unwrap!(rrc.game_data.games_metadata.as_ref()).vec_game_metadata;
-    let mut last_name = unwrap!(gmd.last()).name.to_string();
-    for x in gmd {
-        if rrc.game_data.game_name.as_str() == last_name.as_str() {
-            rrc.game_data.game_name = x.name.to_string();
-            vdom.schedule_render();
-            break;
-        }
-        last_name = x.name.to_string();
-    }
-    fetch_mod::async_fetch_game_config_and_update(rrc, vdom);
-}
-
-/// left arrow button
-pub fn game_type_left_onclick(rrc: &mut RootRenderingComponent, vdom: VdomWeak) {
-    let gmd = &unwrap!(rrc.game_data.games_metadata.as_ref()).vec_game_metadata;
-    let mut last_name = unwrap!(gmd.first()).name.to_string();
-    for x in gmd.iter().rev() {
-        if rrc.game_data.game_name.as_str() == last_name.as_str() {
-            rrc.game_data.game_name = x.name.to_string();
-            vdom.schedule_render();
-            break;
-        }
-        last_name = x.name.to_string();
-    }
-    fetch_mod::async_fetch_game_config_and_update(rrc, vdom);
 }
 
 /// fn open new local page with #
@@ -390,21 +278,6 @@ pub fn open_new_local_page(hash: &str) {
     } else {
         let _x = websysmod::window().location().replace(hash);
     }
-}
-
-/// if there is already a group_id don't blink
-pub fn blink_or_not_group_id(rrc: &RootRenderingComponent) -> String {
-    if rrc.game_data.group_id == 0 {
-        "blink".to_owned()
-    } else {
-        "".to_owned()
-    }
-}
-
-/// hide big img
-pub fn hide_big_img() {
-    let img_html_element = websysmod::get_image_element_by_id("big_img");
-    let _x = img_html_element.style().set_property("display", "none");
 }
 
 /// visible big img

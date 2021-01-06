@@ -5,7 +5,6 @@
 //! Then fetches the file and stores it in rrc.html_template
 
 use crate::*;
-use dodrio::{VdomWeak};
 //use unwrap::unwrap;
 use rust_wasm_dodrio_router::router_mod::{RouterTrait};
 
@@ -44,7 +43,7 @@ impl RouterTrait for Router {
     }
 
     /// update file_name_to_fetch with filenames dependent on location_hash.
-    fn set_file_name_to_fetch(&mut self, location_hash: String, vdom: VdomWeak) -> String {
+    fn set_file_name_to_fetch(&mut self, location_hash: String, vdom: dodrio::VdomWeak) -> String {
         self.location_hash = location_hash.clone();
         // there are 2 entry points: no hash and #p03
         if location_hash == "" {

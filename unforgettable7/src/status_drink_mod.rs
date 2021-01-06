@@ -5,14 +5,13 @@
 use crate::*;
 
 use unwrap::unwrap;
-use dodrio::VdomWeak;
 // endregion
 
 /// on msg
 pub fn on_msg_drink_end(
     _rrc: &mut RootRenderingComponent,
     _msg_sender_ws_uid: usize,
-    _vdom: VdomWeak,
+    _vdom: dodrio::VdomWeak,
 ) {
     html_template_impl_mod::open_new_local_page("#p11");
 }

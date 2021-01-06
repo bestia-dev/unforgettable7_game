@@ -14,7 +14,7 @@ use unwrap::unwrap;
 use wasm_bindgen_futures::spawn_local;
 use web_sys::{WebSocket};
 use serde_derive::{Serialize, Deserialize};
-use dodrio::{VdomWeak, RootRender};
+use dodrio::RootRender;
 // endregion
 
 /// message for receivers
@@ -59,7 +59,7 @@ impl WebSocketTrait for WebSocketData {
             rrc.web_data.error_text = "my_ws_uid is incorrect!".to_string();
         }
     }
-    fn on_msg_recv_for_ws_message_for_receivers(vdom: VdomWeak, data: String) {
+    fn on_msg_recv_for_ws_message_for_receivers(vdom: dodrio::VdomWeak, data: String) {
         // msg from ws clients (players)
         // serde_json can find out the variant of WsMessage
         // parse json and put data in the enum

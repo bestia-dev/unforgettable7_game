@@ -7,7 +7,7 @@
 use crate::*;
 
 use unwrap::unwrap;
-use dodrio::{RenderContext, Node, VdomWeak};
+use dodrio::{RenderContext, Node};
 use wasm_bindgen::JsCast;
 use rust_wasm_dodrio_templating::html_template_mod::HtmlTemplating;
 use web_sys::{Event, HtmlImageElement};
@@ -16,7 +16,7 @@ use web_sys::{Event, HtmlImageElement};
 /// on click
 pub fn on_click_1st_card(
     rrc: &mut RootRenderingComponent,
-    vdom: VdomWeak,
+    vdom: dodrio::VdomWeak,
     this_click_card_index: usize,
 ) {
     // websysmod::debug_write("on_click_1st_card");
@@ -53,7 +53,7 @@ pub fn flip_back(rrc: &mut RootRenderingComponent) {
 /// on msg
 pub fn on_msg_click_1st_card(
     rrc: &mut RootRenderingComponent,
-    vdom: VdomWeak,
+    vdom: dodrio::VdomWeak,
     msg_sender_ws_uid: usize,
     card_index_of_1st_click: usize,
     msg_id: usize,
@@ -123,7 +123,7 @@ pub fn div_on_1st_card<'a>(rrc: &RootRenderingComponent, cx: &mut RenderContext<
 
 /// on click for image in status 1s
 #[allow(clippy::indexing_slicing)]
-pub fn on_click_img_status1st(root: &mut dyn dodrio::RootRender, vdom: VdomWeak, event: &Event) {
+pub fn on_click_img_status1st(root: &mut dyn dodrio::RootRender, vdom: dodrio::VdomWeak, event: &Event) {
     // websysmod::debug_write("img click");
     let rrc = root.unwrap_mut::<RootRenderingComponent>();
     // If the event's target is our image...

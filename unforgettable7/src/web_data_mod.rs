@@ -7,7 +7,6 @@ use rust_wasm_websocket::websocketmod::WebSocketTrait;
 
 use serde_derive::{Serialize, Deserialize};
 use unwrap::unwrap;
-use dodrio::VdomWeak;
 // endregion
 
 // region: structs
@@ -87,7 +86,7 @@ impl WebData {
     }
 
     /// create websocket connection
-    pub fn start_websocket(&mut self, vdom: VdomWeak) {
+    pub fn start_websocket(&mut self, vdom: dodrio::VdomWeak) {
         let (location_href, _href_hash) = websysmod::get_url_and_hash();
         //let websocket_data = websocket_boiler_mod::WebSocketData::new();
         let ws = self.websocket_data.setup_ws_connection(

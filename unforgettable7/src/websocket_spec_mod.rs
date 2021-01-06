@@ -8,11 +8,10 @@ use crate::*;
 use rust_wasm_webrtc::webrtcmod::{WebRtcTrait};
 
 //use unwrap::unwrap;
-use dodrio::{VdomWeak};
 // endregion
 
 pub fn match_msg_and_call_function(
-    vdom: VdomWeak,
+    vdom: dodrio::VdomWeak,
     rrc: &mut RootRenderingComponent,
     msg: websocket_boiler_mod::WsMessageForReceivers,
 ) {

@@ -7,11 +7,10 @@ use crate::call_on_next_tick_mod::*;
 use futures::Future;
 use unwrap::unwrap;
 use wasm_bindgen_futures::spawn_local;
-use dodrio::VdomWeak;
 // endregion
 
 /// async fetch for gameconfig.json and update rrc
-pub fn async_fetch_game_config_and_update(rrc: &mut RootRenderingComponent, vdom: VdomWeak) {
+pub fn async_fetch_game_config_and_update(rrc: &mut RootRenderingComponent, vdom: dodrio::VdomWeak) {
     let url = format!(
         "{}/content/{}/game_config.json",
         rrc.web_data.href, rrc.game_data.game_name
@@ -47,7 +46,7 @@ pub fn async_fetch_game_config_and_update(rrc: &mut RootRenderingComponent, vdom
 
 
 /// async fetch for gamesmetadata.json and update rrc
-pub fn fetch_games_metadata_and_update(href: &str, vdom: VdomWeak) {
+pub fn fetch_games_metadata_and_update(href: &str, vdom: dodrio::VdomWeak) {
     let url = format!("{}/content/gamesmetadata.json", href);
 
     /// boilerplate: futures must be pinned and boxed
@@ -86,7 +85,7 @@ pub fn fetch_games_metadata_and_update(href: &str, vdom: VdomWeak) {
 
 
 /// async fetch for videos.json and update rrc
-pub fn fetch_videos_and_update(href: &str, vdom: VdomWeak) {
+pub fn fetch_videos_and_update(href: &str, vdom: dodrio::VdomWeak) {
     let url = format!("{}/content/videos.json", href);
 
     /// boilerplate: futures must be pinned and boxed
@@ -120,7 +119,7 @@ pub fn fetch_videos_and_update(href: &str, vdom: VdomWeak) {
 
 
 /// async fetch for audio.json and update rrc
-pub fn fetch_audio_and_update(href: &str, vdom: VdomWeak) {
+pub fn fetch_audio_and_update(href: &str, vdom: dodrio::VdomWeak) {
     let url = format!("{}/content/audio.json", href);
 
     /// boilerplate: futures must be pinned and boxed

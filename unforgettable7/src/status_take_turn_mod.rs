@@ -5,11 +5,10 @@
 use crate::*;
 
 use unwrap::unwrap;
-use dodrio::VdomWeak;
 // endregion
 
 /// on click
-pub fn on_click_take_turn(rrc: &mut RootRenderingComponent, vdom: VdomWeak) {
+pub fn on_click_take_turn(rrc: &mut RootRenderingComponent, vdom: dodrio::VdomWeak) {
     // websysmod::debug_write(&format!("on_click_take_turn {}", ""));
 
     let msg_id = ack_msg_mod::prepare_for_ack_msg_waiting(rrc, vdom.clone());
