@@ -3,7 +3,7 @@
 use crate::*;
 
 /// returns false if the fn_name is not found
-pub fn call_fn_listener(
+pub fn set_event_listener(
     fn_name: &str,
     rrc: &mut RootRenderingComponent,
     vdom:dodrio::VdomWeak,
@@ -11,7 +11,7 @@ pub fn call_fn_listener(
 ) ->bool {
     let mut is_matched_fn_name = true;
     match fn_name {
-        "drink_end" => {
+        "wl_drink_end" => {
             // send a msg to end drinking to all players
 
             websysmod::debug_write(&format!("MsgDrinkEnd send{}", ""));
@@ -41,7 +41,7 @@ pub fn call_fn_listener(
             // end the drink page
             html_template_impl_mod::open_new_local_page("#p11");
         }
-        "p06_load_image" => {
+        "wl_p06_load_image" => {
             //websysmod::debug_write("p06_load_image");
             status_drink_mod::play_sound_for_drink(rrc);
         }

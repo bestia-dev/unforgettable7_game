@@ -56,7 +56,7 @@ pub fn on_msg_start_game(
     );
 
     // async fetch all imgs and put them in service worker cache
-    fetch_mod::fetch_all_img_for_cache_request(rrc);
+    fetch_mod::fetch_all_img_for_cache_request_on_next_tick(rrc);
 
     rrc.game_data.players = unwrap!(
         serde_json::from_str(players),

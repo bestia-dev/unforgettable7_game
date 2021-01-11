@@ -1,6 +1,6 @@
 [package]
 name = "unforgettable7"
-version = "2021.106.1030"
+version = "2021.111.1256"
 authors = ["Luciano Bestia <Luciano.Bestia@gmail.com>"]
 edition = "2018"
 description = "don't forget to drinking game"

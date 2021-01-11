@@ -12,24 +12,24 @@ use dodrio::{
 
 impl rust_wasm_dodrio_templating::html_template_mod::HtmlTemplating for RootRenderingComponent {
     /// html_templating boolean id the next node is rendered or not
-    fn call_fn_boolean(&self, fn_name: &str) -> bool {
-        // websysmod::debug_write(&format!("call_fn_boolean: {}", &fn_name));
+    fn retain_next_node_or_attribute(&self, fn_name: &str) -> bool {
+        // websysmod::debug_write(&format!("retain_next_node_or_attribute: {}", &fn_name));
         let mut ret_val: Option<bool> = None;
         if ret_val.is_none() {
-            ret_val = crate::p02_start_a_group_mod::call_fn_boolean(&self, fn_name);
+            ret_val = crate::p02_start_a_group_mod::retain_next_node_or_attribute(&self, fn_name);
         }
         if ret_val.is_none() {
-            ret_val = crate::p11_gameboard_mod::call_fn_boolean(&self, fn_name);
+            ret_val = crate::p11_gameboard_mod::retain_next_node_or_attribute(&self, fn_name);
         }
         if ret_val.is_none() {
-            ret_val = crate::p41_webrtc_mod::call_fn_boolean(&self, fn_name);
+            ret_val = crate::p41_webrtc_mod::retain_next_node_or_attribute(&self, fn_name);
         }
         if ret_val.is_none() {
             // return from match
             match fn_name {
                 //example: "sounds_and_labels" => self.game_data.sounds_and_labels,
                 _ => {
-                    let x = format!("Error: Unrecognized call_fn_boolean: \"{}\"", fn_name);
+                    let x = format!("Error: Unrecognized retain_next_node_or_attribute: \"{}\"", fn_name);
                     websysmod::debug_write(&x);
                     true
                 }
@@ -46,39 +46,39 @@ impl rust_wasm_dodrio_templating::html_template_mod::HtmlTemplating for RootRend
         clippy::integer_arithmetic,
         clippy::indexing_slicing
     )]
-    fn call_fn_string(&self, fn_name: &str) -> String {
-        // websysmod::debug_write(&format!("call_fn_string: {}", &fn_name));
+    fn replace_with_string(&self, fn_name: &str) -> String {
+        // websysmod::debug_write(&format!("replace_with_string: {}", &fn_name));
         let mut ret_val: Option<String> = None;
         if ret_val.is_none() {
-            ret_val = crate::p02_start_a_group_mod::call_fn_string(&self, fn_name);
+            ret_val = crate::p02_start_a_group_mod::replace_with_string(&self, fn_name);
         }
         if ret_val.is_none() {
-            ret_val = crate::p03_join_a_group_mod::call_fn_string(&self, fn_name);
+            ret_val = crate::p03_join_a_group_mod::replace_with_string(&self, fn_name);
         }
         if ret_val.is_none() {
-            ret_val = crate::p11_gameboard_mod::call_fn_string(&self, fn_name);
+            ret_val = crate::p11_gameboard_mod::replace_with_string(&self, fn_name);
         }
         if ret_val.is_none() {
-            ret_val = crate::p41_webrtc_mod::call_fn_string(&self, fn_name);
+            ret_val = crate::p41_webrtc_mod::replace_with_string(&self, fn_name);
         }
         if ret_val.is_none() {
             match fn_name {
-                "my_nickname" => self.game_data.my_nickname.to_owned(),
-                "group_id" => self.game_data.group_id.to_string(),
-                "cargo_pkg_version" => env!("CARGO_PKG_VERSION").to_string(),
-                "debug_text" => websysmod::get_debug_text(),
-                "game_status" => self.game_data.game_status.as_ref().to_string(),
-                "my_player_number" => self.game_data.my_player_number.to_string(),
-                "gameboard_btn" => {
+                "wt_my_nickname" => self.game_data.my_nickname.to_owned(),
+                "wt_group_id" => self.game_data.group_id.to_string(),
+                "wt_cargo_pkg_version" => env!("CARGO_PKG_VERSION").to_string(),
+                "wt_debug_text" => websysmod::get_debug_text(),
+                "wt_game_status" => self.game_data.game_status.as_ref().to_string(),
+                "wt_my_player_number" => self.game_data.my_player_number.to_string(),
+                "wt_gameboard_btn" => {
                     // different class depend on status
                     "btn".to_owned()
                 }
-                "player_turn_nickname" => {
+                "wt_player_turn_nickname" => {
                     //websysmod::debug_write("player_turn_nickname");
                     return self.game_data.player_turn_now().nickname.to_string();
                 }
                 _ => {
-                    let err_string = format!("Error: Unrecognized call_fn_string: \"{}\"", fn_name);
+                    let err_string = format!("Error: Unrecognized replace_with_string: \"{}\"", fn_name);
                     websysmod::debug_write(&err_string);
                     err_string
                 }
@@ -91,7 +91,7 @@ impl rust_wasm_dodrio_templating::html_template_mod::HtmlTemplating for RootRend
 
     /// return a closure for the listener.
     #[allow(clippy::too_many_lines, clippy::type_complexity)]
-    fn call_fn_listener(
+    fn set_event_listener(
         &self,
         fn_name: String,
     ) -> Box<dyn Fn(&mut dyn RootRender, dodrio::VdomWeak, web_sys::Event) + 'static> {
@@ -99,11 +99,11 @@ impl rust_wasm_dodrio_templating::html_template_mod::HtmlTemplating for RootRend
             let fn_name = fn_name.clone();
             let fn_name = fn_name.as_str();
             let rrc = root.unwrap_mut::<RootRenderingComponent>();
-            //websysmod::debug_write(&format!("call_fn_listener: {}", &fn_name));
+            //websysmod::debug_write(&format!("set_event_listener: {}", &fn_name));
             // first try the specialized modules for a single page event listeners
             let mut is_matched_fn_name = false;
             if is_matched_fn_name == false {
-                is_matched_fn_name = crate::p01_start_mod::call_fn_listener(
+                is_matched_fn_name = crate::p01_start_mod::set_event_listener(
                     fn_name,
                     rrc,
                     vdom.clone(),
@@ -111,7 +111,7 @@ impl rust_wasm_dodrio_templating::html_template_mod::HtmlTemplating for RootRend
                 );
             }
             if is_matched_fn_name == false {
-                is_matched_fn_name = crate::p02_start_a_group_mod::call_fn_listener(
+                is_matched_fn_name = crate::p02_start_a_group_mod::set_event_listener(
                     fn_name,
                     rrc,
                     vdom.clone(),
@@ -119,7 +119,7 @@ impl rust_wasm_dodrio_templating::html_template_mod::HtmlTemplating for RootRend
                 );
             }
             if is_matched_fn_name == false {
-                is_matched_fn_name = crate::p03_join_a_group_mod::call_fn_listener(
+                is_matched_fn_name = crate::p03_join_a_group_mod::set_event_listener(
                     fn_name,
                     rrc,
                     vdom.clone(),
@@ -127,7 +127,7 @@ impl rust_wasm_dodrio_templating::html_template_mod::HtmlTemplating for RootRend
                 );
             }
             if is_matched_fn_name == false {
-                is_matched_fn_name = crate::p05_choose_game_mod::call_fn_listener(
+                is_matched_fn_name = crate::p05_choose_game_mod::set_event_listener(
                     fn_name,
                     rrc,
                     vdom.clone(),
@@ -135,7 +135,7 @@ impl rust_wasm_dodrio_templating::html_template_mod::HtmlTemplating for RootRend
                 );
             }
             if is_matched_fn_name == false {
-                is_matched_fn_name = crate::p06_drink_mod::call_fn_listener(
+                is_matched_fn_name = crate::p06_drink_mod::set_event_listener(
                     fn_name,
                     rrc,
                     vdom.clone(),
@@ -143,7 +143,7 @@ impl rust_wasm_dodrio_templating::html_template_mod::HtmlTemplating for RootRend
                 );
             }
             if is_matched_fn_name == false {
-                is_matched_fn_name = crate::p11_gameboard_mod::call_fn_listener(
+                is_matched_fn_name = crate::p11_gameboard_mod::set_event_listener(
                     fn_name,
                     rrc,
                     vdom.clone(),
@@ -151,7 +151,7 @@ impl rust_wasm_dodrio_templating::html_template_mod::HtmlTemplating for RootRend
                 );
             }
             if is_matched_fn_name == false {
-                is_matched_fn_name = crate::p21_menu_mod::call_fn_listener(
+                is_matched_fn_name = crate::p21_menu_mod::set_event_listener(
                     fn_name,
                     rrc,
                     vdom.clone(),
@@ -159,7 +159,7 @@ impl rust_wasm_dodrio_templating::html_template_mod::HtmlTemplating for RootRend
                 );
             }
             if is_matched_fn_name == false {
-                is_matched_fn_name = crate::p41_webrtc_mod::call_fn_listener(
+                is_matched_fn_name = crate::p41_webrtc_mod::set_event_listener(
                     fn_name,
                     rrc,
                     vdom.clone(),
@@ -169,11 +169,11 @@ impl rust_wasm_dodrio_templating::html_template_mod::HtmlTemplating for RootRend
             // other listeners, that are used on more pages
             if is_matched_fn_name == false {
                 match fn_name {
-                    "open_menu" => {
+                    "wl_open_menu" => {
                         websysmod::open_new_local_page_push_to_history("#p21");
                     }
                     _ => {
-                        let x = format!("Error: Unrecognized call_fn_listener: \"{}\"", fn_name);
+                        let x = format!("Error: Unrecognized set_event_listener: \"{}\"", fn_name);
                         websysmod::debug_write(&x);
                     }
                 }
@@ -181,58 +181,21 @@ impl rust_wasm_dodrio_templating::html_template_mod::HtmlTemplating for RootRend
         })
     }
 
-    /// html_templating functions that return a Node
-    #[allow(clippy::needless_return)]
-    fn call_fn_node<'a>(&self, cx: &mut RenderContext<'a>, fn_name: &str) -> Node<'a> {
-        let bump = cx.bump;
-        let mut ret_val: Option<Node<'a>> = None;
-        if ret_val.is_none() {
-            ret_val = crate::p02_start_a_group_mod::call_fn_node(&self, cx, fn_name);
-        }
-        if ret_val.is_none() {
-            ret_val = crate::p11_gameboard_mod::call_fn_node(&self, cx, fn_name);
-        }
-        // websysmod::debug_write(&format!("call_fn_node: {}", &fn_name));
-        if ret_val.is_none() {
-            match fn_name {
-                /* 
-                // just an example
-                "svg_qrcode" => {
-                    return svg_qrcode_to_node(self, cx);
-                }
-                */
-                _ => {
-                    let node = ElementBuilder::new(bump, "h2")
-                        .children([text(
-                            bumpalo::format!(in bump,
-                                "Error: Unrecognized call_fn_node: \"{}\"",
-                                fn_name
-                            )
-                            .into_bump_str(),
-                        )])
-                        .finish();
-
-                    return node;
-                }
-            }
-        } else {
-            // return
-            unwrap!(ret_val)
-        }
-    }
-
     /// html_templating functions that return a vector of Nodes
     #[allow(clippy::needless_return)]
-    fn call_fn_vec_nodes<'a>(&self, cx: &mut RenderContext<'a>, fn_name: &str) -> Vec<Node<'a>> {
+    fn replace_with_nodes<'a>(&self, cx: &mut RenderContext<'a>, fn_name: &str) -> Vec<Node<'a>> {
         let bump = cx.bump;
         let mut ret_val: Option<Vec<Node<'a>>> = None;
         if ret_val.is_none() {
-            ret_val = crate::p11_gameboard_mod::call_fn_vec_nodes(&self, cx, fn_name);
+            ret_val = crate::p02_start_a_group_mod::replace_with_nodes(&self, cx, fn_name);
         }
         if ret_val.is_none() {
-            ret_val = crate::p41_webrtc_mod::call_fn_vec_nodes(&self, cx, fn_name);
+            ret_val = crate::p11_gameboard_mod::replace_with_nodes(&self, cx, fn_name);
         }
-        // websysmod::debug_write(&format!("call_fn_node: {}", &fn_name));
+        if ret_val.is_none() {
+            ret_val = crate::p41_webrtc_mod::replace_with_nodes(&self, cx, fn_name);
+        }
+        // websysmod::debug_write(&format!("replace_with_nodes: {}", &fn_name));
         if ret_val.is_none() {
             match fn_name {
                 /*
@@ -245,7 +208,7 @@ impl rust_wasm_dodrio_templating::html_template_mod::HtmlTemplating for RootRend
                     let node = ElementBuilder::new(bump, "h2")
                         .children([text(
                             bumpalo::format!(in bump,
-                                "Error: Unrecognized call_fn_node: \"{}\"",
+                                "Error: Unrecognized replace_with_nodes: \"{}\"",
                                 fn_name
                             )
                             .into_bump_str(),

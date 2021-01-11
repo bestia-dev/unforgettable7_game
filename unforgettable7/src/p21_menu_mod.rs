@@ -5,7 +5,7 @@ use crate::*;
 use unwrap::unwrap;
 
 /// returns false if the fn_name is not found
-pub fn call_fn_listener(
+pub fn set_event_listener(
     fn_name: &str,
     rrc: &mut RootRenderingComponent,
     vdom:dodrio::VdomWeak,
@@ -13,25 +13,25 @@ pub fn call_fn_listener(
 ) ->bool {
     let mut is_matched_fn_name = true;
     match fn_name {
-        "back_to_game" => {
+        "wl_back_to_game" => {
             let h = unwrap!(websysmod::window().history());
             let _x = h.back();
         }
-        "open_instructions" => {
+        "wl_open_instructions" => {
             websysmod::open_new_tab("#p08");
         }
-        "debug_log" => {
+        "wl_debug_log" => {
             websysmod::open_new_tab("#p31");
         }
-        "webrtc" => {
+        "wl_webrtc" => {
             html_template_impl_mod::open_new_local_page("#p41");
         }
-        "restart_game" => {
+        "wl_restart_game" => {
             // send a msg to others to open #p04
             status_game_over_mod::on_msg_play_again(rrc);
             html_template_impl_mod::open_new_local_page("#p02");
         }
-        "sounds_and_labels" => {
+        "wl_sounds_and_labels" => {
             // toggle sound and label on/off
             websysmod::debug_write(&format!("on click sounds and labels: {}", ""));
             if rrc.game_data.sounds_and_labels == true {

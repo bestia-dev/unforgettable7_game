@@ -9,8 +9,8 @@ use unwrap::unwrap;
 use wasm_bindgen_futures::spawn_local;
 // endregion
 
-/// async fetch for gameconfig.json and update rrc
-pub fn async_fetch_game_config_and_update(rrc: &mut RootRenderingComponent, vdom: dodrio::VdomWeak) {
+/// on next tick fetch for gameconfig.json and update rrc
+pub fn fetch_game_config_and_update_on_next_tick(rrc: &mut RootRenderingComponent, vdom: dodrio::VdomWeak) {
     let url = format!(
         "{}/content/{}/game_config.json",
         rrc.web_data.href, rrc.game_data.game_name
@@ -20,14 +20,15 @@ pub fn async_fetch_game_config_and_update(rrc: &mut RootRenderingComponent, vdom
     fn fetch_response_pinned_future(
         url: String,
     ) -> std::pin::Pin<Box<dyn Future<Output = String>>> {
-        Box::pin(fetch_response_future(url))
-    }
 
-    /// async fn returns impl Future<Output = String>
-    async fn fetch_response_future(url: String) -> String {
-        let respbody = websysmod::fetch_response(url).await;
-        // return
-        respbody
+        /// async fn returns impl Future<Output = String>
+        async fn fetch_response_future(url: String) -> String {
+            let respbody = websysmod::fetch_response(url).await;
+            // return
+            respbody
+        }
+
+        Box::pin(fetch_response_future(url))
     }
 
     /// set rrc game data game config
@@ -44,24 +45,25 @@ pub fn async_fetch_game_config_and_update(rrc: &mut RootRenderingComponent, vdom
     );
 }
 
-
-/// async fetch for gamesmetadata.json and update rrc
-pub fn fetch_games_metadata_and_update(href: &str, vdom: dodrio::VdomWeak) {
+/// on next tick fetch for gamesmetadata.json and update rrc
+pub fn fetch_games_metadata_and_update_on_next_tick(href: &str, vdom: dodrio::VdomWeak) {
     let url = format!("{}/content/gamesmetadata.json", href);
 
     /// boilerplate: futures must be pinned and boxed
     fn fetch_metadata_pinned_future(
         url: String,
     ) -> std::pin::Pin<Box<dyn Future<Output = crate::game_data_mod::GamesMetadata>>> {
-        Box::pin(fetch_metadata_future(url))
-    }
+        // region: internal functions
+        /// async fn returns impl Future<Output = crate::game_data_mod::GamesMetadata>
+        pub async fn fetch_metadata_future(url: String) -> crate::game_data_mod::GamesMetadata {
+            let respbody = websysmod::fetch_response(url).await;
+            let v: game_data_mod::GamesMetadata = unwrap!(serde_json::from_str(&respbody));
+            // return
+            v
+        }
+        // endregion: internal functions
 
-    /// async fn returns impl Future<Output = crate::game_data_mod::GamesMetadata>
-    pub async fn fetch_metadata_future(url: String) -> crate::game_data_mod::GamesMetadata {
-        let respbody = websysmod::fetch_response(url).await;
-        let v: game_data_mod::GamesMetadata = unwrap!(serde_json::from_str(&respbody));
-        // return
-        v
+        Box::pin(fetch_metadata_future(url))
     }
 
     /// set rrc game data games_metadata
@@ -82,10 +84,8 @@ pub fn fetch_games_metadata_and_update(href: &str, vdom: dodrio::VdomWeak) {
     );
 }
 
-
-
-/// async fetch for videos.json and update rrc
-pub fn fetch_videos_and_update(href: &str, vdom: dodrio::VdomWeak) {
+/// on next tick fetch for videos.json and update rrc
+pub fn fetch_videos_and_update_on_next_tick(href: &str, vdom: dodrio::VdomWeak) {
     let url = format!("{}/content/videos.json", href);
 
     /// boilerplate: futures must be pinned and boxed
@@ -117,9 +117,8 @@ pub fn fetch_videos_and_update(href: &str, vdom: dodrio::VdomWeak) {
     );
 }
 
-
-/// async fetch for audio.json and update rrc
-pub fn fetch_audio_and_update(href: &str, vdom: dodrio::VdomWeak) {
+/// on next tick fetch for audio.json and update rrc
+pub fn fetch_audio_and_update_on_next_tick(href: &str, vdom: dodrio::VdomWeak) {
     let url = format!("{}/content/audio.json", href);
 
     /// boilerplate: futures must be pinned and boxed
@@ -151,10 +150,9 @@ pub fn fetch_audio_and_update(href: &str, vdom: dodrio::VdomWeak) {
     );
 }
 
-
 /// fetch all imgs for the cache
 #[allow(clippy::needless_pass_by_value)]
-pub fn fetch_all_img_for_cache_request(rrc: &mut RootRenderingComponent) {
+pub fn fetch_all_img_for_cache_request_on_next_tick(rrc: &mut RootRenderingComponent) {
     let (start_index, end_index) = rrc.game_data.grid_start_end_index();
     for i in start_index..end_index {
         #[allow(clippy::indexing_slicing)]

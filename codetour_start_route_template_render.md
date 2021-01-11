@@ -114,9 +114,9 @@ If JavaScript is disabled, also wasm cannot run.
     let vdom_object = dodrio::Vdom::new(&div_for_virtual_dom, rrc);
     let vdom = vdom_object.weak();
     // async fetch_response() for gamesmetadata.json
-    fetch_mod::fetch_games_metadata_and_update(&location_href, vdom.clone());
-    fetch_mod::fetch_videos_and_update(&location_href, vdom.clone());
-    fetch_mod::fetch_audio_and_update(&location_href, vdom.clone());
+    fetch_mod::fetch_games_metadata_and_update_on_next_tick(&location_href, vdom.clone());
+    fetch_mod::fetch_videos_and_update_on_next_tick(&location_href, vdom.clone());
+    fetch_mod::fetch_audio_and_update_on_next_tick(&location_href, vdom.clone());
     // Start the URL router.
     use rust_wasm_dodrio_router::router_mod::RouterTrait;
     let router = router_impl_mod::Router::new();
@@ -252,7 +252,7 @@ The vdom library then diffs and modify the real dom.
 #//----------------------- selection end -----------------------
 ```
 ### templating variables
-Here we can see a html template with the replace `comments` ex. \<!--t=game_name--\> and `data- attributes` ex. `data-on-click="game_type_left_onclick"`.
+Here we can see a html template with the replace `comments` ex. \<!--wt_game_name--\> and `data- attributes` ex. `data-on-click="wl_game_type_left_onclick"`.
 
 ##### step 13 of 18 [View code in GitHub](https://github.com/LucianoBestia/unforgettable7_game/blob/master/webfolder/unforgettable7/p05_choose_game.html#L23)
 ```html
@@ -262,16 +262,16 @@ Here we can see a html template with the replace `comments` ex. \<!--t=game_name
 <body>
   <svg height="100%" width="100%">
     <text x="50%" y="15%" class="h1 clickable orange bold"
-          data-on-click="open_youtube">unForGetTable7</text>
+          data-on-click="wl_open_youtube">unForGetTable7</text>
 
     <text x="50%" y="50%" class="h6">Choose a type of game</text>
     <rect class="rounded green clickable" x="5%" y="52.5%" width="10%"
 #//---------------------- selection start ----------------------
-          height="10%" data-on-click="game_type_left_onclick" />
+          height="10%" data-on-click="wl_game_type_left_onclick" />
 #//----------------------- selection end -----------------------
 ```
-### call_fn_string
-This fn will replace the next text element after \<!--t=fn_name--\> or the next attribute value after `data-t-style="fn_name"` with a string.
+### replace_with_string
+This fn will replace the next text element after \<!--wt_fn_name--\> or the next attribute value after `data-wt-style="fn_name"` with a string.
 
 ##### step 14 of 18 [View code in GitHub](https://github.com/LucianoBestia/unforgettable7_game/blob/master/unforgettable7/src/html_template_impl_mod.rs#L41)
 ```rust
@@ -286,16 +286,16 @@ This fn will replace the next text element after \<!--t=fn_name--\> or the next 
         clippy::indexing_slicing
     )]
 #//---------------------- selection start ----------------------
-    fn call_fn_string(&self, fn_name: &str) -> String {
+    fn replace_with_string(&self, fn_name: &str) -> String {
 #//----------------------- selection end -----------------------
 ```
-### call_fn_node
-This fn will replace the next element after \<!--n=fn_name--\> with a Node.
+### replace_with_nodes
+This fn will replace the next element after \<!--wn_fn_name--\> with a Node.
 
 ##### step 15 of 18 [View code in GitHub](https://github.com/LucianoBestia/unforgettable7_game/blob/master/unforgettable7/src/html_template_impl_mod.rs#L261)
 ```rust
                 _ => {
-                    let x = format!("Error: Unrecognized call_fn_listener: \"{}\"", fn_name);
+                    let x = format!("Error: Unrecognized set_event_listener: \"{}\"", fn_name);
                     websysmod::debug_write(&x);
                 }
             }
@@ -305,11 +305,11 @@ This fn will replace the next element after \<!--n=fn_name--\> with a Node.
     /// html_templating functions that return a Node
     #[allow(clippy::needless_return)]
 #//---------------------- selection start ----------------------
-    fn call_fn_node<'a>(&self, cx: &mut RenderContext<'a>, fn_name: &str) -> Node<'a> {
+    fn replace_with_nodes<'a>(&self, cx: &mut RenderContext<'a>, fn_name: &str) -> Node<'a> {
 #//----------------------- selection end -----------------------
 ```
-### call_fn_vec_nodes
-This fn will replace the next element after \<!--vn=fn_name--\> with a Vector of Nodes.
+### replace_with_nodes
+This fn will replace the next element after \<!--wn_fn_name--\> with a Vector of Nodes.
 
 ##### step 16 of 18 [View code in GitHub](https://github.com/LucianoBestia/unforgettable7_game/blob/master/unforgettable7/src/html_template_impl_mod.rs#L296)
 ```rust
@@ -324,11 +324,11 @@ This fn will replace the next element after \<!--vn=fn_name--\> with a Vector of
     /// html_templating functions that return a vector of Nodes
     #[allow(clippy::needless_return)]
 #//---------------------- selection start ----------------------
-    fn call_fn_vec_nodes<'a>(&self, cx: &mut RenderContext<'a>, fn_name: &str) -> Vec<Node<'a>> {
+    fn replace_with_nodes<'a>(&self, cx: &mut RenderContext<'a>, fn_name: &str) -> Vec<Node<'a>> {
 #//----------------------- selection end -----------------------
 ```
-### call_fn_boolean
-This fn will remove the next element after \<!--b=fn_name--\> if the result is `false`.
+### retain_next_node_or_attribute
+This fn will remove the next element after \<!--wb_fn_name--\> if the result is `false`.
 
 ##### step 17 of 18 [View code in GitHub](https://github.com/LucianoBestia/unforgettable7_game/blob/master/unforgettable7/src/html_template_impl_mod.rs#L19)
 ```rust
@@ -343,16 +343,16 @@ use web_sys::{Event};
 impl rust_wasm_dodrio_templating::html_template_mod::HtmlTemplating for RootRenderingComponent {
     /// html_templating boolean id the next node is rendered or not
 #//---------------------- selection start ----------------------
-    fn call_fn_boolean(&self, fn_name: &str) -> bool {
+    fn retain_next_node_or_attribute(&self, fn_name: &str) -> bool {
 #//----------------------- selection end -----------------------
 ```
-### call_fn_listener
+### set_event_listener
 This fn will add a listener to the element after `data-on-click="fn_name"`.
 
 ##### step 18 of 18 [View code in GitHub](https://github.com/LucianoBestia/unforgettable7_game/blob/master/unforgettable7/src/html_template_impl_mod.rs#L98)
 ```rust
             _ => {
-                let x = format!("Error: Unrecognized call_fn_string: \"{}\"", fn_name);
+                let x = format!("Error: Unrecognized replace_with_string: \"{}\"", fn_name);
                 websysmod::debug_write(&x);
                 x
             }
@@ -362,6 +362,6 @@ This fn will add a listener to the element after `data-on-click="fn_name"`.
     /// return a closure for the listener.
     #[allow(clippy::too_many_lines, clippy::type_complexity)]
 #//---------------------- selection start ----------------------
-    fn call_fn_listener(
+    fn set_event_listener(
 #//----------------------- selection end -----------------------
 ```

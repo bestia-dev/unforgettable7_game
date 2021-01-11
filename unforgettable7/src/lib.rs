@@ -118,7 +118,7 @@
 //! Then I insert in it html comments and "data-" attributes that I can later replace in my code.  
 //! The html is not changed graphically because of it. So both the graphical designer and the programmer are still happy.  
 //! In my code I parse the html template as a microXml file. Basically they are the same with small effort. When I find a comment or "data-" attribute then the value of the next node is replaced.  
-//! I can replace attributes, strings and entire nodes. And I can insert event for behavior with "data-t".  
+//! I can replace attributes, strings and entire nodes. And I can insert event for behavior with "data-wt-".  
 //! When developing, the html template is loaded and parsed and a dodrio node is created. That is not very fast. But I can change the html in real time and see it rendered without compiling the Rust code. This is super efficient for development.  
 //! I have in plans to add a Rust code generator, that creates the Rust code for the dodrio node before compile time. In that case nothing is parsed in runtime and I expect great speeds. But the flexibility of easily changing the html template is gone. For every change I must recompile the Rust code.  
 //!
@@ -326,9 +326,9 @@ pub fn wasm_bindgen_start() -> Result<(), JsValue> {
     let vdom = vdom_object.weak();
 
     // async fetch_response() for gamesmetadata.json
-    fetch_mod::fetch_games_metadata_and_update(&location_href, vdom.clone());
-    fetch_mod::fetch_videos_and_update(&location_href, vdom.clone());
-    fetch_mod::fetch_audio_and_update(&location_href, vdom.clone());
+    fetch_mod::fetch_games_metadata_and_update_on_next_tick(&location_href, vdom.clone());
+    fetch_mod::fetch_videos_and_update_on_next_tick(&location_href, vdom.clone());
+    fetch_mod::fetch_audio_and_update_on_next_tick(&location_href, vdom.clone());
     // Start the URL router.
     let router = crate::router_impl_mod::Router::new();
     // import the trait in scope to make methods available

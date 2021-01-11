@@ -1,5 +1,5 @@
 
-# CodeFlow for dodrio::vdom + router + htmltemplate
+# CodeFlow for dodrio::vdom + router + html_template
 
 The funny game unForGetTable7
 is a PWA - progressive web app.  
@@ -70,13 +70,12 @@ It is scheduled when the data changes.
 - there is a difference between Html nodes and Svg nodes. The latter must have a namespace.
 - calls `fill_element_builder` that recursively goes through all nodes
 - adds attributes with `element.attr()`
-- if it finds `data-t-` attributes then calls `call_fn_string()` with the value. The resulting string is saved to `replace_string`. Then goes to the next attribute and *replace* the value with the result.
-- if it finds `data-on-` attribute then calls `call_fn_listener()` with the value. The result is a `Closure` that is added to the event listener named in the last word ex. `data-on-click`.
+- if it finds `data-wt-` attributes then calls `replace_with_string()` with the value. The resulting string is saved to `replace_string`. Then goes to the next attribute and *replace* the value with the result.
+- if it finds `data-on-` attribute then calls `set_event_listener()` with the value. The result is a `Closure` that is added to the event listener named in the last word ex. `data-on-click`.
 - the TextNode is `decoded_for_xml`
-- if it finds a comment like `<!--t=` it will `call_fn_string` and update `replace_string`. The next TextNode will be replaced with this result.
-- if the comment is like `<!--n=` it will `call_fn_node` and update `replace_node`. The next Node will be replaced with this result.
-- if the comment is like `<!--v=` it will `call_fn_vec_nodes` and update `replace_vec_nodes`. The next Node will be replaced with all this nodes.
-- if the comment is like `<!--b=` it will `call_fn_boolean` and update `replace_boolean`. The next node will NOT be rendered if the result is false.
+- if it finds a comment like `<!--wt_` it will `replace_with_string` and update `replace_string`. The next TextNode will be replaced with this result.
+- if the comment is like `<!--wn_` it will `replace_with_nodes` and update `replace_vec_nodes`. The next Node will be replaced with all this nodes.
+- if the comment is like `<!--wb_` it will `retain_next_node_or_attribute` and update `replace_boolean`. The next node will NOT be rendered if the result is false.
 
 The code can use saved `rrc.html_sub_templates` and render them with the same code
 and so include them in the main template.  

@@ -1232,6 +1232,10 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3550b16c9538612828a483feca6a202eec1bfab175a95a997bd9e6cf8061addc"
 
 [[package]]
+name = "reader_for_microxml"
+version = "1.1.13"
+
+[[package]]
 name = "redox_syscall"
 version = "0.1.57"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1286,7 +1290,8 @@ version = "2020.218.1306"
 dependencies = [
  "dodrio",
  "js-sys",
- "reader_for_microxml",
+ "reader_for_microxml 1.1.13",
+ "rust_wasm_websys_utils 0.4.3",
  "serde",
  "serde_json",
  "unwrap",
@@ -1827,7 +1832,7 @@ checksum = "373c8a200f9e67a0c95e62a4f52fbf80c23b4381c05a17845531982fa99e6b33"
 
 [[package]]
 name = "unforgettable7"
-version = "2021.106.1030"
+version = "2021.111.1256"
 dependencies = [
  "console_error_panic_hook",
  "conv",
@@ -1837,7 +1842,7 @@ dependencies = [
  "js-sys",
  "qrcode53bytes",
  "rand 0.7.3",
- "reader_for_microxml",
+ "reader_for_microxml 1.1.12",
  "rust_wasm_dodrio_router",
  "rust_wasm_dodrio_templating",
  "rust_wasm_webrtc",
@@ -1857,7 +1862,7 @@ dependencies = [
 
 [[package]]
 name = "unforgettable7_common"
-version = "2020.424.1406"
+version = "2020.424.1431"
 dependencies = [
  "serde",
  "serde_derive",

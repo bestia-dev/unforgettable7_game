@@ -28,7 +28,7 @@ pub fn div_player_actions_from_game_status<'a>(
 fn div_unpredicted<'a>(rrc: &RootRenderingComponent, cx: &mut RenderContext<'a>) -> Node<'a> {
     // unpredictable situation
     let html_template = r#"<h2>
-    gamestatus: <!--t=game_status--> one, player<!--t=my_player_number--> Nick
+    gamestatus: <!--wt_game_status--> one, player<!--wt_my_player_number--> Nick
     </h2>"#;
     // return
     unwrap!(rrc.render_template(

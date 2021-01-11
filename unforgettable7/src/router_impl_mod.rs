@@ -6,7 +6,7 @@
 
 use crate::*;
 //use unwrap::unwrap;
-use rust_wasm_dodrio_router::router_mod::{RouterTrait};
+use rust_wasm_dodrio_router::router_mod::RouterTrait;
 
 /// The struct must be declared near the implementation, not definition of the Trait
 pub struct Router {
@@ -72,11 +72,7 @@ impl RouterTrait for Router {
         } else if location_hash == "#p31" {
             self.file_name_to_fetch = "p31_debug_text.html".to_owned();
         } else if location_hash == "#p41" {
-            /*
-            // entry point for webrtc chat
-            rrc.start_websocket(vdom.clone());
-            */
-            self.file_name_to_fetch = "p41_webrtc.html".to_owned();
+            crate::p41_webrtc_mod::on_hash_change(vdom.clone());
         } else {
             // unknown hash route
             self.file_name_to_fetch = "unknown_hash_route.html".to_owned();

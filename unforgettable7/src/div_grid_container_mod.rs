@@ -141,8 +141,8 @@ pub fn render_template_grid_item<'a>(
 ) -> Node<'a> {
     let template_name = "grid_item";
     let on_click_img = match rrc.game_data.game_status {
-        GameStatus::Status1stCard => "on_click_img_status1st",
-        GameStatus::Status2ndCard => "on_click_img_status2nd",
+        GameStatus::Status1stCard => "wl_on_click_img_status1st",
+        GameStatus::Status2ndCard => "wl_on_click_img_status2nd",
         game_data_mod::GameStatus::StatusStartPage
         | game_data_mod::GameStatus::StatusJoined
         | game_data_mod::GameStatus::StatusDrink
@@ -157,7 +157,7 @@ pub fn render_template_grid_item<'a>(
         .replace("img_src", &img_src)
         .replace("img_id", &img_id)
         .replace("src:replace_in_code_img_style", &img_style)
-        .replace("on_click_img", on_click_img);
+        .replace("wl_on_click_img", on_click_img);
     //websysmod::debug_write(&html_template);
     unwrap!(rrc.render_template(
         cx,
