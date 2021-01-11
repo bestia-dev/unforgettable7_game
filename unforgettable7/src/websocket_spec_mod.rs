@@ -13,7 +13,7 @@ use rust_wasm_webrtc::webrtcmod::{WebRtcTrait};
 pub fn match_msg_and_call_function(
     vdom: dodrio::VdomWeak,
     rrc: &mut RootRenderingComponent,
-    msg: websocket_boiler_mod::WsMessageForReceivers,
+    msg: websocket_boiler_mod::WsMessageForReceiver,
 ) {
     match msg.msg_data {
         WsMessageGameData::MsgJoin { my_nickname } => {

@@ -56,13 +56,8 @@ pub fn set_event_listener(
     let mut is_matched_fn_name = true;
     match fn_name {
         "wl_play_again" => {
-            rrc.web_data.send_ws_msg_from_web_data(
-                &websocket_boiler_mod::WsMessageForReceivers {
-                    msg_sender_ws_uid: rrc.web_data.my_ws_uid,
-                    msg_receivers_json: rrc.web_data.msg_receivers_json.to_string(),
-                    msg_data: game_data_mod::WsMessageGameData::MsgPlayAgain {},
-                },
-            );
+            let msg_data = game_data_mod::WsMessageGameData::MsgPlayAgain {};
+            rrc.web_data.send_ws_msg_to_receivers(&rrc.web_data.msg_receivers_ws_uid,&msg_data);
             rrc.game_data.reset_for_play_again();
             html_template_impl_mod::open_new_local_page("#p05");
         }

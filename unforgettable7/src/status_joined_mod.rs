@@ -14,18 +14,13 @@ use crate::*;
 pub fn on_load_joined(rrc: &mut RootRenderingComponent) {
     rrc.game_data.game_status = GameStatus::StatusJoined;
     websysmod::debug_write(&format!(
-        "StatusJoined send {}",
-        rrc.web_data.msg_receivers_json
+        "StatusJoined send {:?}",
+        rrc.web_data.msg_receivers_ws_uid
     ));
-
-    rrc.web_data
-        .send_ws_msg_from_web_data(&websocket_boiler_mod::WsMessageForReceivers {
-            msg_sender_ws_uid: rrc.web_data.my_ws_uid,
-            msg_receivers_json: rrc.web_data.msg_receivers_json.to_string(),
-            msg_data: game_data_mod::WsMessageGameData::MsgJoin {
-                my_nickname: rrc.game_data.my_nickname.clone(),
-            },
-        });
+    let msg_data = game_data_mod::WsMessageGameData::MsgJoin {
+        my_nickname: rrc.game_data.my_nickname.clone(),
+    };
+    rrc.web_data.send_ws_msg_to_receivers(&rrc.web_data.msg_receivers_ws_uid,&msg_data);
 }
 
 /// msg joined
@@ -46,7 +41,7 @@ pub fn on_msg_joined(rrc: &mut RootRenderingComponent, his_ws_uid: usize, his_ni
                 nickname: his_nickname,
                 points: 0,
             });
-            rrc.web_data.msg_receivers_json = rrc.game_data.prepare_json_msg_receivers();
+            rrc.web_data.msg_receivers_ws_uid = rrc.game_data.prepare_msg_receivers_ws_uid();
         }
     }
 }

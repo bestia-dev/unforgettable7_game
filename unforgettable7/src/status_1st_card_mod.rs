@@ -25,16 +25,12 @@ pub fn on_click_1st_card(
     rrc.game_data.card_index_of_1st_click = this_click_card_index;
 
     let msg_id = ack_msg_mod::prepare_for_ack_msg_waiting(rrc, vdom.clone());
-    let msg = websocket_boiler_mod::WsMessageForReceivers {
-        msg_sender_ws_uid: rrc.web_data.my_ws_uid,
-        msg_receivers_json: rrc.web_data.msg_receivers_json.to_string(),
-        msg_data: game_data_mod::WsMessageGameData::MsgClick1stCard {
-            card_index_of_1st_click: this_click_card_index,
-            msg_id,
-        },
+    let msg_data = game_data_mod::WsMessageGameData::MsgClick1stCard {
+        card_index_of_1st_click: this_click_card_index,
+        msg_id,
     };
-    ack_msg_mod::send_msg_and_write_in_queue(rrc, &msg, msg_id);
-    // websysmod::debug_write(&format!("send_msg_and_write_in_queue: {}", msg_id));
+    ack_msg_mod::send_msg_to_all_and_write_in_queue(rrc, &msg_data, msg_id);
+    // websysmod::debug_write(&format!("send_msg_to_all_and_write_in_queue: {}", msg_id));
     div_grid_container_mod::play_sound(rrc, this_click_card_index);
     // after ack for this message call on_msg_click_1st_card(rrc, this_click_card_index);
 }

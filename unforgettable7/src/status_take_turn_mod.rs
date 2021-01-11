@@ -10,15 +10,9 @@ use unwrap::unwrap;
 /// on click
 pub fn on_click_take_turn(rrc: &mut RootRenderingComponent, vdom: dodrio::VdomWeak) {
     // websysmod::debug_write(&format!("on_click_take_turn {}", ""));
-
     let msg_id = ack_msg_mod::prepare_for_ack_msg_waiting(rrc, vdom.clone());
-
-    let msg = websocket_boiler_mod::WsMessageForReceivers {
-        msg_sender_ws_uid: rrc.web_data.my_ws_uid,
-        msg_receivers_json: rrc.web_data.msg_receivers_json.to_string(),
-        msg_data: game_data_mod::WsMessageGameData::MsgTakeTurn { msg_id },
-    };
-    ack_msg_mod::send_msg_and_write_in_queue(rrc, &msg, msg_id);
+    let msg_data = game_data_mod::WsMessageGameData::MsgTakeTurn { msg_id };
+    ack_msg_mod::send_msg_to_all_and_write_in_queue(rrc, &msg_data, msg_id);
 
     // Here I wait for on_MsgAck from
     // every player before call update_take_turn(rrc);

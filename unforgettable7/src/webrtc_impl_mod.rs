@@ -57,16 +57,37 @@ impl WebRtcData {
         }
     }
     /// send msg over ws
-    pub fn send_ws_msg_from_webrtc(
+    pub fn send_webrtc_msg_to_receiver(
         &self,
-        ws_message: &websocket_boiler_mod::WsMessageForReceivers,
+        msg_data: &WsMessageGameData,
     ) {
-        let json_message = unwrap!(serde_json::to_string(ws_message));
-        use rust_wasm_websocket::websocketmod::{WebSocketTrait};
-        websocket_boiler_mod::WebSocketData::ws_send_msg_with_retry(
-            unwrap!(self.rtc_ws.as_ref()),
-            json_message,
-        );
+          // send single msg to every receiver (except self)
+                Self::send_webrtc_msg_to_single_receiver(
+                    &self,
+                    self.rtc_receiver_ws_uid,
+                    msg_data,
+                )
+    }
+
+    /// send msg over ws to single receiver
+    pub fn send_webrtc_msg_to_single_receiver(
+        &self,
+        msg_receiver_ws_uid:usize,
+        msg_data: &WsMessageGameData,
+    ) {
+        if msg_receiver_ws_uid != self.rtc_my_ws_uid{
+            let ws_message = websocket_boiler_mod::WsMessageForReceiver {
+                msg_sender_ws_uid: self.rtc_my_ws_uid,
+                msg_receiver_ws_uid,
+                msg_data: msg_data.clone(),
+            };
+            let json_message = unwrap!(serde_json::to_string(&ws_message));
+            use rust_wasm_websocket::websocketmod::WebSocketTrait;
+            websocket_boiler_mod::WebSocketData::ws_send_json_msg_with_retry(
+                unwrap!(self.rtc_ws.as_ref()),
+                json_message,
+            );
+        }
     }
 }
 
@@ -124,44 +145,24 @@ impl WebRtcTrait for WebRtcData {
         &mut rrc.web_data.web_rtc_data
     }
     /// send offer over websocket to establish peer connection
-    fn web_rtc_send_offer(&mut self, sdp: String) {
+    fn web_rtc_send_offer(&mut self, sdp: String) {        
         //websysmod::debug_write("web_rtc_send_offer()");
-        let msg_receivers_json =
-            websysmod::prepare_json_msg_receivers_for_one(self.get_rtc_receiver_ws_uid());
-
-        let msg = websocket_boiler_mod::WsMessageForReceivers {
-            msg_sender_ws_uid: self.get_rtc_my_ws_uid(),
-            msg_receivers_json: msg_receivers_json,
-            msg_data: game_data_mod::WsMessageGameData::MsgWebrtcOffer { sdp },
-        };
-        self.send_ws_msg_from_webrtc(&msg);
+        let msg_data = game_data_mod::WsMessageGameData::MsgWebrtcOffer { sdp };
+        self.send_webrtc_msg_to_receiver( &msg_data);
     }
     /// send answer over websocket to establish peer connection
     fn web_rtc_send_answer(&self, sdp: String) {
         //websysmod::debug_write("web_rtc_send_answer()");
-        let msg_receivers_json =
-            websysmod::prepare_json_msg_receivers_for_one(self.get_rtc_receiver_ws_uid());
-
-        let msg = websocket_boiler_mod::WsMessageForReceivers {
-            msg_sender_ws_uid: self.get_rtc_my_ws_uid(),
-            msg_receivers_json: msg_receivers_json,
-            msg_data: game_data_mod::WsMessageGameData::MsgWebrtcAnswer { sdp: sdp },
-        };
-        self.send_ws_msg_from_webrtc(&msg);
+        let msg_data = game_data_mod::WsMessageGameData::MsgWebrtcAnswer { sdp: sdp };
+        self.send_webrtc_msg_to_receiver(&msg_data);
     }
     /// send offer over websocket to establish peer connection
     fn web_rtc_send_ice_candidates(&mut self) {
         for sdp in self.get_rtc_ice_queue() {
             //websysmod::debug_write("web_rtc_send_ice_candidate()");
-            let msg_receivers_json =
-                websysmod::prepare_json_msg_receivers_for_one(self.get_rtc_receiver_ws_uid());
             let sdp = sdp.to_string();
-            let msg = websocket_boiler_mod::WsMessageForReceivers {
-                msg_sender_ws_uid: self.get_rtc_my_ws_uid(),
-                msg_receivers_json: msg_receivers_json,
-                msg_data: game_data_mod::WsMessageGameData::MsgWebrtcIceCandidate { sdp },
-            };
-            self.send_ws_msg_from_webrtc(&msg);
+            let msg_data = game_data_mod::WsMessageGameData::MsgWebrtcIceCandidate { sdp };
+            self.send_webrtc_msg_to_receiver(&msg_data);
         }
         self.get_mut_rtc_ice_queue().truncate(0);
     }

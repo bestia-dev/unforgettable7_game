@@ -15,26 +15,16 @@ pub fn set_event_listener(
             // send a msg to end drinking to all players
 
             websysmod::debug_write(&format!("MsgDrinkEnd send{}", ""));
-            rrc.web_data.send_ws_msg_from_web_data(
-                &websocket_boiler_mod::WsMessageForReceivers {
-                    msg_sender_ws_uid: rrc.web_data.my_ws_uid,
-                    msg_receivers_json: rrc.web_data.msg_receivers_json.to_string(),
-                    msg_data: game_data_mod::WsMessageGameData::MsgDrinkEnd {},
-                },
-            );
+            let msg_data=game_data_mod::WsMessageGameData::MsgDrinkEnd {};
+            rrc.web_data.send_ws_msg_to_receivers(&rrc.web_data.msg_receivers_ws_uid,&msg_data,);
             // if all the cards are permanently up, this is the end of the game
             // websysmod::debug_write("if is_all_permanently(rrc)");
             if status_2nd_card_mod::is_all_permanently(rrc) {
                 websysmod::debug_write("yes");
                 status_game_over_mod::on_msg_game_over(rrc);
                 // send message
-                rrc.web_data.send_ws_msg_from_web_data(
-                    &websocket_boiler_mod::WsMessageForReceivers {
-                        msg_sender_ws_uid: rrc.web_data.my_ws_uid,
-                        msg_receivers_json: rrc.web_data.msg_receivers_json.to_string(),
-                        msg_data: game_data_mod::WsMessageGameData::MsgGameOver {},
-                    },
-                );
+                let msg_data = game_data_mod::WsMessageGameData::MsgGameOver {};
+                rrc.web_data.send_ws_msg_to_receivers(&rrc.web_data.msg_receivers_ws_uid, &msg_data);
             } else {
                 status_take_turn_mod::on_click_take_turn(rrc, vdom.clone());
             }

@@ -20,11 +20,11 @@ use dodrio::RootRender;
 /// message for receivers
 /// The server has a copy of this declaration, but without the msg_data
 #[derive(Serialize, Deserialize, Clone)]
-pub struct WsMessageForReceivers {
+pub struct WsMessageForReceiver {
     /// ws client instance unique id. To not listen the echo to yourself.
     pub msg_sender_ws_uid: usize,
-    /// only the players that reconnected
-    pub msg_receivers_json: String,
+    /// single receiver
+    pub msg_receiver_ws_uid: usize,
     /// msg data
     pub msg_data: WsMessageGameData,
 }
@@ -63,7 +63,7 @@ impl WebSocketTrait for WebSocketData {
         // msg from ws clients (players)
         // serde_json can find out the variant of WsMessage
         // parse json and put data in the enum
-        if let Ok(msg) = serde_json::from_str::<WsMessageForReceivers>(&data) {
+        if let Ok(msg) = serde_json::from_str::<WsMessageForReceiver>(&data) {
             // match enum by variant and prepares the future that will be executed on the next tick
             // in this big enum I put only boilerplate code that don't change any data.
             // for changing data I put code in separate functions for easy reading.

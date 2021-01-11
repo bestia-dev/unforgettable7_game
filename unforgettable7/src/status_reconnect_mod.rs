@@ -44,8 +44,8 @@ pub fn div_reconnect<'a>(_rrc: &RootRenderingComponent, bump: &'a Bump) -> Node<
             // first disconnect if is possible, than reconnect
             let _x = rrc.web_data.websocket_data.ws.close();
 
-            let msg_receivers_json = rrc.web_data.msg_receivers_json.clone();
-            let ws = websocketmod::setup_ws_connection(href, my_ws_uid,msg_receivers_json);
+            let msg_receivers_ws_uid = rrc.web_data.msg_receivers_ws_uid.clone();
+            let ws = websocketmod::setup_ws_connection(href, my_ws_uid,msg_receivers_ws_uid);
             websocket_boiler_mod::setup_all_ws_events(&ws,vdom.clone());
 
             rrc.web_data.ws=ws;
@@ -67,24 +67,19 @@ pub fn div_reconnect<'a>(_rrc: &RootRenderingComponent, bump: &'a Bump) -> Node<
 /// send all data to resync game_data
 pub fn send_msg_for_resync(rrc: &RootRenderingComponent) {
     websysmod::debug_write("send_msg_for_resync MsgAllGameData");
-    rrc.web_data
-        .send_ws_msg_from_web_data(&websocket_boiler_mod::WsMessageForReceivers {
-            msg_sender_ws_uid: rrc.web_data.my_ws_uid,
-            /// only the players that resync
-            msg_receivers_json: rrc.web_data.msg_receivers_json.clone(),
-            msg_data: game_data_mod::WsMessageGameData::MsgAllGameData {
-                /// json of vector of players with nicknames and order data
-                players: unwrap!(serde_json::to_string(&rrc.game_data.players)),
-                /// vector of cards status
-                card_grid_data: unwrap!(serde_json::to_string(&rrc.game_data.card_grid_data)),
-                card_index_of_1st_click: rrc.game_data.card_index_of_1st_click,
-                card_index_of_2nd_click: rrc.game_data.card_index_of_2nd_click,
-                /// whose turn is now:  player 1,2,3,...
-                player_turn: rrc.game_data.player_turn,
-                /// game status, strum Display converts into String
-                game_status: format!("{}", rrc.game_data.game_status),
-            },
-        });
+    let msg_data = game_data_mod::WsMessageGameData::MsgAllGameData {
+        /// json of vector of players with nicknames and order data
+        players: unwrap!(serde_json::to_string(&rrc.game_data.players)),
+        /// vector of cards status
+        card_grid_data: unwrap!(serde_json::to_string(&rrc.game_data.card_grid_data)),
+        card_index_of_1st_click: rrc.game_data.card_index_of_1st_click,
+        card_index_of_2nd_click: rrc.game_data.card_index_of_2nd_click,
+        /// whose turn is now:  player 1,2,3,...
+        player_turn: rrc.game_data.player_turn,
+        /// game status, strum Display converts into String
+        game_status: format!("{}", rrc.game_data.game_status),
+    };
+    rrc.web_data.send_ws_msg_to_receivers(&rrc.web_data.msg_receivers_ws_uid,&msg_data);
 }
 
 /// after reconnect receive all the data from other player

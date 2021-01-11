@@ -420,15 +420,15 @@ impl GameData {
         }
         card_grid_data
     }
-    /// from the vector of players prepare a json string for the ws server
+    /// from the vector of players prepares a vector of ws_uid for receivers
     /// so that it can send the msgs only to the players
-    pub fn prepare_json_msg_receivers(&self) -> String {
-        let mut vec_msg_receivers = Vec::new();
+    pub fn prepare_msg_receivers_ws_uid(&self) -> Vec<usize> {
+        let mut msg_receivers_ws_uid = Vec::new();
         for pl in &self.players {
-            vec_msg_receivers.push(pl.ws_uid);
+            msg_receivers_ws_uid.push(pl.ws_uid);
         }
         // return
-        unwrap!(serde_json::to_string(&vec_msg_receivers))
+        msg_receivers_ws_uid
     }
     /// every smartphone grid starts and ends at a specific index of the card vector
     pub fn grid_start_end_index(&self) -> (usize, usize) {

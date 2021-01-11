@@ -114,7 +114,7 @@ pub fn set_group_id(rrc: &mut RootRenderingComponent, group_id_string: &str) {
     {
         rrc.game_data.players[0].ws_uid = rrc.game_data.group_id;
     }
-    // on any change in players the msg_receivers_json must be constructed
-    rrc.web_data.msg_receivers_json = rrc.game_data.prepare_json_msg_receivers();
+    // on any change in players the msg_receivers_ws_uid must be constructed
+    rrc.web_data.msg_receivers_ws_uid = rrc.game_data.prepare_msg_receivers_ws_uid();
 }
 // endregion: group_id

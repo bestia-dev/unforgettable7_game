@@ -86,15 +86,15 @@ use serde_derive::{Serialize, Deserialize};
 /// - Value is a sender of `warp::ws::Message`
 type WsUsers = Arc<Mutex<HashMap<usize, mpsc::UnboundedSender<Message>>>>;
 
-/// message for receivers. The original declaration is in the wasm module
+/// message for receiver. The original declaration is in the wasm module
 /// this here is only a copy that is needed for the server
 /// Here, I ignore the msg_data completely.
 #[derive(Serialize, Deserialize, Clone)]
-pub struct WsMessageForReceivers {
+pub struct WsMessageForReceiver {
     /// ws client instance unique id. To not listen the echo to yourself.
     pub msg_sender_ws_uid: usize,
-    /// only the players that reconnected
-    pub msg_receivers_json: String,
+    /// single receiver
+    pub msg_receiver_ws_uid: usize,
     // msg data - it is not needed, that the server knows anything about this field.
     // simply just ignore it.
     // pub msg_data: WsMessageGameData,
@@ -281,14 +281,14 @@ fn receive_message(msg_sender_ws_uid: usize, message: &Message, ws_users: &WsUse
         return;
     };
 
-    let msg_string = msg.to_string();
-    // info!("msg: {}", msg_string);
+    let msg_raw_string = msg.to_string();
+    // info!("msg: {}", msg_raw_string);
 
     // The ws server can receive 2 kinds of msgs:
     // 1. for the server to process
-    // 2. to forward to receivers
+    // 2. to forward to receiver
 
-    if let Ok(msg_to_server) = serde_json::from_str::<WsMessageToServer>(&msg_string) {
+    if let Ok(msg_to_server) = serde_json::from_str::<WsMessageToServer>(&msg_raw_string) {
         match msg_to_server {
             WsMessageToServer::MsgRequestWsUid { msg_sender_ws_uid } => {
                 info!("MsgRequestWsUid: {}", msg_sender_ws_uid);
@@ -310,7 +310,7 @@ fn receive_message(msg_sender_ws_uid: usize, message: &Message, ws_users: &WsUse
                     Err(_disconnected) => {}
                 }
                 // send to other ws_users for reconnect. Do nothing if there is not yet other ws_users.
-                // send_to_msg_receivers(ws_users, msg_sender_ws_uid, &msg_string, &msg_receivers_json)
+                // send_to_msg_receiver(ws_users, msg_sender_ws_uid, &msg_raw_string, msg_receiver_ws_uid)
             }
             WsMessageToServer::MsgPing { msg_id } => {
                 // info!("MsgPing: {}", msg_id);
@@ -332,39 +332,30 @@ fn receive_message(msg_sender_ws_uid: usize, message: &Message, ws_users: &WsUse
             }
         }
     } else {
-        // forward msg to receivers
-        if let Ok(msg_for_receivers) = serde_json::from_str::<WsMessageForReceivers>(&msg_string) {
-            send_to_msg_receivers(
+        // forward msg to receiver
+        if let Ok(msg_for_receiver) = serde_json::from_str::<WsMessageForReceiver>(&msg_raw_string) {
+            // forward msg to receiver
+            send_to_msg_receiver(
                 ws_users,
                 msg_sender_ws_uid,
-                &msg_string,
-                &msg_for_receivers.msg_receivers_json,
+                &msg_raw_string,
+                msg_for_receiver.msg_receiver_ws_uid,
             );
         }
     }
 }
 
-/// New message from this user send to all other players except sender.
-fn send_to_msg_receivers(
+/// New message from this user send to a single player.
+fn send_to_msg_receiver(
     ws_users: &WsUsers,
-    msg_sender_ws_uid: usize,
-    msg_string: &str,
-    msg_receivers_json: &str,
+    _msg_sender_ws_uid: usize,
+    msg_raw_string: &str,
+    msg_receiver_ws_uid: usize,
 ) {
-    // info!("send_to_msg_receivers: {}", msg_string);
-
-    let vec_msg_receivers: Vec<usize> = unwrap!(serde_json::from_str(msg_receivers_json));
-
+    // info!("send_to_msg_receiver: {}", msg_raw_string);
     for (&uid, tx) in ws_users.lock().expect("error ws_users.lock()").iter() {
-        let mut is_player;
-        is_player = false;
-        for &pl_ws_uid in &vec_msg_receivers {
-            if pl_ws_uid == uid {
-                is_player = true;
-            }
-        }
-        if msg_sender_ws_uid != uid && is_player {
-            match tx.unbounded_send(Message::text(String::from(msg_string))) {
+        if uid == msg_receiver_ws_uid {
+            match tx.unbounded_send(Message::text(String::from(msg_raw_string))) {
                 Ok(()) => (),
                 Err(_disconnected) => {
                     // The tx is disconnected, our `user_disconnected` code

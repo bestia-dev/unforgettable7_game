@@ -1319,7 +1319,7 @@ dependencies = [
 
 [[package]]
 name = "rust_wasm_websocket"
-version = "2020.218.1309"
+version = "2020.218.1312"
 dependencies = [
  "dodrio",
  "gloo-timers",
@@ -1832,7 +1832,7 @@ checksum = "373c8a200f9e67a0c95e62a4f52fbf80c23b4381c05a17845531982fa99e6b33"
 
 [[package]]
 name = "unforgettable7"
-version = "2021.111.1256"
+version = "2021.111.1815"
 dependencies = [
  "console_error_panic_hook",
  "conv",
@@ -1862,7 +1862,7 @@ dependencies = [
 
 [[package]]
 name = "unforgettable7_common"
-version = "2020.424.1431"
+version = "2020.424.1451"
 dependencies = [
  "serde",
  "serde_derive",
@@ -1870,7 +1870,7 @@ dependencies = [
 
 [[package]]
 name = "unforgettable7_server"
-version = "2021.105.1341"
+version = "2021.111.1816"
 dependencies = [
  "ansi_term 0.12.1",
  "clap",
