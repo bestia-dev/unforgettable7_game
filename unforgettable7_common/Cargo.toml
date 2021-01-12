@@ -1,6 +1,6 @@
 [package]
 name = "unforgettable7_common"
-version = "2020.424.1451" #no need for semver if it is not a library
+version = "2020.424.1456" #no need for semver if it is not a library
 description = "commons for unforgettable7 wasm and server"
 authors = ["Luciano Bestia"]
 edition = "2018"
@@ -12,5 +12,5 @@ keywords = ["warp", "server", "http", "websocket"]
 publish = false
 
 [dependencies]
-serde = "1.0.104"
-serde_derive = "1.0.104"
+serde = "1.0.119"
+serde_derive = "1.0.119"

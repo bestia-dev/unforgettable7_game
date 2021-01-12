@@ -107,7 +107,7 @@ fn main() {
     // in Linux : RUST_LOG=info ./unforgettable7_server.exe
     // in Windows I don't know yet.
     // default for env variable info
-    let mut builder = env_logger::from_env(Env::default().default_filter_or("info"));
+    let mut builder = env_logger::Builder::from_env(Env::default().default_filter_or("info"));
     // nanoseconds in the logger
     builder.format_timestamp_nanos();
     builder.init();

@@ -351,7 +351,7 @@ impl GameData {
             // a do-while is written as a  loop-break
             loop {
                 // gen_range is lower inclusive, upper exclusive 26 + 1
-                num = rng.gen_range(1, unwrap!(item_count_minus_one.checked_add(1)));
+                num = rng.gen_range(1..=item_count_minus_one);
                 if !vec_of_random_numbers.contains(&num) {
                     break;
                 }

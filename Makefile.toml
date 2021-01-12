@@ -74,11 +74,17 @@ skip_core_tasks = true
     # backslash is the escape character for all other special characters.
     # and then another time I have to escape the backslash. So 4 backslash for one backslash.
     script = [
+        "echo rsync -a --info=progress2 --delete-after ~/rustprojects/unforgettable7_game/webfolder/ ~/rustprojects/googlecloud/var/www/webapps/unforgettable7_game/",
         "rsync -a --info=progress2 --delete-after ~/rustprojects/unforgettable7_game/webfolder/ ~/rustprojects/googlecloud/var/www/webapps/unforgettable7_game/",
+        "echo ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff $'\\\\003'",
         "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff $'\\\\003'",
+        "echo ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff 'cd\\ \\/var\\/www\\/webapps\\/unforgettable7_game\\\\n'",
         "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff 'cd\\ \\/var\\/www\\/webapps\\/unforgettable7_game\\\\n'",
-        "rsync -e ssh -a --info=progress2--delete-after ~/rustprojects/googlecloud/var/www/webapps/unforgettable7_game/ luciano_bestia@bestia.dev:/var/www/webapps/unforgettable7_game/",
+        "echo rsync -e ssh -a --info=progress2 --delete-after ~/rustprojects/googlecloud/var/www/webapps/unforgettable7_game/ luciano_bestia@bestia.dev:/var/www/webapps/unforgettable7_game/",
+        "rsync -e ssh -a --info=progress2 --delete-after ~/rustprojects/googlecloud/var/www/webapps/unforgettable7_game/ luciano_bestia@bestia.dev:/var/www/webapps/unforgettable7_game/",
+        "echo ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff 'chmod\\ \\+x\\ unforgettable7_server\\\\n'",
         "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff 'chmod\\ \\+x\\ unforgettable7_server\\\\n'",
+        "echo ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff 'sudo\\ \\.\\/unforgettable7_server\\\\n'",
         "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff 'sudo\\ \\.\\/unforgettable7_server\\\\n'",
     ]
 
