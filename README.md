@@ -10,6 +10,7 @@ You can play the game (mobile only) hosted on google cloud platform:
 <https://bestia.dev/unforgettable7>  
 
 ![img_01](https://github.com/LucianoBestia/unforgettable7_game/raw/main/webfolder/unforgettable7/images/sample_01.jpg)
+![img_02](https://github.com/LucianoBestia/unforgettable7_game/raw/main/webfolder/unforgettable7/images/sample_02.jpg)
 
 ## Documentation
 
@@ -59,17 +60,9 @@ On the web use this url to read crate reviews. Example:
 
 I prepared some flows and tasks for Cargo make for the workspace.  
 `cargo make` - lists the possible available/public flows/tasks  
-`cargo make dev` - builds the development version and runs the server and the browser  
 `cargo make release` - builds the release version and runs the server and the browser  
-`cargo make audit` - cargo audit warnings about dependencies  
-`cargo make fmt` - format source code  
 `cargo make doc` - copies readme.md into lib.rs doc-comments, build the `/target/doc` folder and copy to the `/docs` folder  
-`cargo make sshadd` - adds identity to ssh-agent for git and publish operations  
-`cargo make gitpush` - push the commits to github, uses ssh agent  
 `cargo make publish` - publish the webfolder to google vm  
-`cargo make udeps` - lists unused dependencies  
-`cargo make loc` - Lines Of Rust Code and comments with tokei  
-`cargo make depver` - list of not latest dependencies  
 
 ## TODO and CHANGELOG
 
