@@ -4,10 +4,12 @@ don't forget to drinking game
 
 **Learning Rust Wasm/WebAssembly, Virtual Dom Dodrio, WebSocket communication, PWA (Progressive Web Apps) and WebRtc DataChannel - part seven**  
 
-[comment]: # (lmake_lines_of_code start)
+## Try it
 
-[comment]: # (lmake_lines_of_code end)
+You can play the game (mobile only) hosted on google cloud platform:  
+<https://bestia.dev/unforgettable7>  
 
+<img src="https://github.com/LucianoBestia/unforgettable7_game/raw/main/webfolder/unforgettable7/images/sample_01.jpg" width="400"/>
 
 ## Documentation
 
@@ -44,11 +46,6 @@ The projects use also other libraries of mine
 - rust_wasm_web_rtc
 - reader_for_microxml
 - qrcode53bytes
-
-## Working game server
-
-You can play the game (mobile only) hosted on google cloud platform:  
-<https://bestia.dev/unforgettable7>  
 
 ## cargo crev reviews and advisory
 
