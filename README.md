@@ -9,7 +9,7 @@ don't forget to drinking game
 You can play the game (mobile only) hosted on google cloud platform:  
 <https://bestia.dev/unforgettable7>  
 
-<img src="https://github.com/LucianoBestia/unforgettable7_game/raw/main/webfolder/unforgettable7/images/sample_01.jpg" width="400"/>
+![img_01](https://github.com/LucianoBestia/unforgettable7_game/raw/main/webfolder/unforgettable7/images/sample_01.jpg)
 
 ## Documentation
 
