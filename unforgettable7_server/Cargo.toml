@@ -1,7 +1,7 @@
 [package]
 name = "unforgettable7_server"
 # no need for semver version if it is not a library
-version = "2021.112.1529" 
+version = "2021.113.1108" 
 description = "server for the game unforgettable7 http + WebSocket on the same port"
 authors = ["Luciano Bestia"]
 edition = "2018"
@@ -16,10 +16,12 @@ publish = false
 # dep from this workspace
 unforgettable7_common = { path = "../unforgettable7_common" }
 
-futures = "0.1"
+futures = { version = "0.3.9", default-features = false, features = ["alloc"] }
 log = "0.4.13"
 env_logger = "0.8.2"
-warp="0.1.20"
+warp="0.2.5"
+# warp 0.2.5 works with tokio 0.2
+tokio = { version = "0.2", features = ["fs", "stream", "sync", "time","macros"] }
 regex="1.4.3"
 # cmd line input parameters
 clap ="2.33.3"

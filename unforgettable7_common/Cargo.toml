@@ -1,6 +1,6 @@
 [package]
 name = "unforgettable7_common"
-version = "2020.424.1456" #no need for semver if it is not a library
+version = "2020.424.1465" #no need for semver if it is not a library
 description = "commons for unforgettable7 wasm and server"
 authors = ["Luciano Bestia"]
 edition = "2018"
