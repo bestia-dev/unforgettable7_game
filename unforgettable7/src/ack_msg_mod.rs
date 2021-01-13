@@ -33,7 +33,10 @@ pub fn remove_ack_msg_from_queue(
 }
 
 /// prepare for ack msg waiting - return random msg_id
-pub fn prepare_for_ack_msg_waiting(rrc: &mut RootRenderingComponent, vdom: dodrio::VdomWeak) -> usize {
+pub fn prepare_for_ack_msg_waiting(
+    rrc: &mut RootRenderingComponent,
+    vdom: dodrio::VdomWeak,
+) -> usize {
     let msg_id = websysmod::get_random(1, 0xFFFF_FFFF);
     rrc.game_data.game_status = GameStatus::StatusWaitingAckMsg;
     vdom.schedule_render();
@@ -56,9 +59,10 @@ pub fn send_msg_to_all_and_write_in_queue(
                 .push(web_data_mod::MsgInQueue {
                     receiver_ws_uid: *receiver_ws_uid,
                     msg_id,
-                    msg_data:msg_data.clone(),
+                    msg_data: msg_data.clone(),
                 });
-            rrc.web_data.send_ws_msg_to_single_receiver(*receiver_ws_uid,msg_data);
+            rrc.web_data
+                .send_ws_msg_to_single_receiver(*receiver_ws_uid, msg_data);
         }
     }
 }
@@ -72,9 +76,10 @@ pub fn send_ack(
 ) {
     // websysmod::debug_write(&format!("send_ack players: {:?}", rrc.game_data.players));
     // send back the ACK msg to the sender
-    let msg_data= game_data_mod::WsMessageGameData::MsgAck {
+    let msg_data = game_data_mod::WsMessageGameData::MsgAck {
         msg_id,
         msg_ack_kind,
     };
-    rrc.web_data.send_ws_msg_to_single_receiver(msg_sender_ws_uid, &msg_data);
+    rrc.web_data
+        .send_ws_msg_to_single_receiver(msg_sender_ws_uid, &msg_data);
 }

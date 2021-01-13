@@ -1,26 +1,32 @@
-
 #![doc(
-    html_favicon_url = "https://github.com/LucianoBestia/unforgettable7_game/raw/master/webfolder/unforgettable7/images/icons-16.png"
+    html_favicon_url = "https://github.com/LucianoBestia/unforgettable7_game/raw/main/webfolder/unforgettable7/images/icons-16.png"
 )]
 #![doc(
-    html_logo_url = "https://github.com/LucianoBestia/unforgettable7_game/raw/master/webfolder/unforgettable7/images/icons-192.png"
+    html_logo_url = "https://github.com/LucianoBestia/unforgettable7_game/raw/main/webfolder/unforgettable7/images/icons-192.png"
 )]
-// region: lmake_readme include "readme.md" //! A
+// region: lmake_md_to_doc_comments include README.md A //!
 //! # unforgettable7_server
 //!
-//! version: 2020.221.1018  
+//! **server for the game unforgettable7 http + WebSocket on the same port**  
+//! ***[repo](https://github.com/lucianobestia/unforgettable7_game); version: 2021.113.1118  date: 2021-01-13 authors: Luciano Bestia***  
+//!
+//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-245-green.svg)](https://github.com/LucianoBestia/unforgettable7_game/)
+//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-51-blue.svg)](https://github.com/LucianoBestia/unforgettable7_game/)
+//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-78-purple.svg)](https://github.com/LucianoBestia/unforgettable7_game/)
+//! [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-0-yellow.svg)](https://github.com/LucianoBestia/unforgettable7_game/)
+//! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-0-orange.svg)](https://github.com/LucianoBestia/unforgettable7_game/)
 //!
 //! **Html and WebSocket server for the unforgettable7 game**  
 //! Primarily made for learning to code Rust for a http + WebSocket server on the same port.  
 //! Using Warp for a simple memory game for kids - unforgettable7.  
-//! On the IP address on port 8087 listens to http and WebSocket.  
+//! On the IP address on port 8086 listens to http and WebSocket.  
 //! Route for http `/` serves static files from folder `/unforgettable7/`.  
-//! Route `/unforgettable7_ws/` broadcast all WebSocket msg to all connected clients except sender.  
+//! Route `/unforgettable7ws/` broadcast all WebSocket msg to all connected clients except sender.  
 //!
 //! ## Google vm
 //!
 //! One working server is installed on my google vm.  
-//! There is a nginx server reverse proxy that accepts https http2 on 443 and relay to internal 8087.
+//! There is a nginx server reverse proxy that accepts https http2 on 443 and relay to internal 8086.
 //! Nginx also redirects all http 80 to https 443.  
 //! You can play the game here (hosted on google cloud platform):  
 //! <https://bestia.dev/unforgettable7>  
@@ -28,8 +34,16 @@
 //! ## new version of Warp
 //!
 //! The new version looks nice, but I had the problem when a user disconnects the websocket without handshake. It happens only on Android Chrome.  
-
-// endregion: lmake_readme include "readme.md" //! A
+//!
+//! ## cargo crev reviews and advisory
+//!
+//! It is recommended to always use [cargo-crev](https://github.com/crev-dev/cargo-crev)  
+//! to verify the trustworthiness of each of your dependencies.  
+//! Please, spread this info.  
+//! On the web use this url to read crate reviews. Example:  
+//! <https://web.crev.dev/rust-reviews/crate/num-traits/>  
+//!
+// endregion: lmake_md_to_doc_comments include README.md A //!
 
 // region: Clippy
 #![warn(
@@ -191,7 +205,7 @@ async fn main() {
 #[allow(clippy::needless_pass_by_value)]
 // region: WebSocket callbacks: connect, msg, disconnect
 /// new user connects
-async fn user_connected(ws: WebSocket,ws_users: WsUsers,url_param: String) {
+async fn user_connected(ws: WebSocket, ws_users: WsUsers, url_param: String) {
     // the client sends his ws_uid in url_param. it is a random number.
     info!("user_connect() url_param: {}", url_param);
     // convert string to usize
@@ -226,9 +240,7 @@ async fn user_connected(ws: WebSocket,ws_users: WsUsers,url_param: String) {
 
     // Save the sender in our list of connected ws_users.
     info!("ws_users.insert: {}", my_ws_uid);
-    ws_users
-        .lock().await
-        .insert(my_ws_uid, tx);
+    ws_users.lock().await.insert(my_ws_uid, tx);
 
     // Return a `Future` that is basically a state machine managing
     // this specific user's connection.
@@ -237,7 +249,7 @@ async fn user_connected(ws: WebSocket,ws_users: WsUsers,url_param: String) {
     // Clippy recommends this craziness instead of ws_users.clone()
     let users_clone = ws_users.clone();
 
-        // Every time the user sends a message, broadcast it to
+    // Every time the user sends a message, broadcast it to
     // all other users...
     while let Some(result) = user_ws_rx.next().await {
         let msg = match result {
@@ -283,7 +295,8 @@ async fn receive_message(msg_sender_ws_uid: usize, message: Message, ws_users: &
                     .expect("serde_json::to_string(&WsMessageGameData::MsgResponseWsUid { msg_receiver_ws_uid: msg_sender_ws_uid })");
                 info!("send MsgResponseWsUid: {}", json_response);
                 match ws_users
-                    .lock().await
+                    .lock()
+                    .await
                     .get(&msg_sender_ws_uid)
                     .unwrap()
                     .send(Ok(Message::text(json_response)))
@@ -302,7 +315,8 @@ async fn receive_message(msg_sender_ws_uid: usize, message: Message, ws_users: &
                 }));
                 // info!("send MsgPong: {}", j);
                 match ws_users
-                    .lock().await
+                    .lock()
+                    .await
                     .get(&msg_sender_ws_uid)
                     .unwrap()
                     .send(Ok(Message::text(json_response)))
@@ -314,14 +328,16 @@ async fn receive_message(msg_sender_ws_uid: usize, message: Message, ws_users: &
         }
     } else {
         // forward msg to receiver
-        if let Ok(msg_for_receiver) = serde_json::from_str::<WsMessageForReceiver>(&msg_raw_string) {
+        if let Ok(msg_for_receiver) = serde_json::from_str::<WsMessageForReceiver>(&msg_raw_string)
+        {
             // forward msg to receiver
             send_to_msg_receiver(
                 ws_users,
                 msg_sender_ws_uid,
                 &msg_raw_string,
                 msg_for_receiver.msg_receiver_ws_uid,
-            ).await;
+            )
+            .await;
         }
     }
 }

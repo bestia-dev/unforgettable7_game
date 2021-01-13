@@ -1,13 +1,20 @@
 #![doc(
-    html_favicon_url = "https://github.com/LucianoBestia/unforgettable7_game/raw/master/webfolder/unforgettable7/images/icons-16.png"
+    html_favicon_url = "https://github.com/LucianoBestia/unforgettable7_game/raw/main/webfolder/unforgettable7/images/icons-16.png"
 )]
 #![doc(
-    html_logo_url = "https://github.com/LucianoBestia/unforgettable7_game/raw/master/webfolder/unforgettable7/images/icons-192.png"
+    html_logo_url = "https://github.com/LucianoBestia/unforgettable7_game/raw/main/webfolder/unforgettable7/images/icons-192.png"
 )]
-// region: lmake_readme include "readme.md" //! A
+// region: lmake_md_to_doc_comments include README.md A //!
 //! # unForGetTable7
 //!
-//! version: 2020.225.1404  
+//! **don't forget to drinking game**  
+//! ***[repo](https://github.com/LucianoBestia/unforgettable7_game); version: 2021.113.1919  date: 2021-01-13 authors: Luciano Bestia***  
+//!
+//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-3279-green.svg)](https://github.com/LucianoBestia/unforgettable7_game/)
+//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-580-blue.svg)](https://github.com/LucianoBestia/unforgettable7_game/)
+//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-458-purple.svg)](https://github.com/LucianoBestia/unforgettable7_game/)
+//! [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-0-yellow.svg)](https://github.com/LucianoBestia/unforgettable7_game/)
+//! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-0-orange.svg)](https://github.com/LucianoBestia/unforgettable7_game/)
 //!
 //! unforgettable7 is a simple drinking game to lose memory. It is made primarily for learning the Rust programming language and Wasm/WebAssembly with Virtual Dom Dodrio, WebSocket communication and PWA (Progressive Web App).  
 //!
@@ -196,8 +203,77 @@
 //!
 //! Crazy stuff. I used the website <https://www.favicon-generator.org/> to generate
 //! all the different imgs, sizes and code. And than add all this into index.html. There is more lines for icons than anything else now. Just crazy world.  
-
-// endregion: lmake_readme include "readme.md" //! A
+//!
+//! ## audio normalize
+//!
+//! Different audio files had very different volume levels. That was not nice.
+//! I used Audacity with the ffmpeg plugin. I opened the audio file and then used
+//! Effect normalize. The songs were normalized at -4dB and the voice moniker at -1 dB.
+//! So the songs are not too loud, like they were before.  
+//!
+//! ## big img
+//!
+//! Some types of images are simply too small (like bottles). You cannot see any details.
+//! I added a second big image. It opens with a smooth animation on click on the small image.
+//! So the details are nice visible.  
+//!
+//! ## Easter egg
+//!
+//! Click on the title unForGetTable7 opens a new browser tab with music about memory and forgetting.  
+//!
+//! ## text to speech
+//!
+//! When creating a new kind of game I prepare images and labels.  
+//! Then usually I use an online "text to speech" to produce the sound from the labels.  
+//! The best so far I found is:  
+//! <https://text-to-speech-demo.ng.bluemix.net/>  
+//! This is the IBM Watson text to speech service.  
+//! I prepare the text so every label is in a separate line and be sure to put a full stop on every line.  
+//! I copy/paste it and press Speak.  
+//! Then on the right side I click on the Kebap Button and click on Download.  
+//! The downloaded file has the name "synthesize" with no extension. I think it is in reality an ".mp3", but it doesn't really matter.  
+//! I open the file in Audacity. Ctrl+A to select the track. Then Analyze - Silence Finder. Tweak a little with the settings.  
+//! When I'm happy with the result then File - Export -Export Multiple as mp3.  
+//! Finally I rename the files to match the names in the game_config.json file.  
+//!
+//! ## TURN and STUN server
+//!
+//! WebRtc needs somewhere a STUN and TURN server.  
+//! STUN is the older server, that replies the external ip and port of the request.  
+//! So the WebRtc client can produce another IceCandidate to test the connectivity.  
+//! TURN server is a more advanced STUN server that is also able to relay all the message traffic
+//! through the server instead of peer-to-peer. Not something that anybody wants, but sometimes
+//! there is no possible to make a peer-to-peer connection.  
+//! Here is the description of installation on my server:  
+//! <https://stackoverflow.com/questions/22233980/implementing-our-own-stun-turn-server-for-webrtc-application>  
+//!
+//! ```
+//! sudo apt-get update
+//! sudo apt-get install stuntman-server
+//! screen -S stunserver
+//! sudo ifconfig
+//!   find the external address and use it in the next command
+//! sudo stunserver --mode full --primaryinterface 10.138.0.2
+//! ```
+//!
+//! Open <https://webrtc.github.io/samples/src/content/peerconnection/trickle-ice/> 
+//! to test your STUN server:  
+//! `stun:stun.bestia.dev`  
+//! GoogleCloud has only ipv4. So there is no ipv6 at all.  
+//!
+//! ## CodeTour
+//!
+//! CodeTour is an extension to VSCode. With it I can prepare a tour through the code step by step. In that way it is very easy to understand how the code works. Every step opens a file on a line number that is than described in the context of the tour step.  
+//!
+//! ## cargo crev reviews and advisory
+//!
+//! It is recommended to always use [cargo-crev](https://github.com/crev-dev/cargo-crev)  
+//! to verify the trustworthiness of each of your dependencies.  
+//! Please, spread this info.  
+//! On the web use this url to read crate reviews. Example:  
+//! <https://web.crev.dev/rust-reviews/crate/num-traits/>  
+//!
+// endregion: lmake_md_to_doc_comments include README.md A //!
 
 // needed for dodrio ! macro (typed-html)
 #![recursion_limit = "512"]

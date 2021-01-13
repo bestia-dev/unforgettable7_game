@@ -22,7 +22,8 @@ pub fn on_click_start_game(rrc: &mut RootRenderingComponent) {
         game_name: rrc.game_data.game_name.to_string(),
         player_turn: rrc.game_data.player_turn,
     };
-    rrc.web_data.send_ws_msg_to_receivers(&rrc.web_data.msg_receivers_ws_uid,&msg_data);
+    rrc.web_data
+        .send_ws_msg_to_receivers(&rrc.web_data.msg_receivers_ws_uid, &msg_data);
 }
 
 /// on game data init

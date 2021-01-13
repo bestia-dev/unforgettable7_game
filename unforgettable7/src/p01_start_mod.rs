@@ -11,9 +11,9 @@ pub fn on_hash_change() -> String {
 pub fn set_event_listener(
     fn_name: &str,
     rrc: &mut RootRenderingComponent,
-    vdom:dodrio::VdomWeak,
-    event:web_sys::Event,
-) ->bool {
+    vdom: dodrio::VdomWeak,
+    event: web_sys::Event,
+) -> bool {
     let mut is_matched_fn_name = true;
     match fn_name {
         "wl_start_a_group_onclick" => {
@@ -28,7 +28,7 @@ pub fn set_event_listener(
             storage_mod::nickname_onkeyup(rrc, event);
         }
         _ => {
-            is_matched_fn_name=false;
+            is_matched_fn_name = false;
         }
     }
     //return

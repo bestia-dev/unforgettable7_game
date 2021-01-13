@@ -1,6 +1,6 @@
 [package]
 name = "unforgettable7"
-version = "2021.112.1524"
+version = "2021.113.1919"
 authors = ["Luciano Bestia <Luciano.Bestia@gmail.com>"]
 edition = "2018"
 description = "don't forget to drinking game"
@@ -16,44 +16,48 @@ publish = false
 crate-type = ["cdylib"]
 
 [dependencies]
-# region: dependencies
+# region: dependencies to my crates.io libraries
+reader_for_microxml = "2.0.1"
+qrcode53bytes ="1.1.0"
 rust_wasm_websys_utils = "0.4.3"
+rust_wasm_dodrio_router = "0.5.2"
+rust_wasm_dodrio_templating = "1.0.2"
+
+# for development I use the local libraries
 # rust_wasm_websys_utils = { path = "../../rust_wasm_websys_utils" }
-rust_wasm_dodrio_router = { path = "../../rust_wasm_dodrio_router" }
-#rust_wasm_dodrio_router = "0.4.6"
-rust_wasm_dodrio_templating = { path = "../../rust_wasm_dodrio_templating" }
+# rust_wasm_dodrio_router = { path = "../../rust_wasm_dodrio_router" }
+# rust_wasm_dodrio_templating = { path = "../../rust_wasm_dodrio_templating" }
+# qrcode53bytes = { path = "../../qrcode53bytes" }
 rust_wasm_websocket = { path = "../../rust_wasm_websocket" }
 rust_wasm_webrtc = { path = "../../rust_wasm_webrtc" }
-qrcode53bytes = { path = "../../qrcode53bytes" }
-#qrcode53bytes ="1.0.0"
+
 # endregion: my dependencies
 
 # region: other dependencies
+wasm-bindgen = { version = "0.2.69", features = ["serde-serialize"] }
+js-sys = "0.3.46"
 unwrap = "1.2.1"
 dodrio = "0.2.0"
-# dodrio =  { git = "https://github.com/fitzgen/dodrio", branch = "master" }
-# dodrio = {path = "../../rust_wasm_dodrio_copy"}
-wasm-bindgen = { version = "0.2.69", features = ["serde-serialize"] }
 console_error_panic_hook = "0.1.6"
-#newer version of rand do not have smallring
-
 getrandom = { version = "0.2.1", features = ["js"]}
-rand = { version = "0.8.1", features = ["small_rng"] }
-js-sys = "0.3.46"
+rand = { version = "0.8.2", features = ["small_rng"] }
 serde = "1.0.119"
 serde_derive ="1.0.119"
 serde_json = "1.0.61"
 futures = "0.3.9"
-# newer futures have unstable .await
 wasm-bindgen-futures = "0.4.19"
-#log = "0.4.8"
 strum = "0.20.0"
 strum_macros = "0.20.1"
 conv = "0.3.3"
 gloo-timers = {version="0.2.1", features=["futures"]}
-reader_for_microxml = "2.0.1"
-#udep mopa = "0.2.2"
 # endregion: other dependencies
+
+# unused dependencies
+# log = "0.4.8"
+# udep mopa = "0.2.2"
+# dodrio =  { git = "https://github.com/fitzgen/dodrio", branch = "main" }
+# dodrio = {path = "../../rust_wasm_dodrio_copy"}
+
 
 [dependencies.web-sys]
 version = "0.3.46"

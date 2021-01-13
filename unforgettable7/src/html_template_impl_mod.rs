@@ -29,7 +29,10 @@ impl rust_wasm_dodrio_templating::html_template_mod::HtmlTemplating for RootRend
             match fn_name {
                 //example: "sounds_and_labels" => self.game_data.sounds_and_labels,
                 _ => {
-                    let x = format!("Error: Unrecognized retain_next_node_or_attribute: \"{}\"", fn_name);
+                    let x = format!(
+                        "Error: Unrecognized retain_next_node_or_attribute: \"{}\"",
+                        fn_name
+                    );
                     websysmod::debug_write(&x);
                     true
                 }
@@ -78,7 +81,8 @@ impl rust_wasm_dodrio_templating::html_template_mod::HtmlTemplating for RootRend
                     return self.game_data.player_turn_now().nickname.to_string();
                 }
                 _ => {
-                    let err_string = format!("Error: Unrecognized replace_with_string: \"{}\"", fn_name);
+                    let err_string =
+                        format!("Error: Unrecognized replace_with_string: \"{}\"", fn_name);
                     websysmod::debug_write(&err_string);
                     err_string
                 }

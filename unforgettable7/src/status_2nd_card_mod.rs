@@ -35,10 +35,10 @@ pub fn on_click_2nd_card(
     }
     let msg_id = ack_msg_mod::prepare_for_ack_msg_waiting(rrc, vdom.clone());
     let msg_data = game_data_mod::WsMessageGameData::MsgClick2ndCard {
-            card_index_of_2nd_click: rrc.game_data.card_index_of_2nd_click,
-            is_point,
-            msg_id,
-        };
+        card_index_of_2nd_click: rrc.game_data.card_index_of_2nd_click,
+        is_point,
+        msg_id,
+    };
     ack_msg_mod::send_msg_to_all_and_write_in_queue(rrc, &msg_data, msg_id);
 }
 
@@ -159,7 +159,11 @@ pub fn div_click_2nd_card<'a>(
 
 /// on click for img in status 2
 #[allow(clippy::indexing_slicing)]
-pub fn on_click_img_status2nd(root: &mut dyn dodrio::RootRender, vdom: dodrio::VdomWeak, event: &Event) {
+pub fn on_click_img_status2nd(
+    root: &mut dyn dodrio::RootRender,
+    vdom: dodrio::VdomWeak,
+    event: &Event,
+) {
     let rrc = root.unwrap_mut::<RootRenderingComponent>();
     // If the event's target is our image...
     let img = match event

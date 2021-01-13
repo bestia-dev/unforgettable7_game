@@ -79,7 +79,8 @@ pub fn send_msg_for_resync(rrc: &RootRenderingComponent) {
         /// game status, strum Display converts into String
         game_status: format!("{}", rrc.game_data.game_status),
     };
-    rrc.web_data.send_ws_msg_to_receivers(&rrc.web_data.msg_receivers_ws_uid,&msg_data);
+    rrc.web_data
+        .send_ws_msg_to_receivers(&rrc.web_data.msg_receivers_ws_uid, &msg_data);
 }
 
 /// after reconnect receive all the data from other player

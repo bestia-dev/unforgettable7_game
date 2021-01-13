@@ -27,7 +27,7 @@ impl RootRenderingComponent {
     pub fn new(my_ws_uid: usize) -> Self {
         let game_data = game_data_mod::GameData::new(my_ws_uid);
         let msg_receivers_ws_uid = game_data.prepare_msg_receivers_ws_uid();
-        
+
         let web_data = web_data_mod::WebData::new(my_ws_uid, msg_receivers_ws_uid);
         let router_data = router_impl_mod::Router::new();
 

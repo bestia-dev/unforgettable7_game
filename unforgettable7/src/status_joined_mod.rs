@@ -20,7 +20,8 @@ pub fn on_load_joined(rrc: &mut RootRenderingComponent) {
     let msg_data = game_data_mod::WsMessageGameData::MsgJoin {
         my_nickname: rrc.game_data.my_nickname.clone(),
     };
-    rrc.web_data.send_ws_msg_to_receivers(&rrc.web_data.msg_receivers_ws_uid,&msg_data);
+    rrc.web_data
+        .send_ws_msg_to_receivers(&rrc.web_data.msg_receivers_ws_uid, &msg_data);
 }
 
 /// msg joined

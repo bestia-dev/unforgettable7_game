@@ -7,9 +7,9 @@ use unwrap::unwrap;
 pub fn set_event_listener(
     fn_name: &str,
     rrc: &mut RootRenderingComponent,
-    vdom:dodrio::VdomWeak,
-    _event:web_sys::Event,
-) ->bool {
+    vdom: dodrio::VdomWeak,
+    _event: web_sys::Event,
+) -> bool {
     // region: internal functions
     /// the arrow to the right
     fn game_type_right_onclick(rrc: &mut RootRenderingComponent, vdom: dodrio::VdomWeak) {
@@ -46,17 +46,15 @@ pub fn set_event_listener(
     let mut is_matched_fn_name = true;
     match fn_name {
         "wl_game_type_right_onclick" => {
-             game_type_right_onclick(rrc, vdom);
+            game_type_right_onclick(rrc, vdom);
         }
         "wl_game_type_left_onclick" => {
             game_type_left_onclick(rrc, vdom);
         }
         _ => {
-            is_matched_fn_name=false;
+            is_matched_fn_name = false;
         }
     }
     //return
     is_matched_fn_name
 }
-
-

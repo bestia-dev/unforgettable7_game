@@ -1,4 +1,3 @@
-
 //! p21_menu_mod
 
 use crate::*;
@@ -8,9 +7,9 @@ use unwrap::unwrap;
 pub fn set_event_listener(
     fn_name: &str,
     rrc: &mut RootRenderingComponent,
-    vdom:dodrio::VdomWeak,
-    _event:web_sys::Event,
-) ->bool {
+    vdom: dodrio::VdomWeak,
+    _event: web_sys::Event,
+) -> bool {
     let mut is_matched_fn_name = true;
     match fn_name {
         "wl_back_to_game" => {
@@ -42,11 +41,12 @@ pub fn set_event_listener(
             let msg_data = game_data_mod::WsMessageGameData::MsgSoundsAndLabels {
                 sounds_and_labels: rrc.game_data.sounds_and_labels,
             };
-            rrc.web_data.send_ws_msg_to_receivers(&rrc.web_data.msg_receivers_ws_uid, &msg_data);
+            rrc.web_data
+                .send_ws_msg_to_receivers(&rrc.web_data.msg_receivers_ws_uid, &msg_data);
             vdom.schedule_render();
         }
         _ => {
-            is_matched_fn_name=false;
+            is_matched_fn_name = false;
         }
     }
     //return

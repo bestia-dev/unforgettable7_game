@@ -4,137 +4,140 @@
 [config]
 skip_core_tasks = true
 
-#region: public callable tasks/flows
-    [tasks.default]
-    description = "show list of callable public tasks"
-    workspace = false
-    clear = true
-    command = "cargo"
-    args = ["make","--list-all-steps"]
-
-    [tasks.dev]
-    description = "cargo make dev for every workspace member"
-    workspace = true
-    clear = true
-    command = "cargo"
-    args = ["make","dev"]
-
-    [tasks.release]
-    description = "cargo make release for every workspace member"
-    workspace = true
-    clear=true
-    command = "cargo"
-    args = ["make","release"]
-
-    [tasks.check]
-    description = "cargo make check for every workspace member"
-    workspace = true
-    clear=true
-    command = "cargo"
-    args = ["make","check"]
-
-    [tasks.audit]
-    description = "cargo audit warnings about dependencies"
-    workspace = true
-    clear = true
-    dependencies = [
-        "cargo_audit",
-        "workspace_audit",
-    ]
-
-    [tasks.fmt]
-    description = "format source code"
-    workspace = true
-    clear=true
-    command = "cargo"
-    args = ["make","fmt"]
-
-    [tasks.doc]
-    description = "build the `/target/docs` folder and copy to the `/docs` folder"
-    workspace = true
-    clear=true
-    dependencies = [
-        "cargo_doc",
-        "cargo_docs_copy",
-    ]
-
-    [tasks.gitpush]
-    description = "push the commits to github, uses ssh agent"
-    workspace = false
-    clear = true
-    script = [
-        "git push",
-    ]
-
-    [tasks.publish]
-    description = "publish the webfolder to google vm"
-    # Firt copies the content of /unforgettable7_game/webfolder to // googlecloud/ folder and then to google vm with use of sshagent."
-    workspace = false
-    clear = true
-    # backslash is the escape character for all other special characters.
-    # and then another time I have to escape the backslash. So 4 backslash for one backslash.
-    script = [
-        "echo rsync -a --info=progress2 --delete-after ~/rustprojects/unforgettable7_game/webfolder/ ~/rustprojects/googlecloud/var/www/webapps/unforgettable7_game/",
-        "rsync -a --info=progress2 --delete-after ~/rustprojects/unforgettable7_game/webfolder/ ~/rustprojects/googlecloud/var/www/webapps/unforgettable7_game/",
-        "echo ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff $'\\\\003'",
-        "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff $'\\\\003'",
-        "echo ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff 'cd\\ \\/var\\/www\\/webapps\\/unforgettable7_game\\\\n'",
-        "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff 'cd\\ \\/var\\/www\\/webapps\\/unforgettable7_game\\\\n'",
-        "echo rsync -e ssh -a --info=progress2 --delete-after ~/rustprojects/googlecloud/var/www/webapps/unforgettable7_game/ luciano_bestia@bestia.dev:/var/www/webapps/unforgettable7_game/",
-        "rsync -e ssh -a --info=progress2 --delete-after ~/rustprojects/googlecloud/var/www/webapps/unforgettable7_game/ luciano_bestia@bestia.dev:/var/www/webapps/unforgettable7_game/",
-        "echo ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff 'chmod\\ \\+x\\ unforgettable7_server\\\\n'",
-        "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff 'chmod\\ \\+x\\ unforgettable7_server\\\\n'",
-        "echo ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff 'sudo\\ \\.\\/unforgettable7_server\\\\n'",
-        "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff 'sudo\\ \\.\\/unforgettable7_server\\\\n'",
-    ]
-
-    [tasks.udeps]
-    description = "lists unused dependencies needs nightly"
-    workspace = false
-    clear = true
-    script = [
-        "cargo +nightly udeps",
-    ]
-
-    [tasks.loc]
-    description = "Lines Of Rust Code with tokei"
-    workspace = false
-    clear = true
-    script = [
-        "tokei  -t 'Rust'",
-    ]
-
-    [tasks.depver]
-    description = "list of not latest dependencies"
-    workspace = false
-    clear = true
-    script = [
-        "cargo update --dry-run",
-    ]
-
-#endregion
-
-[tasks.cargo_audit]
-description = "cargo audit"
+[tasks.default]
+description = "help for prepared make tasks"
 workspace=false
 clear = true
-private = true
-command = "cargo"
-args = ["audit"]
-
-[tasks.workspace_audit]
-description = "cargo audit for every workspace member"
-workspace = true
-clear=true
-private=true
-command = "cargo"
-args = ["make","audit"]
-
-[tasks.cargo_docs_copy]
-description = "copy folder `/target/doc` to /docs folder (github standard)"
-workspace=false
-clear = true
-private = false
-script = [
-    "\\rsync -a --info=progress2 --delete-after ~/rustprojects/unforgettable7_game/target/doc/*  ~/rustprojects/unforgettable7_game/docs/",
+script= [
+"clear",
+"echo ",
+"echo COMMANDS AND MAKE TASKS:",
+"echo This tasks are for the workspace. Every member has its own makefile.toml.",
+"echo ",
+"echo $ clear - clear the screen",
+"echo $ cargo make - this list",
+"echo ",
+"echo $ clear\\; cargo make check - check code errors without compiling",
+"echo $ clear\\; cargo make release - build release version, increment semver patch in Cargo.toml",
+"echo ",
+"echo $ clear\\; cargo make test - test the test code",
+"echo $ clear\\; cargo make udeps - cargo +nightly udeps - unused dependencies",
+"echo $ clear\\; cargo crev verify - always verify you dependencies",
+"echo $ clear\\; cargo make audit - RustSec advisories",
+"echo $ clear\\; cargo make doc - includes from Cargo.toml to README.md and from README.md to main.rs or lib.rs, generates doc and copies to docs folder, exports codetour to .md.",
+"echo ",
+"echo $ clear\\; cargo make publish_to_web",
+"echo ",
 ]
+
+# end of help
+# end of help
+# end of help
+
+[tasks.check]
+description = "cargo check --release"
+workspace = true
+clear = true
+script = [
+    "clear",
+    "echo $ cargo make check",
+    "cargo make check",
+]
+
+# end of dev scripts
+# end of dev scripts
+# end of dev scripts
+
+[tasks.release]
+description = "cargo build release"
+clear = true
+workspace = true
+script = [
+    "clear",
+
+    "echo $ cargo make release",
+    "cargo make release",
+]
+
+# end of release scripts
+# end of release scripts
+# end of release scripts
+
+[tasks.test]
+description = "cargo test"
+clear = true
+workspace = true
+script = [
+    "clear",
+    "echo $ cargo make test",
+    "cargo make test",
+]
+
+[tasks.udeps]
+description = "lists unused dependencies needs nightly"
+clear = true
+workspace = true
+script = [
+    "echo $ cargo make udeps",
+	"cargo make udeps",
+]
+
+[tasks.verify]
+description = "cargo crev verify - "
+clear = true
+workspace = true
+script = [
+    "clear",
+    "cargo make verify"
+]
+
+[tasks.audit]
+description = "cargo audit - RustSec advisories"
+clear = true
+workspace = true
+script = [
+    "clear",
+    "cargo make audit"
+]
+
+[tasks.doc]
+description = "cargo doc - create docs from doc comments"
+workspace = true
+clear = true
+script= [
+    "clear",
+    "echo $ cargo make doc",
+    "cargo make doc",
+     "echo $ \\rsync -a --info=progress2 --delete-after ~/rustprojects/unforgettable7_game/target/doc/*  ~/rustprojects/unforgettable7_game/docs/",
+     "\\rsync -a --info=progress2 --delete-after ~/rustprojects/unforgettable7_game/target/doc/*  ~/rustprojects/unforgettable7_game/docs/",
+]
+
+# end of git script
+# end of git script
+# end of git script
+
+[tasks.publish_to_web]
+description = "publish the webfolder to google vm"
+# First copies the content of /unforgettable7_game/webfolder to // googlecloud/ folder and then to google vm with use of sshagent."
+workspace = false
+clear = true
+# backslash is the escape character for all other special characters.
+# and then another time I have to escape the backslash. So 4 backslash for one backslash.
+script = [
+    "echo rsync -a --info=progress2 --delete-after ~/rustprojects/unforgettable7_game/webfolder/ ~/rustprojects/googlecloud/var/www/webapps/unforgettable7_game/",
+    "rsync -a --info=progress2 --delete-after ~/rustprojects/unforgettable7_game/webfolder/ ~/rustprojects/googlecloud/var/www/webapps/unforgettable7_game/",
+    "echo ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff $'\\\\003'",
+    "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff $'\\\\003'",
+    "echo ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff 'cd\\ \\/var\\/www\\/webapps\\/unforgettable7_game\\\\n'",
+    "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff 'cd\\ \\/var\\/www\\/webapps\\/unforgettable7_game\\\\n'",
+    "echo rsync -e ssh -a --info=progress2 --delete-after ~/rustprojects/googlecloud/var/www/webapps/unforgettable7_game/ luciano_bestia@bestia.dev:/var/www/webapps/unforgettable7_game/",
+    "rsync -e ssh -a --info=progress2 --delete-after ~/rustprojects/googlecloud/var/www/webapps/unforgettable7_game/ luciano_bestia@bestia.dev:/var/www/webapps/unforgettable7_game/",
+    "echo ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff 'chmod\\ \\+x\\ unforgettable7_server\\\\n'",
+    "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff 'chmod\\ \\+x\\ unforgettable7_server\\\\n'",
+    "echo ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff 'sudo\\ \\.\\/unforgettable7_server\\\\n'",
+    "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff 'sudo\\ \\.\\/unforgettable7_server\\\\n'",
+]
+
+# end of publish script
+# end of publish script
+# end of publish script

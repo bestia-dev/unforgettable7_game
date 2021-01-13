@@ -26,9 +26,9 @@ The workspace unforgettable7_game is made of several projects:
 Every project has its own readme.md.  
 
 - [unforgettable7/README.md](
-https://github.com/LucianoBestia/unforgettable7_game/blob/master/unforgettable7/README.md)  
-- [unforgettable7_common/README.md](https://github.com/LucianoBestia/unforgettable7_game/blob/master/unforgettable7_common/README.md)  
-- [unforgettable7_server/README.md](https://github.com/LucianoBestia/unforgettable7_game/blob/master/unforgettable7_server/README.md)  
+https://github.com/LucianoBestia/unforgettable7_game/blob/main/unforgettable7/README.md)  
+- [unforgettable7_common/README.md](https://github.com/LucianoBestia/unforgettable7_game/blob/main/unforgettable7_common/README.md)  
+- [unforgettable7_server/README.md](https://github.com/LucianoBestia/unforgettable7_game/blob/main/unforgettable7_server/README.md)  
   
 Read also my `Previous projects` on Github:  
 <https://github.com/LucianoBestia/mem6_game>  
@@ -76,4 +76,4 @@ I prepared some flows and tasks for Cargo make for the workspace.
 
 ## TODO and CHANGELOG
 
-Read files [TODO.md](https://github.com/LucianoBestia/unforgettable7_game/blob/master/TODO.md) and [CHANGELOG.md](https://github.com/LucianoBestia/unforgettable7_game/blob/master/CHANGELOG.md).  
+Read files [TODO.md](https://github.com/LucianoBestia/unforgettable7_game/blob/main/TODO.md) and [CHANGELOG.md](https://github.com/LucianoBestia/unforgettable7_game/blob/main/CHANGELOG.md).  

@@ -8,12 +8,17 @@ use crate::call_on_next_tick_mod::*;
 
 pub fn on_hash_change(vdom: dodrio::VdomWeak, location_hash: String) -> String {
     ///internal function
-    fn start_websocket_on_p03(rrc: &mut RootRenderingComponent, vdom: dodrio::VdomWeak, location_hash: String) {
+    fn start_websocket_on_p03(
+        rrc: &mut RootRenderingComponent,
+        vdom: dodrio::VdomWeak,
+        location_hash: String,
+    ) {
         rrc.start_websocket(vdom.clone());
         rrc.game_data.my_player_number = 2;
         if location_hash.contains('.') {
-            let gr =
-                rust_wasm_dodrio_router::router_mod::get_url_param_in_hash_after_dot(&location_hash);
+            let gr = rust_wasm_dodrio_router::router_mod::get_url_param_in_hash_after_dot(
+                &location_hash,
+            );
             storage_mod::save_group_id_string_to_local_storage(rrc, gr);
         } else {
             storage_mod::load_group_id_string(rrc);
@@ -25,10 +30,8 @@ pub fn on_hash_change(vdom: dodrio::VdomWeak, location_hash: String) -> String {
     "p03_join_a_group.html".to_owned()
 }
 
-
-
 /// html_templating functions that return a String
-pub fn replace_with_string(rrc: & RootRenderingComponent, fn_name: &str) -> Option<String> {
+pub fn replace_with_string(rrc: &RootRenderingComponent, fn_name: &str) -> Option<String> {
     /// if there is already a group_id don't blink
     /// internal function
     fn blink_or_not_group_id(rrc: &RootRenderingComponent) -> String {
@@ -43,9 +46,7 @@ pub fn replace_with_string(rrc: & RootRenderingComponent, fn_name: &str) -> Opti
         "wt_my_ws_uid" => Some(format!("{}", rrc.web_data.my_ws_uid)),
         "wt_blink_or_not_group_id" => Some(blink_or_not_group_id(rrc)),
         "wt_blink_or_not_nickname" => Some(storage_mod::blink_or_not_nickname(rrc)),
-        _ => {
-            None
-        }
+        _ => None,
     }
 }
 
@@ -53,9 +54,9 @@ pub fn replace_with_string(rrc: & RootRenderingComponent, fn_name: &str) -> Opti
 pub fn set_event_listener(
     fn_name: &str,
     rrc: &mut RootRenderingComponent,
-    _vdom:dodrio::VdomWeak,
-    event:web_sys::Event,
-) ->bool {
+    _vdom: dodrio::VdomWeak,
+    event: web_sys::Event,
+) -> bool {
     let mut is_matched_fn_name = true;
     match fn_name {
         "wl_group_id_onkeyup" => {
@@ -75,10 +76,9 @@ pub fn set_event_listener(
             html_template_impl_mod::open_new_local_page("#p04");
         }
         _ => {
-            is_matched_fn_name=false;
+            is_matched_fn_name = false;
         }
     }
     //return
     is_matched_fn_name
 }
-

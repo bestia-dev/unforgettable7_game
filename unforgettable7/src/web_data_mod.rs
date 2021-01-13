@@ -36,7 +36,7 @@ pub struct WebData {
     /// my ws client instance unique id. To not listen the echo to yourself.
     pub my_ws_uid: usize,
     /// vector of ws_uid of all players
-    pub msg_receivers_ws_uid :Vec<usize>,
+    pub msg_receivers_ws_uid: Vec<usize>,
     /// error text
     pub error_text: String,
     /// href
@@ -104,14 +104,10 @@ impl WebData {
         msg_data: &WsMessageGameData,
     ) {
         // send single msg to every receiver (except self)
-        for ref_msg_receiver_ws_uid in msg_receivers_ws_uid{
-            if *ref_msg_receiver_ws_uid != self.my_ws_uid{
-                let msg_receiver_ws_uid =  *ref_msg_receiver_ws_uid;
-                Self::send_ws_msg_to_single_receiver(
-                    &self,
-                    msg_receiver_ws_uid,
-                    msg_data,
-                )
+        for ref_msg_receiver_ws_uid in msg_receivers_ws_uid {
+            if *ref_msg_receiver_ws_uid != self.my_ws_uid {
+                let msg_receiver_ws_uid = *ref_msg_receiver_ws_uid;
+                Self::send_ws_msg_to_single_receiver(&self, msg_receiver_ws_uid, msg_data)
             }
         }
     }
@@ -119,10 +115,10 @@ impl WebData {
     /// send msg over ws to single receiver
     pub fn send_ws_msg_to_single_receiver(
         &self,
-        msg_receiver_ws_uid:usize,
+        msg_receiver_ws_uid: usize,
         msg_data: &WsMessageGameData,
     ) {
-        if msg_receiver_ws_uid != self.my_ws_uid{
+        if msg_receiver_ws_uid != self.my_ws_uid {
             let ws_message = websocket_boiler_mod::WsMessageForReceiver {
                 msg_sender_ws_uid: self.my_ws_uid,
                 msg_receiver_ws_uid,

@@ -33,6 +33,7 @@
         "gamemod",
         "gamesmetadata",
         "gamestatus",
+        "getrandom",
         "gloo",
         "groupmod",
         "htmltemplateimplmod",

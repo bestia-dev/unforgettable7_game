@@ -10,7 +10,10 @@ use wasm_bindgen_futures::spawn_local;
 // endregion
 
 /// on next tick fetch for gameconfig.json and update rrc
-pub fn fetch_game_config_and_update_on_next_tick(rrc: &mut RootRenderingComponent, vdom: dodrio::VdomWeak) {
+pub fn fetch_game_config_and_update_on_next_tick(
+    rrc: &mut RootRenderingComponent,
+    vdom: dodrio::VdomWeak,
+) {
     let url = format!(
         "{}/content/{}/game_config.json",
         rrc.web_data.href, rrc.game_data.game_name
@@ -20,7 +23,6 @@ pub fn fetch_game_config_and_update_on_next_tick(rrc: &mut RootRenderingComponen
     fn fetch_response_pinned_future(
         url: String,
     ) -> std::pin::Pin<Box<dyn Future<Output = String>>> {
-
         /// async fn returns impl Future<Output = String>
         async fn fetch_response_future(url: String) -> String {
             let respbody = websysmod::fetch_response(url).await;
@@ -67,7 +69,10 @@ pub fn fetch_games_metadata_and_update_on_next_tick(href: &str, vdom: dodrio::Vd
     }
 
     /// set rrc game data games_metadata
-    pub fn set_rrc_game_data_games_metadata(rrc: &mut RootRenderingComponent, v: game_data_mod::GamesMetadata) {
+    pub fn set_rrc_game_data_games_metadata(
+        rrc: &mut RootRenderingComponent,
+        v: game_data_mod::GamesMetadata,
+    ) {
         // fill the vector
         rrc.game_data.content_folders.clear();
         for x in &v.vec_game_metadata {
@@ -104,7 +109,10 @@ pub fn fetch_videos_and_update_on_next_tick(href: &str, vdom: dodrio::VdomWeak) 
     }
 
     /// set rrc game data videos
-    pub fn set_rrc_game_data_games_videos(rrc: &mut RootRenderingComponent, vid_json: crate::game_data_mod::Videos) {
+    pub fn set_rrc_game_data_games_videos(
+        rrc: &mut RootRenderingComponent,
+        vid_json: crate::game_data_mod::Videos,
+    ) {
         // fill the vector
         rrc.game_data.videos = vid_json.videos;
     }
@@ -137,7 +145,10 @@ pub fn fetch_audio_and_update_on_next_tick(href: &str, vdom: dodrio::VdomWeak) {
     }
 
     /// set rrc game data audio
-    pub fn set_rrc_game_data_games_audio(rrc: &mut RootRenderingComponent, aud_json: crate::game_data_mod::Audio) {
+    pub fn set_rrc_game_data_games_audio(
+        rrc: &mut RootRenderingComponent,
+        aud_json: crate::game_data_mod::Audio,
+    ) {
         // fill the vector
         rrc.game_data.audio = aud_json.audio;
     }

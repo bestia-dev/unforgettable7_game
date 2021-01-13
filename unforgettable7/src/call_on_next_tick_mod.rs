@@ -5,10 +5,9 @@
 /// It will execute in the next 2 ticks of the javascript micro task queue.
 /// dodrio::VdomWeak is available "everywhere". From that, we can get to the &mut RootRender. But all async.
 /// Functions with different parameters need different wrapper functions.
-/// Nothing can be returned. Crazy async world! The data is saved in the struct. 
-///On the next render thee new data will be used.
+/// Nothing can be returned. Crazy async world! The data is saved in the struct.
+/// On the next render thee new data will be used.
 /// It looks that it needs 4 ms to execute at next tick.
-
 //use rust_wasm_websys_utils::*;
 use crate::root_rendering_component_mod::RootRenderingComponent;
 use unwrap::unwrap;
@@ -89,7 +88,10 @@ pub fn call_on_next_tick_3(
 }
 
 /// call with parameters rrc
-pub fn call_on_next_tick_4(vdom: dodrio::VdomWeak, f: &'static dyn Fn(&mut RootRenderingComponent)) {
+pub fn call_on_next_tick_4(
+    vdom: dodrio::VdomWeak,
+    f: &'static dyn Fn(&mut RootRenderingComponent),
+) {
     // get rrc (root) from vdom in the next tick
     wasm_bindgen_futures::spawn_local({
         let vdom_on_next_tick = vdom.clone();
@@ -109,7 +111,7 @@ pub fn call_on_next_tick_4(vdom: dodrio::VdomWeak, f: &'static dyn Fn(&mut RootR
     });
 }
 
-/// call with parameters rrc, 
+/// call with parameters rrc,
 pub fn call_on_next_tick_5(
     vdom: dodrio::VdomWeak,
     f1: &'static impl Fn(String) -> Pin<Box<dyn futures::Future<Output = String>>>,
@@ -138,7 +140,10 @@ pub fn call_on_next_tick_5(
 /// call with parameters rrc, game_data_mod::GamesMetadata, url
 pub fn call_on_next_tick_6(
     vdom: dodrio::VdomWeak,
-    f1: &'static impl Fn(String) -> Pin<Box<dyn futures::Future<Output = crate::game_data_mod::GamesMetadata>>>,
+    f1: &'static impl Fn(
+        String,
+    )
+        -> Pin<Box<dyn futures::Future<Output = crate::game_data_mod::GamesMetadata>>>,
     f2: &'static impl Fn(&mut RootRenderingComponent, crate::game_data_mod::GamesMetadata),
     url: String,
 ) {
