@@ -1,10 +1,10 @@
 [package]
 name = "unforgettable7"
 version = "2021.113.1919"
-authors = ["Luciano Bestia <Luciano.Bestia@gmail.com>"]
+authors = ["bestia.dev <info@bestia.dev>"]
 edition = "2018"
 description = "don't forget to drinking game"
-repository = "https://github.com/LucianoBestia/unforgettable7_game"
+repository = "https://github.com/bestia-dev/unforgettable7_game"
 readme = "README.md"
 license = "MIT"
 keywords = ["wasm","dodrio","virtual dom"]

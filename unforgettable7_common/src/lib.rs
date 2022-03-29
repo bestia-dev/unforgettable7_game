@@ -1,17 +1,17 @@
 #![doc(
-    html_favicon_url = "https://github.com/LucianoBestia/unforgettable7_game/raw/main/webfolder/unforgettable7/images/icons-16.png"
+    html_favicon_url = "https://github.com/bestia-dev/unforgettable7_game/raw/main/webfolder/unforgettable7/images/icons-16.png"
 )]
 #![doc(
-    html_logo_url = "https://github.com/LucianoBestia/unforgettable7_game/raw/main/webfolder/unforgettable7/images/icons-192.png"
+    html_logo_url = "https://github.com/bestia-dev/unforgettable7_game/raw/main/webfolder/unforgettable7/images/icons-192.png"
 )]
 // region: lmake_md_to_doc_comments include README.md A //!
 //! # unforgettable7_common
 //!
-//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-50-green.svg)](https://github.com/LucianoBestia/unforgettable7_game/)
-//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-34-blue.svg)](https://github.com/LucianoBestia/unforgettable7_game/)
-//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-22-purple.svg)](https://github.com/LucianoBestia/unforgettable7_game/)
-//! [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-0-yellow.svg)](https://github.com/LucianoBestia/unforgettable7_game/)
-//! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-0-orange.svg)](https://github.com/LucianoBestia/unforgettable7_game/)
+//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-50-green.svg)](https://github.com/bestia-dev/unforgettable7_game/)
+//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-34-blue.svg)](https://github.com/bestia-dev/unforgettable7_game/)
+//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-22-purple.svg)](https://github.com/bestia-dev/unforgettable7_game/)
+//! [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-0-yellow.svg)](https://github.com/bestia-dev/unforgettable7_game/)
+//! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-0-orange.svg)](https://github.com/bestia-dev/unforgettable7_game/)
 //!
 //! **commons for unforgettable7 wasm and server**  
 //! Learning to code Rust for a http + WebSocket.  

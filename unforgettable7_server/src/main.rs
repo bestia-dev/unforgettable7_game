@@ -1,20 +1,20 @@
 #![doc(
-    html_favicon_url = "https://github.com/LucianoBestia/unforgettable7_game/raw/main/webfolder/unforgettable7/images/icons-16.png"
+    html_favicon_url = "https://github.com/bestia-dev/unforgettable7_game/raw/main/webfolder/unforgettable7/images/icons-16.png"
 )]
 #![doc(
-    html_logo_url = "https://github.com/LucianoBestia/unforgettable7_game/raw/main/webfolder/unforgettable7/images/icons-192.png"
+    html_logo_url = "https://github.com/bestia-dev/unforgettable7_game/raw/main/webfolder/unforgettable7/images/icons-192.png"
 )]
 // region: lmake_md_to_doc_comments include README.md A //!
 //! # unforgettable7_server
 //!
 //! **server for the game unforgettable7 http + WebSocket on the same port**  
-//! ***[repo](https://github.com/lucianobestia/unforgettable7_game); version: 2021.113.1118  date: 2021-01-13 authors: Luciano Bestia***  
+//! ***[repo](https://github.com/bestia-dev/unforgettable7_game); version: 2021.113.1118  date: 2021-01-13 authors: bestia.dev***  
 //!
-//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-245-green.svg)](https://github.com/LucianoBestia/unforgettable7_game/)
-//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-51-blue.svg)](https://github.com/LucianoBestia/unforgettable7_game/)
-//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-78-purple.svg)](https://github.com/LucianoBestia/unforgettable7_game/)
-//! [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-0-yellow.svg)](https://github.com/LucianoBestia/unforgettable7_game/)
-//! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-0-orange.svg)](https://github.com/LucianoBestia/unforgettable7_game/)
+//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-245-green.svg)](https://github.com/bestia-dev/unforgettable7_game/)
+//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-51-blue.svg)](https://github.com/bestia-dev/unforgettable7_game/)
+//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-78-purple.svg)](https://github.com/bestia-dev/unforgettable7_game/)
+//! [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-0-yellow.svg)](https://github.com/bestia-dev/unforgettable7_game/)
+//! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-0-orange.svg)](https://github.com/bestia-dev/unforgettable7_game/)
 //!
 //! **Html and WebSocket server for the unforgettable7 game**  
 //! Primarily made for learning to code Rust for a http + WebSocket server on the same port.  

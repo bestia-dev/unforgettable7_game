@@ -5,16 +5,16 @@
 [comment]: # (lmake_cargo_toml_to_md start)
 
 **don't forget to drinking game**  
-***[repo](https://github.com/LucianoBestia/unforgettable7_game); version: 2021.113.1919  date: 2021-01-13 authors: Luciano Bestia***  
+***[repo](https://github.com/bestia-dev/unforgettable7_game); version: 2021.113.1919  date: 2021-01-13 authors: bestia.dev***  
 
 [comment]: # (lmake_cargo_toml_to_md end)
 
 [comment]: # (lmake_lines_of_code start)
-[![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-3279-green.svg)](https://github.com/LucianoBestia/unforgettable7_game/)
-[![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-580-blue.svg)](https://github.com/LucianoBestia/unforgettable7_game/)
-[![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-458-purple.svg)](https://github.com/LucianoBestia/unforgettable7_game/)
-[![Lines in examples](https://img.shields.io/badge/Lines_in_examples-0-yellow.svg)](https://github.com/LucianoBestia/unforgettable7_game/)
-[![Lines in tests](https://img.shields.io/badge/Lines_in_tests-0-orange.svg)](https://github.com/LucianoBestia/unforgettable7_game/)
+[![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-3279-green.svg)](https://github.com/bestia-dev/unforgettable7_game/)
+[![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-580-blue.svg)](https://github.com/bestia-dev/unforgettable7_game/)
+[![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-458-purple.svg)](https://github.com/bestia-dev/unforgettable7_game/)
+[![Lines in examples](https://img.shields.io/badge/Lines_in_examples-0-yellow.svg)](https://github.com/bestia-dev/unforgettable7_game/)
+[![Lines in tests](https://img.shields.io/badge/Lines_in_tests-0-orange.svg)](https://github.com/bestia-dev/unforgettable7_game/)
 
 [comment]: # (lmake_lines_of_code end)
 
