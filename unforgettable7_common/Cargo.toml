@@ -3,6 +3,7 @@ name = "unforgettable7_common"
 version = "2021.113.1953"
 description = "commons for unforgettable7 wasm and server"
 authors = ["bestia.dev"]
+homepage = "https://bestia.dev"
 edition = "2018"
 license = "MIT"
 readme = "README.md"

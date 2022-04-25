@@ -3,6 +3,7 @@ name = "unforgettable7_server"
 version = "2021.113.1118"
 description = "server for the game unforgettable7 http + WebSocket on the same port"
 authors = ["bestia.dev"]
+homepage = "https://bestia.dev"
 edition = "2018"
 license = "MIT"
 readme = "README.md"
