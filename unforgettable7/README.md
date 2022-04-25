@@ -250,8 +250,8 @@ Here is the description of installation on my server:
 <https://stackoverflow.com/questions/22233980/implementing-our-own-stun-turn-server-for-webrtc-application>  
 
 ```
-sudo apt-get update
-sudo apt-get install stuntman-server
+sudo apt update
+sudo apt install stuntman-server
 screen -S stunserver
 sudo ifconfig
   find the external address and use it in the next command
