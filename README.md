@@ -1,6 +1,6 @@
 # unForGetTable7_game
 
-**don't forget, it is a drinking game**  
+**Do not forget, it is a drinking game**  
 **Learning Rust Wasm/WebAssembly, Virtual Dom Dodrio, WebSocket communication, PWA (Progressive Web Apps) and WebRtc DataChannel - part seven**  
 ***version: 7.0  date: 2021-01-13 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/unForGetTable7_game)***  
 
