@@ -4,6 +4,7 @@
 **Learning Rust Wasm/WebAssembly, Virtual Dom Dodrio, WebSocket communication, PWA (Progressive Web Apps) and WebRtc DataChannel - part seven**  
 ***version: 7.0  date: 2021-01-13 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/unForGetTable7_game)***  
 
+![status](https://img.shields.io/badge/work_in_progress-yellow) 
 ![Hits](https://bestia.dev/webpage_hit_counter/get_svg_image/119573698.svg)
 
 Hashtags: #rustlang #tutorial #game #pwa  
