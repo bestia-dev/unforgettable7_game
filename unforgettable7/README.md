@@ -1,22 +1,22 @@
-[comment]: # (lmake_md_to_doc_comments segment start A)
+[//]: # (auto_md_to_doc_comments segment start A)
 
 # unForGetTable7
 
-[comment]: # (lmake_cargo_toml_to_md start)
+[//]: # (auto_cargo_toml_to_md start)
 
 **don't forget to drinking game**  
 ***[repo](https://github.com/bestia-dev/unforgettable7_game); version: 2021.113.1919  date: 2021-01-13 authors: bestia.dev***  
 
-[comment]: # (lmake_cargo_toml_to_md end)
+[//]: # (auto_cargo_toml_to_md end)
 
-[comment]: # (lmake_lines_of_code start)
+[//]: # (auto_lines_of_code start)
 [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-3279-green.svg)](https://github.com/bestia-dev/unforgettable7_game/)
 [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-580-blue.svg)](https://github.com/bestia-dev/unforgettable7_game/)
 [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-458-purple.svg)](https://github.com/bestia-dev/unforgettable7_game/)
 [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-0-yellow.svg)](https://github.com/bestia-dev/unforgettable7_game/)
 [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-0-orange.svg)](https://github.com/bestia-dev/unforgettable7_game/)
 
-[comment]: # (lmake_lines_of_code end)
+[//]: # (auto_lines_of_code end)
 
 unforgettable7 is a simple drinking game to lose memory. It is made primarily for learning the Rust programming language and Wasm/WebAssembly with Virtual Dom Dodrio, WebSocket communication and PWA (Progressive Web App).  
 
@@ -275,4 +275,4 @@ Please, spread this info.
 On the web use this url to read crate reviews. Example:  
 <https://web.crev.dev/rust-reviews/crate/num-traits/>  
 
-[comment]: # (lmake_md_to_doc_comments segment end A)
+[//]: # (auto_md_to_doc_comments segment end A)
