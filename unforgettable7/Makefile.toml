@@ -8,21 +8,21 @@ skip_core_tasks = true
 description = "help for prepared make tasks"
 clear = true
 script= [
-"echo ",
-"echo COMMANDS AND MAKE TASKS:",
-"echo ",
-"echo $ clear - clear the screen",
-"echo $ cargo make - this list",
-"echo ",
-"echo $ cargo make check - check code errors without compiling",
-"echo $ cargo make release - build release version, increment semver patch in Cargo.toml",
-"echo ",
-"echo $ cargo make test - test the test code",
-"echo $ cargo make udeps - cargo +nightly udeps - unused dependencies",
-"echo $ cargo crev verify - always verify you dependencies",
-"echo $ cargo make audit - RustSec advisories",
-"echo $ cargo make doc - includes from Cargo.toml to README.md and from README.md to main.rs or lib.rs, generates doc and copies to docs folder, exports codetour to .md.",
-"echo ",
+"printf ",
+"printf COMMANDS AND MAKE TASKS:",
+"printf ",
+"printf $ clear - clear the screen",
+"printf $ cargo make - this list",
+"printf ",
+"printf $ cargo make check - check code errors without compiling",
+"printf $ cargo make release - build release version, increment semver patch in Cargo.toml",
+"printf ",
+"printf $ cargo make test - test the test code",
+"printf $ cargo make udeps - cargo +nightly udeps - unused dependencies",
+"printf $ cargo crev verify - always verify you dependencies",
+"printf $ cargo make audit - RustSec advisories",
+"printf $ cargo make doc - includes from Cargo.toml to README.md and from README.md to main.rs or lib.rs, generates doc and copies to docs folder, exports codetour to .md.",
+"printf ",
 ]
 
 # end of help
@@ -32,9 +32,9 @@ script= [
 [tasks.check]
 description = "cargo check --release"
 script = [
-    "echo $ cargo fmt",
+    "printf $ cargo fmt",
     "cargo fmt",
-    "echo $ cargo check --release",
+    "printf $ cargo check --release",
     "cargo check --release",
 ]
 
@@ -46,15 +46,15 @@ script = [
 description = "cargo build release"
 script = [
     # Binaries version is date
-    "echo $ lmake_version_from_date",
+    "printf $ lmake_version_from_date",
     "lmake_version_from_date",
-    "echo $ cargo fmt",
+    "printf $ cargo fmt",
     "cargo fmt",
-    "echo $ wasm-pack build --target web --release --no-typescript",
+    "printf $ wasm-pack build --target web --release --no-typescript",
     "wasm-pack build --target web --release --no-typescript",
-    #"echo $ rm -r pkg/snippets/*",
+    #"printf $ rm -r pkg/snippets/*",
     #"rm -r pkg/snippets/*",
-    "echo copy pkg/ to webfolder/pkg/",
+    "printf copy pkg/ to webfolder/pkg/",
     "\\rsync -a --info=progress2 --delete-after pkg/  ../webfolder/unforgettable7/pkg/",
 ]
 
@@ -66,7 +66,7 @@ script = [
 description = "cargo test"
 clear = true
 script = [
-    "echo $ cargo test",
+    "printf $ cargo test",
     "cargo test",
 ]
 
@@ -95,21 +95,21 @@ script = [
 description = "cargo doc - create docs from doc comments"
 clear = true
 script= [
-    "echo $ lmake_lines_of_code",
+    "printf $ lmake_lines_of_code",
     "lmake_lines_of_code",
-    "echo $ lmake_cargo_toml_to_md",
+    "printf $ lmake_cargo_toml_to_md",
     "lmake_cargo_toml_to_md",
-    "echo $ lmake_md_to_doc_comments",
+    "printf $ lmake_md_to_doc_comments",
     "lmake_md_to_doc_comments",
-    "echo $ cargo doc --no-deps --document-private-items",
+    "printf $ cargo doc --no-deps --document-private-items",
     # create doc from doc comments
     "cargo doc --no-deps --document-private-items",
-    "echo $ codetour_export_to_md",
+    "printf $ codetour_export_to_md",
     # export code tour to md
     "codetour_export_to_md",
     # copy to /docs/ because it is github standard
     # message to help user with next move
-    "echo after successful doc, run cargo make commit msg_for_commit",
+    "printf after successful doc, run cargo make commit msg_for_commit",
 ]
 
 # end of git script

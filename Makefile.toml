@@ -10,24 +10,24 @@ workspace=false
 clear = true
 script= [
 "clear",
-"echo ",
-"echo COMMANDS AND MAKE TASKS:",
-"echo This tasks are for the workspace. Every member has its own makefile.toml.",
-"echo ",
-"echo $ clear - clear the screen",
-"echo $ cargo make - this list",
-"echo ",
-"echo $ clear\\; cargo make check - check code errors without compiling",
-"echo $ clear\\; cargo make release - build release version, increment semver patch in Cargo.toml",
-"echo ",
-"echo $ clear\\; cargo make test - test the test code",
-"echo $ clear\\; cargo make udeps - cargo +nightly udeps - unused dependencies",
-"echo $ clear\\; cargo crev verify - always verify you dependencies",
-"echo $ clear\\; cargo make audit - RustSec advisories",
-"echo $ clear\\; cargo make doc - includes from Cargo.toml to README.md and from README.md to main.rs or lib.rs, generates doc and copies to docs folder, exports codetour to .md.",
-"echo ",
-"echo $ clear\\; cargo make publish_to_web",
-"echo ",
+"printf ",
+"printf COMMANDS AND MAKE TASKS:",
+"printf This tasks are for the workspace. Every member has its own makefile.toml.",
+"printf ",
+"printf $ clear - clear the screen",
+"printf $ cargo make - this list",
+"printf ",
+"printf $ clear\\; cargo make check - check code errors without compiling",
+"printf $ clear\\; cargo make release - build release version, increment semver patch in Cargo.toml",
+"printf ",
+"printf $ clear\\; cargo make test - test the test code",
+"printf $ clear\\; cargo make udeps - cargo +nightly udeps - unused dependencies",
+"printf $ clear\\; cargo crev verify - always verify you dependencies",
+"printf $ clear\\; cargo make audit - RustSec advisories",
+"printf $ clear\\; cargo make doc - includes from Cargo.toml to README.md and from README.md to main.rs or lib.rs, generates doc and copies to docs folder, exports codetour to .md.",
+"printf ",
+"printf $ clear\\; cargo make publish_to_web",
+"printf ",
 ]
 
 # end of help
@@ -40,7 +40,7 @@ workspace = true
 clear = true
 script = [
     "clear",
-    "echo $ cargo make check",
+    "printf $ cargo make check",
     "cargo make check",
 ]
 
@@ -55,7 +55,7 @@ workspace = true
 script = [
     "clear",
 
-    "echo $ cargo make release",
+    "printf $ cargo make release",
     "cargo make release",
 ]
 
@@ -69,7 +69,7 @@ clear = true
 workspace = true
 script = [
     "clear",
-    "echo $ cargo make test",
+    "printf $ cargo make test",
     "cargo make test",
 ]
 
@@ -78,7 +78,7 @@ description = "lists unused dependencies needs nightly"
 clear = true
 workspace = true
 script = [
-    "echo $ cargo make udeps",
+    "printf $ cargo make udeps",
 	"cargo make udeps",
 ]
 
@@ -106,9 +106,9 @@ workspace = true
 clear = true
 script= [
     "clear",
-    "echo $ cargo make doc",
+    "printf $ cargo make doc",
     "cargo make doc",
-     "echo $ \\rsync -a --info=progress2 --delete-after ~/rustprojects/unforgettable7_game/target/doc/*  ~/rustprojects/unforgettable7_game/docs/",
+     "printf $ \\rsync -a --info=progress2 --delete-after ~/rustprojects/unforgettable7_game/target/doc/*  ~/rustprojects/unforgettable7_game/docs/",
      "\\rsync -a --info=progress2 --delete-after ~/rustprojects/unforgettable7_game/target/doc/*  ~/rustprojects/unforgettable7_game/docs/",
 ]
 
@@ -124,17 +124,17 @@ clear = true
 # backslash is the escape character for all other special characters.
 # and then another time I have to escape the backslash. So 4 backslash for one backslash.
 script = [
-    "echo rsync -a --info=progress2 --delete-after ~/rustprojects/unforgettable7_game/webfolder/ ~/rustprojects/googlecloud/var/www/webapps/unforgettable7_game/",
+    "printf rsync -a --info=progress2 --delete-after ~/rustprojects/unforgettable7_game/webfolder/ ~/rustprojects/googlecloud/var/www/webapps/unforgettable7_game/",
     "rsync -a --info=progress2 --delete-after ~/rustprojects/unforgettable7_game/webfolder/ ~/rustprojects/googlecloud/var/www/webapps/unforgettable7_game/",
-    "echo ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff $'\\\\003'",
+    "printf ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff $'\\\\003'",
     "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff $'\\\\003'",
-    "echo ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff 'cd\\ \\/var\\/www\\/webapps\\/unforgettable7_game\\\\n'",
+    "printf ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff 'cd\\ \\/var\\/www\\/webapps\\/unforgettable7_game\\\\n'",
     "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff 'cd\\ \\/var\\/www\\/webapps\\/unforgettable7_game\\\\n'",
-    "echo rsync -e ssh -a --info=progress2 --delete-after ~/rustprojects/googlecloud/var/www/webapps/unforgettable7_game/ luciano_bestia@bestia.dev:/var/www/webapps/unforgettable7_game/",
+    "printf rsync -e ssh -a --info=progress2 --delete-after ~/rustprojects/googlecloud/var/www/webapps/unforgettable7_game/ luciano_bestia@bestia.dev:/var/www/webapps/unforgettable7_game/",
     "rsync -e ssh -a --info=progress2 --delete-after ~/rustprojects/googlecloud/var/www/webapps/unforgettable7_game/ luciano_bestia@bestia.dev:/var/www/webapps/unforgettable7_game/",
-    "echo ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff 'chmod\\ \\+x\\ unforgettable7_server\\\\n'",
+    "printf ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff 'chmod\\ \\+x\\ unforgettable7_server\\\\n'",
     "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff 'chmod\\ \\+x\\ unforgettable7_server\\\\n'",
-    "echo ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff 'sudo\\ \\.\\/unforgettable7_server\\\\n'",
+    "printf ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff 'sudo\\ \\.\\/unforgettable7_server\\\\n'",
     "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr unforgettable7-8087 -X stuff 'sudo\\ \\.\\/unforgettable7_server\\\\n'",
 ]
 
