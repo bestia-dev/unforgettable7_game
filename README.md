@@ -8,6 +8,7 @@
 ***version: 7.0  date: 2021-01-13 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/unForGetTable7_game)***  
 
  ![work_in_progress](https://img.shields.io/badge/work_in_progress-yellow)
+ ![License](https://img.shields.io/badge/license-MIT-blue.svg)
  ![unForGetTable7_game](https://bestia.dev/webpage_hit_counter/get_svg_image/119573698.svg)
 
 Hashtags: #rustlang #tutorial #game #pwa  

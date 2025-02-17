@@ -3,6 +3,8 @@
 
 # unforgettable7_common
 
+***commons for unforgettable7 wasm and server***  
+
 [//]: # (auto_cargo_toml_to_md start)
 
 [//]: # (auto_cargo_toml_to_md end)  
@@ -16,7 +18,8 @@
 
 [//]: # (auto_lines_of_code end)
 
-**commons for unforgettable7 wasm and server**  
+ ![License](https://img.shields.io/badge/license-MIT-blue.svg)
+
 Learning to code Rust for a http + WebSocket.  
 Here are just the structures, that are in common between frontend and backend.  
 Mostly because of the Messages.  
